@@ -1,13 +1,22 @@
-SRC = $(wildcard source/*.c)
-OBJ = $(patsubst source/%.c,build/%.o,$(SRC))
+BUILD_DIR = build/
+PROGRAM_NAME = renegade
+
+SRC = $(wildcard src/*.c)
+OBJ = $(patsubst src/%.c,$(BUILD_DIR)/%.o,$(SRC))
 
 all: renegade
 
-renegade: $(OBJ)
-	gcc $(OBJ) -o renegade -lSDL2
+run: renegade
+	./$(BUILD_DIR)/$(PROGRAM_NAME)
 
-build/%.o: source/%.c
-	gcc -Wall -Wextra -O3 -Iinclude -c $< -o $@
+renegade: $(OBJ)
+	gcc $(OBJ) -o $(BUILD_DIR)/$(PROGRAM_NAME) -lSDL3 -lSDL3_image -lSDL3_ttf -lSDL3_mixer
+
+build/%.o: src/%.c | build
+	gcc -Wall -Wextra -O3 -c $< -o $@
+
+build:
+	mkdir -p $(BUILD_DIR)
 
 clean: 
-	rm build/*.o renegade
+	rm -r $(BUILD_DIR)
