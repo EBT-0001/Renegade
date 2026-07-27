@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
@@ -40,7 +41,8 @@ bool gameInit() {
 	World.Player.transform.velocity = (Vec) {.x = 0.0f, .y = 0.0f};
 	World.Player.transform.scale = (Vec) {.x = 12.0f, .y = 28.0f};
 
-	animationConfig(playerIdle, 1, &World.Player.animations[0]);
+	World.Player.animations[0].frameCount = 2;
+	loadAnimation(Idle, &World.Player.animations[0], "data/animations/Player.json");
 
 	World.Player.animationPlaying = 0;
 	World.Player.animations[0].frameClock = 0;
@@ -111,30 +113,9 @@ int main() {
 
 		physicsUpdatePlayer();
 
-		SDL_FRect renderQuad = {
-			World.Player.transform.position.x,
-			World.Player.transform.position.y,
-			World.Player.transform.scale.x,
-			World.Player.transform.scale.y
-		};
-		SDL_FRect clip = {
-			0,
-			0,
-			12,
-			28
-		};
-
 		SDL_RenderTexture(renderer, background, NULL, NULL);
-		SDL_RenderTexture(renderer, spritesheet, &clip, &renderQuad);
-//		playAnimations(renderer, spritesheet);
+		playAnimations(renderer, spritesheet);
 		SDL_RenderPresent(renderer);
-		printf("xPos: %f\n", World.Player.transform.position.x);
-		printf("xVel: %f\n", World.Player.transform.velocity.x);
-		printf("yPos: %f\n", World.Player.transform.position.y);
-		printf("yVel: %f\n", World.Player.transform.velocity.y);
-		if (World.Player.grounded) {
-			printf("player is grounded");
-		}
 	}
 	killWindow();
 

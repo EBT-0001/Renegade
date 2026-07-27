@@ -10,10 +10,10 @@ run: renegade
 	./$(BUILD_DIR)/$(PROGRAM_NAME)
 
 renegade: $(OBJ)
-	gcc $(OBJ) -o $(BUILD_DIR)/$(PROGRAM_NAME) -lSDL3 -lSDL3_image -lSDL3_ttf -lSDL3_mixer
+	gcc $(OBJ) -o $(BUILD_DIR)/$(PROGRAM_NAME) -lSDL3 -lSDL3_image -lSDL3_ttf -lSDL3_mixer -lcjson
 
 build/%.o: src/%.c | build
-	gcc -Wall -Wextra -O3 -c $< -o $@
+	gcc -Wall -Wextra -O3 -g -c $< -o $@
 
 build:
 	mkdir -p $(BUILD_DIR)

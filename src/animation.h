@@ -6,7 +6,7 @@
 #include "vectors.h"
 
 typedef enum {
-	playerIdle = 0
+	Idle = 0
 }sprite;
 
 typedef struct {
@@ -19,6 +19,6 @@ typedef struct {
 	uint8_t frameClock;
 }animation;
 
-void animationConfig(sprite sprite, uint8_t frameCount, animation* animation);
-void animationRemove(animation* animation);
+void loadAnimation(sprite sprite, animation* animation, const char* path);
+void freeAnimation(animation* animation);
 void playAnimations(SDL_Renderer* renderer, SDL_Texture* spritesheet);
