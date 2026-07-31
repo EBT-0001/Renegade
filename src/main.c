@@ -37,26 +37,6 @@ bool gameInit() {
 		return false;
 	}
 
-	World.Player.transform.position = (Vec) {.x = 0.0f, .y = 0.0f};
-	World.Player.transform.velocity = (Vec) {.x = 0.0f, .y = 0.0f};
-	World.Player.transform.scale = (Vec) {.x = 12.0f, .y = 28.0f};
-
-	World.Player.animations[0].frameCount = 2;
-	loadAnimation(Idle, &World.Player.animations[0], "data/animations/Player.json");
-
-	World.Player.animationPlaying = 0;
-	World.Player.animations[0].frameClock = 0;
-	World.Player.active = true;
-	World.Player.speed = 5;
-	World.Player.grounded = false;
-
-	World.elements[0].transform.position = (Vec) {.x = 0.0f, .y = 100.0f};
-	World.elements[0].transform.velocity = (Vec) {.x = 0.0f, .y = 0.0f};
-	World.elements[0].transform.scale = (Vec) {.x = 32.0f, .y = 16.0f};
-
-	World.elements[0].canCollide = true;
-	World.elements[0].active = true;
-
 	loadSpritesheets();
 
 	return true;
@@ -105,8 +85,10 @@ int main() {
 	SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 
 	SDL_Event eventHandler;
+
+	initPlayer(Idle, "data/animations/player.json", 0.0f, 0.0f, 12, 28, 0, 10, 10, 10);
+
 	while (!quit) {
-		World.Player.transform.velocity.x = 0.0f;
 		processInput(&eventHandler, &quit);
 
 		SDL_RenderClear(renderer);

@@ -84,42 +84,42 @@ void playAnimations(SDL_Renderer* renderer, SDL_Texture* spritesheet) {
 		}
 	}
 	for (uint8_t i = 0; i < 16; i++) {
-		if (World.enemies[i].active) {
-			SDL_FRect renderQuad = {
-				World.enemies[i].transform.position.x,
-				World.enemies[i].transform.position.y,
-				World.enemies[i].transform.scale.x,
-				World.enemies[i].transform.scale.y
-			};
-			SDL_FRect clip = {
-				World.enemies[i].animations[World.enemies[i].animationPlaying].frames[World.enemies[i].animations[World.enemies[i].animationPlaying].frameClock].texCoords.x,
-				World.enemies[i].animations[World.enemies[i].animationPlaying].frames[World.enemies[i].animations[World.enemies[i].animationPlaying].frameClock].texCoords.y,
-				World.enemies[i].animations[World.enemies[i].animationPlaying].frames[World.enemies[i].animations[World.enemies[i].animationPlaying].frameClock].texDimensions.x,
-				World.enemies[i].animations[World.enemies[i].animationPlaying].frames[World.enemies[i].animations[World.enemies[i].animationPlaying].frameClock].texDimensions.y
-			};
+		//if (World.enemies[i].active) {
+		//	SDL_FRect renderQuad = {
+		//		World.enemies[i].transform.position.x,
+		//		World.enemies[i].transform.position.y,
+		//		World.enemies[i].transform.scale.x,
+		//		World.enemies[i].transform.scale.y
+		//	};
+		//	SDL_FRect clip = {
+		//		World.enemies[i].animations[World.enemies[i].animationPlaying].frames[World.enemies[i].animations[World.enemies[i].animationPlaying].frameClock].texCoords.x,
+		//		World.enemies[i].animations[World.enemies[i].animationPlaying].frames[World.enemies[i].animations[World.enemies[i].animationPlaying].frameClock].texCoords.y,
+		//		World.enemies[i].animations[World.enemies[i].animationPlaying].frames[World.enemies[i].animations[World.enemies[i].animationPlaying].frameClock].texDimensions.x,
+		//		World.enemies[i].animations[World.enemies[i].animationPlaying].frames[World.enemies[i].animations[World.enemies[i].animationPlaying].frameClock].texDimensions.y
+		//	};
 
-			SDL_RenderTexture(renderer, spritesheet, &clip, &renderQuad);
-		}
+		//	SDL_RenderTexture(renderer, spritesheet, &clip, &renderQuad);
+		//}
 	}
 	for (uint8_t i = 0; i < 32; i++) {
-		if (World.elements[i].active) {
-			SDL_FRect renderQuad = {
-				World.elements[i].transform.position.x,
-				World.elements[i].transform.position.y,
-				World.elements[i].transform.scale.x,
-				World.elements[i].transform.scale.y
-			};
-			SDL_FRect clip = {
-				World.elements[i].animation.frames[World.elements[i].animation.frameClock].texCoords.x,
-				World.elements[i].animation.frames[World.elements[i].animation.frameClock].texCoords.y,
-				World.elements[i].animation.frames[World.elements[i].animation.frameClock].texDimensions.x,
-				World.elements[i].animation.frames[World.elements[i].animation.frameClock].texDimensions.y
-			};
+		//if (World.elements[i].active) {
+		//	SDL_FRect renderQuad = {
+		//		World.elements[i].transform.position.x,
+		//		World.elements[i].transform.position.y,
+		//		World.elements[i].transform.scale.x,
+		//		World.elements[i].transform.scale.y
+		//	};
+		//	SDL_FRect clip = {
+		//		World.elements[i].animation.frames[World.elements[i].animation.frameClock].texCoords.x,
+		//		World.elements[i].animation.frames[World.elements[i].animation.frameClock].texCoords.y,
+		//		World.elements[i].animation.frames[World.elements[i].animation.frameClock].texDimensions.x,
+		//		World.elements[i].animation.frames[World.elements[i].animation.frameClock].texDimensions.y
+		//	};
 
-			SDL_RenderTexture(renderer, spritesheet, &clip, &renderQuad);
-		}
+		//	SDL_RenderTexture(renderer, spritesheet, &clip, &renderQuad);
+		//}
 	}
-	for (uint8_t i =0; i < 8; i++) {
+	for (uint8_t i = 0; i < 8; i++) {
 		//if (World.interactables[i].active) {
 		//	SDL_FRect renderQuad = {
 		//		World.interactables[i].transform.position.x,

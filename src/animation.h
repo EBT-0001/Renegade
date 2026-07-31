@@ -17,6 +17,7 @@ typedef struct {
 	texture* frames;
 	uint8_t frameCount;
 	uint8_t frameClock;
+	uint8_t animationPlaying;
 }animation;
 
 void loadAnimation(sprite sprite, animation* animation, const char* path);
