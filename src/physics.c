@@ -57,11 +57,31 @@ void physicsUpdatePlayer() {
 
 void physicsUpdate() {
 	for (uint8_t i = 0; i < worldIndex; i++) {
-		float obj1x = World.entities[i].transform->position.x;
-		float obj1y = World.entities[i].transform->position.x;
-		float obj1w = World.entities[i].transform->scale.x;
-		float obj1h = World.entities[i].transform->scale.y;
-		float obj1vx = World.entities[i].transform->velocity.x;
-		float obj1vy
+		if (World.entities[i].active && !World.entities[i].anchored) {
+			float obj1x = World.entities[i].transform->position.x;
+			float obj1y = World.entities[i].transform->position.x;
+			float obj1w = World.entities[i].transform->scale.x;
+			float obj1h = World.entities[i].transform->scale.y;
+			float obj1vx = World.entities[i].transform->velocity.x;
+			float obj1vy = World.entities[i].transform->velocity.y;
+			float obj1halfw = obj1w/2.0f;
+			float obj1halfh = obj1h/2.0f;
+			float obj1centerx = obj1x + obj1halfw;
+			float obj1centery = obj1y + obj1halfh;
+			for (uint8_t j = 0; j < worldIndex; j++) {
+				if (World.entities[j].active && World.entities[j].canCollide) {
+					float obj2x = World.entities[j].transform->position.x;
+					float obj2y = World.entities[j].transform->position.x;
+					float obj2w = World.entities[i].transform->scale.x;
+					float obj2h = World.entities[i].transform->scale.y;
+					float obj2vx = World.entities[i].transform->velocity.x;
+					float obj2vy = World.entities[i].transform->velocity.y;
+					float obj2halfw = obj1w/2.0f;
+					float obj2halfh = obj1h/2.0f;
+					float obj2centerx = obj1x + obj1halfw;
+					float obj2centery = obj1y + obj1halfh;
+				}
+			}
+		}
 	}
 }
