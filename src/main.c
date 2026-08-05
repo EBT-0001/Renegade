@@ -16,6 +16,7 @@ SDL_Texture* spritesheet = NULL;
 SDL_Texture* background = NULL;
 
 world World;
+uint8_t worldIndex = 0;
 
 bool quit = false;
 
@@ -37,20 +38,24 @@ bool gameInit() {
 		return false;
 	}
 
+	for (uint8_t i = 0; i < 64; i++) {
+		World.entities[i] = (entity) {.transform = NULL, .animations = NULL, .hp = NULL, .power = NULL, .defense = NULL, .mass = NULL, .speed = NULL, .cooldown = NULL, .wallCling = NULL, .animationPlaying = NULL, .flags = NULL, .anchored = NULL, .grounded = NULL, .canCollide = NULL, .active = false};
+	}
+
 	loadSpritesheets();
 
 	return true;
 }
 
 bool loadSpritesheets() {
-	SDL_Surface* temp = SDL_LoadBMP("assets/spritesheet.bmp");
+	SDL_Surface* temp = SDL_LoadBMP("../assets/spritesheet.bmp");
 	if (!temp) {
 		printf("error loading spritesheet: %s\n", SDL_GetError());
 		return false;
 	}
 	spritesheet = SDL_CreateTextureFromSurface(renderer, temp);
 
-	temp = SDL_LoadBMP("assets/background.bmp");
+	temp = SDL_LoadBMP("../assets/background.bmp");
 	if (!temp) {
 		printf("error loading background: %s\n", SDL_GetError());
 		return false;
@@ -65,6 +70,7 @@ bool loadSpritesheets() {
 }
 
 void killWindow() {
+	cleanData();
 	SDL_DestroyTexture(spritesheet);
 	spritesheet = NULL;
 
@@ -86,14 +92,14 @@ int main() {
 
 	SDL_Event eventHandler;
 
-	initPlayer(Idle, "data/animations/player.json", 0.0f, 0.0f, 12, 28, 0, 10, 10, 10);
+	initPlayer(Idle, "../data/animations/player.json", 0.0f, 0.0f, 12.0f, 28.0f, 0, 0, 10, 10, 10);
 
 	while (!quit) {
 		processInput(&eventHandler, &quit);
 
 		SDL_RenderClear(renderer);
 
-		physicsUpdatePlayer();
+		physicsUpdate();
 
 		SDL_RenderTexture(renderer, background, NULL, NULL);
 		playAnimations(renderer, spritesheet);

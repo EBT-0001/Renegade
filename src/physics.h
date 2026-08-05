@@ -2,5 +2,4 @@
 
 #include <stdbool.h>
 
-void physicsUpdatePlayer();
-void physicsUpdateEnemy();
+void physicsUpdate();
