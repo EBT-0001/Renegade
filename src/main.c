@@ -26,7 +26,7 @@ bool gameInit() {
 		return false;
 	}
 
-	window = SDL_CreateWindow("Renegade", 1280, 720, 0);
+	window = SDL_CreateWindow("Renegade", 1600, 900, 0);
 	if (!window) {
 		printf("error creating window: %s\n", SDL_GetError());
 		return false;
@@ -92,7 +92,8 @@ int main() {
 
 	SDL_Event eventHandler;
 
-	initPlayer(Idle, "../data/animations/player.json", 0.0f, 0.0f, 12.0f, 28.0f, 0, 0, 10, 10, 10);
+	initPlayer(Idle, "../data/animations/player.json", 776.0f, 0.0f, 48.0f, 112.0f, 0, 0, 10, 7, 10);
+//	newElement(Idle, "../data/animations/player.json", 0.0f, 100.0f, 1600.0f, 10.0f, true, true);
 
 	while (!quit) {
 		processInput(&eventHandler, &quit);

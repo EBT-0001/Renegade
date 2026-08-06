@@ -7,13 +7,15 @@
 #include "animation.h"
 
 float dt = 1.0f/60.0f;
-float gravity = 5.5f;
+float gravity = 0.002f;
+float friction = 0.99875f;
 
 void physicsUpdate() {
 	for (uint8_t i = 0; i < worldIndex; i++) {
 		if (World.entities[i].active && !*World.entities[i].anchored) {
 			World.entities[i].transform->position.x += World.entities[i].transform->velocity.x * dt;
 			World.entities[i].transform->position.y += World.entities[i].transform->velocity.y * dt;
+			World.entities[i].transform->velocity.x *= friction;
 			World.entities[i].transform->velocity.y += gravity;
 			float obj1x = World.entities[i].transform->position.x;
 			float obj1y = World.entities[i].transform->position.x;

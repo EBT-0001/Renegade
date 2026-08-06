@@ -9,6 +9,8 @@
 #include "world.h"
 #include "animation.h"
 
+Vec camPos;
+
 void loadAnimation(sprite sprite, animation* animation, const char* path) {
 	FILE* animations = fopen(path, "rb");
 	if (animations == NULL) {
@@ -45,7 +47,7 @@ void loadAnimation(sprite sprite, animation* animation, const char* path) {
 		return;
 	}
 
-	animation->frames = malloc(animation->frameCount * sizeof(texture));
+	animation->frames = (texture*) malloc(animation->frameCount * sizeof(texture));
 	if (animation->frames == NULL) {
 		printf("Failed to allocate frames");
 		return;
@@ -64,9 +66,11 @@ void freeAnimation(animation* animation) {
 void playAnimations(SDL_Renderer* renderer, SDL_Texture* spritesheet) {
 	for (uint8_t i = 0; i < worldIndex; i++) {
 		if (World.entities[i].active) {
+			camPos.x = World.entities[0].transform->position.x;
+			camPos.y = World.entities[0].transform->position.y;
 			SDL_FRect renderQuad = {
-				World.entities[i].transform->position.x,
-				World.entities[i].transform->position.y,
+				World.entities[i].transform->position.x - (camPos.x - 776.0f),
+				World.entities[i].transform->position.y - (camPos.y - 394.0f),
 				World.entities[i].transform->scale.x,
 				World.entities[i].transform->scale.y
 			};
