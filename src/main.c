@@ -8,17 +8,31 @@
 #include "physics.h"
 #include "animation.h"
 #include "input.h"
-#include "game.h"
 
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
 SDL_Texture* spritesheet = NULL;
 SDL_Texture* background = NULL;
 
+Vec camPos = {0.0f, 0.0f};
+Vec camVel = {0.0f, 0.0f};
+
 world World;
-uint8_t worldIndex = 0;
+uint8_t worldIndex = 1;
 
 bool quit = false;
+
+bool loadSpritesheets() {
+	SDL_Surface* temp = SDL_LoadBMP("../assets/backgrounds/background.bmp");
+	if (!temp) {
+		printf("error loading background: %s\n", SDL_GetError());
+		return false;
+	}
+	background = SDL_CreateTextureFromSurface(renderer, temp);
+	SDL_DestroySurface(temp);
+
+	return true;
+}
 
 bool gameInit() {
 	if (!SDL_Init(SDL_INIT_VIDEO)) {
@@ -42,30 +56,10 @@ bool gameInit() {
 		World.entities[i] = (entity) {.transform = NULL, .animations = NULL, .hp = NULL, .power = NULL, .defense = NULL, .mass = NULL, .speed = NULL, .cooldown = NULL, .wallCling = NULL, .animationPlaying = NULL, .flags = NULL, .anchored = NULL, .grounded = NULL, .canCollide = NULL, .active = false};
 	}
 
+	SDL_SetDefaultTextureScaleMode(renderer, SDL_SCALEMODE_LINEAR);
+
 	loadSpritesheets();
 
-	return true;
-}
-
-bool loadSpritesheets() {
-	SDL_Surface* temp = SDL_LoadBMP("../assets/spritesheet.bmp");
-	if (!temp) {
-		printf("error loading spritesheet: %s\n", SDL_GetError());
-		return false;
-	}
-	spritesheet = SDL_CreateTextureFromSurface(renderer, temp);
-
-	temp = SDL_LoadBMP("../assets/background.bmp");
-	if (!temp) {
-		printf("error loading background: %s\n", SDL_GetError());
-		return false;
-	}
-	background = SDL_CreateTextureFromSurface(renderer, temp);
-	SDL_DestroySurface(temp);
-	if (!spritesheet) {
-		printf("error converting spritesheet: %s\n", SDL_GetError());
-		return false;
-	}
 	return true;
 }
 
@@ -92,18 +86,23 @@ int main() {
 
 	SDL_Event eventHandler;
 
-	initPlayer(Idle, "../data/animations/player.json", 776.0f, 0.0f, 48.0f, 112.0f, 0, 0, 10, 7, 10);
-//	newElement(Idle, "../data/animations/player.json", 0.0f, 100.0f, 1600.0f, 10.0f, true, true);
+	initPlayer(Idle, "../assets/spritesheets/default_player.png", "../data/animations/player.json", 752.0f, 338.0f, 96.0f, 224.0f, 0, 0, 10, 7, 10);
+//	newElement(Idle, "../assets/spritesheets/platform.png", "../data/animations/platform.json", 0.0f, 100.0f, 1600.0f, 32.0f, 0, true, true);
 
 	while (!quit) {
 		processInput(&eventHandler, &quit);
+
+		printf("x: %f\n", World.entities[0].transform->position.x);
+		printf("y: %f\n", World.entities[0].transform->position.y);
+		printf("vx: %f\n", World.entities[0].transform->velocity.x);
+		printf("vy: %f\n\n", World.entities[0].transform->velocity.y);
 
 		SDL_RenderClear(renderer);
 
 		physicsUpdate();
 
 		SDL_RenderTexture(renderer, background, NULL, NULL);
-		playAnimations(renderer, spritesheet);
+		playAnimations(renderer);
 		SDL_RenderPresent(renderer);
 	}
 	killWindow();

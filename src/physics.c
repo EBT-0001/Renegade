@@ -62,4 +62,13 @@ void physicsUpdate() {
 			}
 		}
 	}
+	camVel.x = 0.0f;
+
+	camVel.x = World.entities[0].transform->velocity.x;
+	camVel.y = World.entities[0].transform->velocity.y;
+
+//	camPos.x += camVel.x * dt;
+//	camPos.y += camVel.y * dt;
+	camPos.x = World.entities[0].transform->position.x - 752.0f;
+	camPos.y = World.entities[0].transform->position.y - 338.0f;
 }

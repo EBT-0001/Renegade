@@ -20,6 +20,6 @@ typedef struct {
 	uint8_t animationPlaying;
 }animation;
 
-void loadAnimation(sprite sprite, animation* animation, const char* path);
+SDL_Texture* loadAnimation(SDL_Renderer* renderer, sprite sprite, animation* animation, const char* spritePath, const char* dataPath);
 void freeAnimation(animation* animation);
-void playAnimations(SDL_Renderer* renderer, SDL_Texture* spritesheet);
+void playAnimations(SDL_Renderer* renderer);

@@ -3,9 +3,12 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <SDL3/SDL.h>
 
 #include "vectors.h"
 #include "animation.h"
+
+extern SDL_Renderer* renderer;
 
 typedef enum {
 	player,
@@ -16,6 +19,7 @@ typedef enum {
 }type;
 
 typedef struct {
+	SDL_Texture* spritesheet;
 	Transform* transform;
 	animation* animations;
 	uint8_t* hp;
@@ -38,10 +42,13 @@ typedef struct {
 	entity entities[64];
 }world;
 
+extern Vec camPos;
+extern Vec camVel;
+
 extern uint8_t worldIndex;
 extern world World;
 
-void initPlayer(sprite sprite, const char* animationPath, float x, float y, float width, float height, uint8_t power, uint8_t defense, uint8_t mass, uint8_t speed, uint8_t wallCling);
-void newEnemy(sprite sprite, const char* animationPath, float x, float y, float width, float height, uint8_t power, uint8_t defense, uint8_t mass, uint8_t speed);
-void newElement(sprite sprite, const char* animationPath, float x, float y, float width, float height, bool canCollide, bool anchored);
+void initPlayer(sprite sprite, const char* spritePath, const char* animationPath, float x, float y, float width, float height, uint8_t power, uint8_t defense, uint8_t mass, uint8_t speed, uint8_t wallCling);
+void newEnemy(sprite sprite, const char* spritePath, const char* animationPath, float x, float y, float width, float height, uint8_t power, uint8_t defense, uint8_t mass, uint8_t speed);
+void newElement(sprite sprite, const char* spritePath, const char* animationPath, float x, float y, float width, float height, uint8_t mass, bool canCollide, bool anchored);
 void cleanData();

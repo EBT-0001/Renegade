@@ -4,24 +4,23 @@
 #include <stdbool.h>
 #include <cjson/cJSON.h>
 #include <SDL3/SDL.h>
+#include <SDL3_image/SDL_image.h>
 
 #include "vectors.h"
 #include "world.h"
 #include "animation.h"
 
-Vec camPos;
-
-void loadAnimation(sprite sprite, animation* animation, const char* path) {
-	FILE* animations = fopen(path, "rb");
-	if (animations == NULL) {
+SDL_Texture* loadAnimation(SDL_Renderer* renderer, sprite sprite, animation* animation, const char* spritePath, const char* dataPath) {
+	FILE* data = fopen(dataPath, "rb");
+	if (data == NULL) {
 		printf("Failed to load animation data");
-		return;
+		return NULL;
 	}
 
 	char buffer[1024];
-	size_t len = fread(buffer, 1, sizeof(buffer) - 1, animations);
+	size_t len = fread(buffer, 1, sizeof(buffer) - 1, data);
 	buffer[len] = '\0';
-	fclose(animations);
+	fclose(data);
 
 	cJSON* json = cJSON_Parse(buffer);
 	if (json == NULL) {
@@ -30,9 +29,9 @@ void loadAnimation(sprite sprite, animation* animation, const char* path) {
 			printf("Error: %s\n", error_ptr);
 		}
 		cJSON_Delete(json);
-		return;
+		return NULL;
 	}
-	
+
 	cJSON* animationData;
 	switch (sprite) {
 		case Idle:
@@ -40,17 +39,17 @@ void loadAnimation(sprite sprite, animation* animation, const char* path) {
 			break;
 		default:
 			cJSON_Delete(json);
-			return;
+			return NULL;
 	}
 	if (animationData == NULL) {
 		cJSON_Delete(json);
-		return;
+		return NULL;
 	}
 
 	animation->frames = (texture*) malloc(animation->frameCount * sizeof(texture));
 	if (animation->frames == NULL) {
 		printf("Failed to allocate frames");
-		return;
+		return NULL;
 	}
 	for (uint8_t i = 0; i < animation->frameCount; i++) {
 		animation->frames[i].texCoords.x = cJSON_GetArrayItem(animationData, 4 * i)->valueint;
@@ -59,18 +58,22 @@ void loadAnimation(sprite sprite, animation* animation, const char* path) {
 		animation->frames[i].texDimensions.y = cJSON_GetArrayItem(animationData, 4 * i + 3)->valueint;
 	}
 	cJSON_Delete(json);
+	SDL_Surface* temp = IMG_Load(spritePath);
+	if (!temp) {
+		printf("error loading spritesheet: %s\n", SDL_GetError());
+		return NULL;
+	}
+	return SDL_CreateTextureFromSurface(renderer, temp);
 }
 void freeAnimation(animation* animation) {
 	free(&(animation->frames));
 }
-void playAnimations(SDL_Renderer* renderer, SDL_Texture* spritesheet) {
+void playAnimations(SDL_Renderer* renderer) {
 	for (uint8_t i = 0; i < worldIndex; i++) {
 		if (World.entities[i].active) {
-			camPos.x = World.entities[0].transform->position.x;
-			camPos.y = World.entities[0].transform->position.y;
 			SDL_FRect renderQuad = {
-				World.entities[i].transform->position.x - (camPos.x - 776.0f),
-				World.entities[i].transform->position.y - (camPos.y - 394.0f),
+				World.entities[i].transform->position.x - (camPos.x),
+				World.entities[i].transform->position.y - (camPos.y),
 				World.entities[i].transform->scale.x,
 				World.entities[i].transform->scale.y
 			};
@@ -81,7 +84,7 @@ void playAnimations(SDL_Renderer* renderer, SDL_Texture* spritesheet) {
 				World.entities[i].animations[*World.entities[i].animationPlaying].frames[World.entities[i].animations[*World.entities[i].animationPlaying].frameClock].texDimensions.y
 			};
 
-			SDL_RenderTexture(renderer, spritesheet, &clip, &renderQuad);
+			SDL_RenderTexture(renderer, World.entities[i].spritesheet, &clip, &renderQuad);
 			if (World.entities[i].animations[*World.entities[i].animationPlaying].frameClock < World.entities[i].animations[*World.entities[i].animationPlaying].frameCount - 1) {
 				World.entities[i].animations[*World.entities[i].animationPlaying].frameClock++;
 			} else {
