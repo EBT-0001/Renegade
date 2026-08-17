@@ -87,7 +87,7 @@ int main() {
 	SDL_Event eventHandler;
 
 	initPlayer(Idle, "../assets/spritesheets/default_player.png", "../data/animations/player.json", 752.0f, 338.0f, 96.0f, 224.0f, 0, 0, 10, 7, 10);
-//	newElement(Idle, "../assets/spritesheets/platform.png", "../data/animations/platform.json", 0.0f, 100.0f, 1600.0f, 32.0f, 0, true, true);
+	newElement(Idle, "../assets/spritesheets/platform.png", "../data/animations/platform.json", 0.0f, 100.0f, 1600.0f, 32.0f, 0, true, true);
 
 	while (!quit) {
 		processInput(&eventHandler, &quit);
@@ -102,7 +102,9 @@ int main() {
 		physicsUpdate();
 
 		SDL_RenderTexture(renderer, background, NULL, NULL);
+		printf("began animations\n");
 		playAnimations(renderer);
+		printf("finished animations\n");
 		SDL_RenderPresent(renderer);
 	}
 	killWindow();

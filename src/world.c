@@ -45,7 +45,6 @@ void initPlayer(sprite sprite, const char* spritePath, const char* animationPath
 	camVel = (Vec) {0.0f, 0.0f};
 
 	World.entities[0].active = true;
-	worldIndex++;
 }
 
 void newEnemy(sprite sprite, const char* spritePath, const char* animationPath, float x, float y, float width, float height, uint8_t power, uint8_t defense, uint8_t mass, uint8_t speed) {
@@ -73,7 +72,7 @@ void newEnemy(sprite sprite, const char* spritePath, const char* animationPath, 
 
 	World.entities[worldIndex].animations = (animation*) malloc(8 * (sizeof(animation)));
 
-	World.entities[worldIndex].spritesheet = loadAnimation(renderer, sprite, &World.entities[0].animations[0], spritePath, animationPath);
+	World.entities[worldIndex].spritesheet = loadAnimation(renderer, sprite, &World.entities[worldIndex].animations[0], spritePath, animationPath);
 
 	World.entities[worldIndex].active = true;
 }
@@ -101,7 +100,7 @@ void newElement(sprite sprite, const char* spritePath, const char* animationPath
 	World.entities[worldIndex].animations[0].frameCount = 1;
 	World.entities[worldIndex].animations[0].frameClock = 0;
 
-	World.entities[worldIndex].spritesheet = loadAnimation(renderer, sprite, &World.entities[0].animations[0], spritePath, animationPath);
+	World.entities[worldIndex].spritesheet = loadAnimation(renderer, sprite, &World.entities[worldIndex].animations[0], spritePath, animationPath);
 
 	World.entities[worldIndex].active = true;
 	worldIndex++;
