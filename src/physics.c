@@ -7,8 +7,9 @@
 #include "animation.h"
 
 float dt = 1.0f/60.0f;
-float gravity = 0.002f;
-float friction = 0.99875f;
+//float gravity = 30.0f;
+float gravity = 0.0f;
+float friction = 0.95f;
 
 void physicsUpdate() {
 	for (uint8_t i = 0; i < worldIndex; i++) {

@@ -30,7 +30,4 @@ void processInput(SDL_Event* eventHandler, bool* quit) {
 		World.entities[0].transform->velocity.y -= (500.0f - *World.entities[0].mass);
 		*World.entities[0].grounded = false;
 	}
-	if (key_states[SDL_SCANCODE_LCTRL] && key_states[SDL_SCANCODE_ESCAPE]) {
-		*quit = true;
-	}
 }

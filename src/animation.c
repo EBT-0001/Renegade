@@ -56,7 +56,6 @@ SDL_Texture* loadAnimation(SDL_Renderer* renderer, sprite sprite, animation* ani
 		animation->frames[i].texCoords.y = cJSON_GetArrayItem(animationData, 4 * i + 1)->valueint;
 		animation->frames[i].texDimensions.x = cJSON_GetArrayItem(animationData, 4 * i + 2)->valueint;
 		animation->frames[i].texDimensions.y = cJSON_GetArrayItem(animationData, 4 * i + 3)->valueint;
-		printf("x: %f\ny: %f\nw: %f\nh: %f\n", animation->frames[i].texCoords.x, animation->frames[i].texCoords.y, animation->frames[i].texDimensions.x, animation->frames[i].texDimensions.y);
 	}
 	cJSON_Delete(json);
 	SDL_Surface* temp = IMG_Load(spritePath);
@@ -72,14 +71,12 @@ void freeAnimation(animation* animation) {
 void playAnimations(SDL_Renderer* renderer) {
 	for (uint8_t i = 0; i < worldIndex; i++) {
 		if (World.entities[i].active) {
-			printf("animation entity %d\n", i);
 			SDL_FRect renderQuad = {
 				World.entities[i].transform->position.x - (camPos.x),
 				World.entities[i].transform->position.y - (camPos.y),
 				World.entities[i].transform->scale.x,
 				World.entities[i].transform->scale.y
 			};
-			printf("x: %f\ny: %f\nw: %f\nh: %f\n", World.entities[i].animations[*World.entities[i].animationPlaying].frames[World.entities[i].animations[*World.entities[i].animationPlaying].frameClock].texCoords.x, World.entities[i].animations[*World.entities[i].animationPlaying].frames[World.entities[i].animations[*World.entities[i].animationPlaying].frameClock].texCoords.y, World.entities[i].animations[*World.entities[i].animationPlaying].frames[World.entities[i].animations[*World.entities[i].animationPlaying].frameClock].texDimensions.x, World.entities[i].animations[*World.entities[i].animationPlaying].frames[World.entities[i].animations[*World.entities[i].animationPlaying].frameClock].texDimensions.y);
 			SDL_FRect clip = {
 				World.entities[i].animations[*World.entities[i].animationPlaying].frames[World.entities[i].animations[*World.entities[i].animationPlaying].frameClock].texCoords.x,
 				World.entities[i].animations[*World.entities[i].animationPlaying].frames[World.entities[i].animations[*World.entities[i].animationPlaying].frameClock].texCoords.y,
