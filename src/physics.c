@@ -11,6 +11,8 @@ float dt = 1.0f/60.0f;
 float gravity = 0.0f;
 float friction = 0.95f;
 
+bool scrollCamera;
+
 void physicsUpdate() {
 	for (uint8_t i = 0; i < worldIndex; i++) {
 		if (World.entities[i].active && !*World.entities[i].anchored) {
@@ -63,13 +65,31 @@ void physicsUpdate() {
 			}
 		}
 	}
-	camVel.x = 0.0f;
-
-	camVel.x = World.entities[0].transform->velocity.x;
-	camVel.y = World.entities[0].transform->velocity.y;
-
-//	camPos.x += camVel.x * dt;
-//	camPos.y += camVel.y * dt;
-	camPos.x = World.entities[0].transform->position.x - 752.0f;
-	camPos.y = World.entities[0].transform->position.y - 338.0f;
+	if ((fabs(World.entities[0].transform->velocity.x) > 0.05f || fabs(World.entities[0].transform->velocity.y) > 0.05f) && scrollCamera) {
+		deadZone.scale.x = 0.0f;
+		deadZone.scale.y = 0.0f;
+	} else {
+		deadZone.scale.x = 192.0f;
+		deadZone.scale.x = 336.0f;
+		deadZone.position.x = camera.position.x - 96.0f;
+		deadZone.position.y = camera.position.y - 168.0f;
+	}
+	if (
+		World.entities[0].transform->position.x + World.entities[0].transform->scale.x > deadZone.position.x &&
+		World.entities[0].transform->position.x < deadZone.position.x  + deadZone.scale.x &&
+		World.entities[0].transform->position.y + World.entities[0].transform->scale.y > deadZone.position.y &&
+		World.entities[0].transform->position.y < deadZone.position.y + deadZone.scale.y
+	) {
+		scrollCamera = false;
+	} else {
+		scrollCamera = true;
+	}
+	if (scrollCamera) {
+		if (World.entities[0].transform->position.x < camera.scale.x/2 + camera.position.x) {
+			camera.position.x = (camera.scale.x/2 - 96.0f) + (World.entities[0].transform->position.x + World.entities[0].transform->scale.x/2);
+		} else {
+			camera.position.x = (camera.scale.x/2 + 96.0f) + (World.entities[0].transform->position.x + World.entities[0].transform->scale.x/2);
+		}
+		camera.position.y = World.entities[0].transform->position.y + World.entities[0].transform->scale.y/2;
+	}
 }

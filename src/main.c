@@ -14,8 +14,9 @@ SDL_Renderer* renderer = NULL;
 SDL_Texture* spritesheet = NULL;
 SDL_Texture* background = NULL;
 
-Vec camPos = {0.0f, 0.0f};
-Vec camVel = {0.0f, 0.0f};
+Box camera;
+Box deadZone;
+Box scrollStop;
 
 world World;
 uint8_t worldIndex = 1;
@@ -40,7 +41,7 @@ bool gameInit() {
 		return false;
 	}
 
-	window = SDL_CreateWindow("Renegade", 1600, 900, 0);
+	window = SDL_CreateWindow("Renegade", camera.scale.x, camera.scale.y, 0);
 	if (!window) {
 		printf("error creating window: %s\n", SDL_GetError());
 		return false;
@@ -57,6 +58,15 @@ bool gameInit() {
 	}
 
 	SDL_SetDefaultTextureScaleMode(renderer, SDL_SCALEMODE_LINEAR);
+
+	camera.position = (Vec) {512.0f, 384.0f};
+	camera.scale = (Vec) {1024.0f, 768.0f};
+
+	deadZone.position = (Vec) {416.0f, 216.0f};
+	deadZone.scale = (Vec) {192.0f, 336.0f};
+
+	scrollStop.position = (Vec) {0.0f, 0.0f};
+	scrollStop.scale = (Vec) {1024.0f, 768.0f};
 
 	loadSpritesheets();
 
@@ -86,8 +96,8 @@ int main() {
 
 	SDL_Event eventHandler;
 
-	initPlayer(Idle, "../assets/spritesheets/default_player.png", "../data/animations/player.json", 752.0f, 338.0f, 96.0f, 224.0f, 0, 0, 10, 85, 10);
-	newElement(Idle, "../assets/spritesheets/platform.png", "../data/animations/platform.json", 0.0f, 562.0f, 1600.0f, 32.0f, 0, true, true);
+	initPlayer(Idle, "../assets/spritesheets/default_player.png", "../data/animations/player.json", camera.scale.x/2, camera.scale.y/2, 96.0f, 224.0f, 0, 0, 10, 85, 10);
+	newElement(Idle, "../assets/spritesheets/platform.png", "../data/animations/platform.json", 0.0f, 736.0f, 1024.0f, 64.0f, 0, true, true);
 
 	while (!quit) {
 		processInput(&eventHandler, &quit);
@@ -99,6 +109,8 @@ int main() {
 		SDL_RenderTexture(renderer, background, NULL, NULL);
 		playAnimations(renderer);
 		SDL_RenderPresent(renderer);
+
+		cleanData();
 	}
 	killWindow();
 

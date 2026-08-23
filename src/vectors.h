@@ -7,6 +7,11 @@ typedef struct {
 
 typedef struct {
 	Vec position;
+	Vec scale;
+} Box;
+
+typedef struct {
+	Vec position;
 	Vec velocity;
 	Vec scale;
 } Transform;

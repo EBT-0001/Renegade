@@ -41,9 +41,6 @@ void initPlayer(sprite sprite, const char* spritePath, const char* animationPath
 
 	World.entities[0].spritesheet = loadAnimation(renderer, sprite, &World.entities[0].animations[0], spritePath, animationPath);
 
-	camPos = (Vec) {776.0f, 394.0f};
-	camVel = (Vec) {0.0f, 0.0f};
-
 	World.entities[0].active = true;
 }
 
@@ -52,7 +49,7 @@ void newEnemy(sprite sprite, const char* spritePath, const char* animationPath, 
 
 	World.entities[worldIndex].transform->position = (Vec) {x, y};
 	World.entities[worldIndex].transform->scale = (Vec) {width, height};
-	World.entities[worldIndex].transform->velocity = (Vec) {0.0, 0.0};
+	World.entities[worldIndex].transform->velocity = (Vec) {0.0f, 0.0f};
 
 	World.entities[worldIndex].hp = (uint8_t*) malloc(sizeof(uint8_t));
 	World.entities[worldIndex].power = (uint8_t*) malloc(sizeof(uint8_t));
@@ -120,6 +117,24 @@ void cleanData() {
 			if (World.entities[i].flags != NULL) free(World.entities[i].flags);
 			if (World.entities[i].anchored != NULL) free(World.entities[i].anchored);
 			if (World.entities[i].grounded != NULL) free(World.entities[i].grounded);
+
+			if (World.entities[i + 1].active) {
+				World.entities[i].transform = World.entities[i + 1].transform;
+				World.entities[i].animations = World.entities[i + 1].animations;
+				World.entities[i].hp = World.entities[i + 1].hp;
+				World.entities[i].power = World.entities[i + 1].power;
+				World.entities[i].defense = World.entities[i + 1].defense;
+				World.entities[i].mass = World.entities[i + 1].mass;
+				World.entities[i].speed = World.entities[i + 1].speed;
+				World.entities[i].cooldown = World.entities[i + 1].cooldown;
+				World.entities[i].flags = World.entities[i + 1].flags;
+				World.entities[i].anchored = World.entities[i + 1].anchored;
+				World.entities[i].grounded = World.entities[i + 1].grounded;
+
+				World.entities[i].active = true;
+				World.entities[i + 1].active = false;
+				if (i + 1 == worldIndex) worldIndex--;
+			}
 		}
 	}
 }

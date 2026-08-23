@@ -1,4 +1,5 @@
-#include <cjson.h>
+#include <stdio.h>
+#include <cjson/cJSON.h>
 #include "world.h"
 
 void loadMap(const char* dataPath) {
@@ -23,21 +24,26 @@ void loadMap(const char* dataPath) {
 		return;
 	}
 
-	cJSON* playerData;
-	cJSON* enemyData;
-	cJSON* elementData;
+	cJSON* playerData = cJSON_GetObjectItemCaseSensitive(json, "Player");
+	cJSON* enemyData = cJSON_GetObjectItemCaseSensitive(json, "Enemies");
+	cJSON* elementData = cJSON_GetObjectItemCaseSensitive(json, "Elements");
 
-	playerData = cJSON_GetObjectItemCaseSensitive(json, "Player");
-	enemyData = cJSON_GetObjectItemCaseSensitive(json, "Enemies");
-	elementData = cJSON_GetObjectItemCaseSensitive(json, "Elements");
-	
-	if (mapData == NULL) {
+	if (playerData == NULL) {
+		cJSON_Delete(json);
+		return;
+	}
+	if (enemyData == NULL) {
+		cJSON_Delete(json);
+		return;
+	}
+	if (elementData == NULL) {
 		cJSON_Delete(json);
 		return;
 	}
 
-	for (uint8_t i = 0; i < playerData[1]; i++) {
-		
-	}
+
+//	for (uint8_t i = 0; i < playerData[1]; i++) {
+//		
+//	}
 	cJSON_Delete(json);
 }
