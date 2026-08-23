@@ -7,8 +7,7 @@
 #include "animation.h"
 
 float dt = 1.0f/60.0f;
-//float gravity = 30.0f;
-float gravity = 0.0f;
+float gravity = 30.0f;
 float friction = 0.95f;
 
 bool scrollCamera;
@@ -21,7 +20,7 @@ void physicsUpdate() {
 			World.entities[i].transform->velocity.x *= friction;
 			World.entities[i].transform->velocity.y += gravity;
 			float obj1x = World.entities[i].transform->position.x;
-			float obj1y = World.entities[i].transform->position.x;
+			float obj1y = World.entities[i].transform->position.y;
 			float obj1w = World.entities[i].transform->scale.x;
 			float obj1h = World.entities[i].transform->scale.y;
 			float obj1halfw = obj1w/2.0f;
@@ -29,11 +28,11 @@ void physicsUpdate() {
 			float obj1centerx = obj1x + obj1halfw;
 			float obj1centery = obj1y + obj1halfh;
 			for (uint8_t j = 0; j < worldIndex; j++) {
-				if (World.entities[j].active && *World.entities[j].canCollide && (*World.entities[i].mass <= *World.entities[j].mass || *World.entities[j].anchored)) {
+				if (i != j && World.entities[j].active && *World.entities[j].canCollide && (*World.entities[i].mass <= *World.entities[j].mass || *World.entities[j].anchored)) {
 					float obj2x = World.entities[j].transform->position.x;
-					float obj2y = World.entities[j].transform->position.x;
-					float obj2w = World.entities[i].transform->scale.x;
-					float obj2h = World.entities[i].transform->scale.y;
+					float obj2y = World.entities[j].transform->position.y;
+					float obj2w = World.entities[j].transform->scale.x;
+					float obj2h = World.entities[j].transform->scale.y;
 					float obj2halfw = obj2w/2.0f;
 					float obj2halfh = obj2h/2.0f;
 					float obj2centerx = obj2x + obj2halfw;
@@ -65,31 +64,36 @@ void physicsUpdate() {
 			}
 		}
 	}
-	if ((fabs(World.entities[0].transform->velocity.x) > 0.05f || fabs(World.entities[0].transform->velocity.y) > 0.05f) && scrollCamera) {
-		deadZone.scale.x = 0.0f;
-		deadZone.scale.y = 0.0f;
-	} else {
-		deadZone.scale.x = 192.0f;
-		deadZone.scale.x = 336.0f;
-		deadZone.position.x = camera.position.x - 96.0f;
-		deadZone.position.y = camera.position.y - 168.0f;
-	}
+	
 	if (
 		World.entities[0].transform->position.x + World.entities[0].transform->scale.x > deadZone.position.x &&
-		World.entities[0].transform->position.x < deadZone.position.x  + deadZone.scale.x &&
+		World.entities[0].transform->position.x < deadZone.position.x + deadZone.scale.x &&
 		World.entities[0].transform->position.y + World.entities[0].transform->scale.y > deadZone.position.y &&
 		World.entities[0].transform->position.y < deadZone.position.y + deadZone.scale.y
 	) {
 		scrollCamera = false;
 	} else {
 		scrollCamera = true;
+		deadZone.scale = (Vec) {0.0f, 0.0f};
 	}
 	if (scrollCamera) {
 		if (World.entities[0].transform->position.x < camera.scale.x/2 + camera.position.x) {
-			camera.position.x = (camera.scale.x/2 - 96.0f) + (World.entities[0].transform->position.x + World.entities[0].transform->scale.x/2);
+			camera.position.x = (World.entities[0].transform->position.x + World.entities[0].transform->scale.x/2) - 96.0f;
 		} else {
-			camera.position.x = (camera.scale.x/2 + 96.0f) + (World.entities[0].transform->position.x + World.entities[0].transform->scale.x/2);
+			camera.position.x = (World.entities[0].transform->position.x + World.entities[0].transform->scale.x/2) + 96.0f;
 		}
-		camera.position.y = World.entities[0].transform->position.y + World.entities[0].transform->scale.y/2;
+		if (World.entities[0].transform->position.y < camera.scale.y/2 + camera.position.y) {
+			camera.position.y = (World.entities[0].transform->position.y + World.entities[0].transform->scale.y/2) + 168.0f;
+		} else {
+			camera.position.y = (World.entities[0].transform->position.y + World.entities[0].transform->scale.y/2) - 168.0f;
+		}
+
+		if (World.entities[0].transform->velocity.x < 85.0f && World.entities[0].transform->velocity.y < gravity) {
+			scrollCamera = false;
+
+			deadZone.position.x = (World.entities[0].transform->position.x + World.entities[0].transform->scale.x/2) - 96.0f;
+			deadZone.position.y = (World.entities[0].transform->position.y + World.entities[0].transform->scale.y/2) - 168.0f;
+			deadZone.scale = (Vec) {192.0f, 336.0f};
+		}
 	}
 }
