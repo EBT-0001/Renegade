@@ -71,8 +71,8 @@ void playAnimations(SDL_Renderer* renderer) {
 	for (uint8_t i = 0; i < worldIndex; i++) {
 		if (World.entities[i].active) {
 			SDL_FRect renderQuad = {
-				World.entities[i].transform->position.x - (camera.position.x/2),
-				World.entities[i].transform->position.y - (camera.position.y/2),
+				World.entities[i].transform->position.x - camera.position.x,
+				World.entities[i].transform->position.y - camera.position.y,
 				World.entities[i].transform->scale.x,
 				World.entities[i].transform->scale.y
 			};
