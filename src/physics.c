@@ -95,6 +95,12 @@ void physicsUpdate() {
 					
 				}
 			}
+		} else {
+			deadZone.scale.x = 226.0f
+
+			deadZone.position.x = (World.entities[0].transform->position.x + World.entities[0].transform->scale.x/2.0f) - deadZone.scale.x/2.0f;
+
+			scrollCamera = false
 		}
 	}
 }
