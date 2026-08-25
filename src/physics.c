@@ -76,64 +76,24 @@ void physicsUpdate() {
 			}
 		}
 	}
-	
-	if (
-		World.entities[0].transform->position.x + World.entities[0].transform->scale.x > deadZone.position.x &&
-		World.entities[0].transform->position.x < deadZone.position.x + deadZone.scale.x &&
-		World.entities[0].transform->position.y + World.entities[0].transform->scale.y > deadZone.position.y &&
-		World.entities[0].transform->position.y < deadZone.position.y + deadZone.scale.y
-	) {
-		scrollCamera = false;
-	} else {
-		if (fabs(World.entities[0].transform->velocity.x) >= *World.entities[0].speed || fabs(World.entities[0].transform->velocity.y) >= gravity) {
-			if (!scrollCamera) {
-				adjusted = false;
-			} else {
-				adjusted = true;
-			}
-			scrollCamera = true;
-		} else {
-			deadZone.position.x = (World.entities[0].transform->position.x + World.entities[0].transform->scale.x/2.0f) - deadZone.scale.x/2;
-			deadZone.position.y = (World.entities[0].transform->position.y + World.entities[0].transform->scale.y/2.0f) - deadZone.scale.y/2;
-			scrollCamera = false;
-		}
-	}
-	if (scrollCamera) {
-		if (World.entities[0].transform->position.x + World.entities[0].transform->scale.x < deadZone.position.x) {
-			camera.position.x -= deadZone.position.x - (World.entities[0].transform->position.x + World.entities[0].transform->scale.x);
-			deadZone.position.x = World.entities[0].transform->position.x + World.entities[0].transform->scale.x;
-		} else if (World.entities[0].transform->position.x > deadZone.position.x + deadZone.scale.x) {
-			camera.position.x += World.entities[0].transform->position.x - (deadZone.position.x + deadZone.scale.x);
-			deadZone.position.x = World.entities[0].transform->position.x - deadZone.scale.x;
-		}
-		if (World.entities[0].transform->position.y + World.entities[0].transform->scale.y < deadZone.position.y) {
-			camera.position.y -= deadZone.position.y - (World.entities[0].transform->position.y + World.entities[0].transform->scale.y);
-			deadZone.position.y = World.entities[0].transform->position.y + World.entities[0].transform->scale.y;
-		} else if (World.entities[0].transform->position.y > deadZone.position.y + deadZone.scale.y) {
-			camera.position.y += World.entities[0].transform->position.y - (deadZone.position.y + deadZone.scale.y);
-			deadZone.position.y = World.entities[0].transform->position.y - deadZone.scale.y;
-		}
-		if (!adjusted) {
-			if (!adjustRateCalculated) {
-				adjustRate = (Vec) {
-					(World.entities[0].transform->position.x + World.entities[0].transform->scale.x/2.0f) -
-					(camera.position.x + camera.scale.x/2.0f),
-					(World.entities[0].transform->position.y + World.entities[0].transform->scale.y/2.0f) -
-					(camera.position.y + camera.scale.y/2.0f)
-				};
-				adjustRateCalculated = true;
-			}
-			camera.position.x += adjustRate.x * dt;
-			camera.position.y += adjustRate.y * dt;
 
-			if (
-				fabs((camera.position.x + camera.scale.x/2.0f) -
-				(World.entities[0].transform->position.x + World.entities[0].transform->scale.x/2.0f)) < 0.5f &&
-				fabs((camera.position.y + camera.scale.y/2.0f) -
-				(World.entities[0].transform->position.y + World.entities[0].transform->scale.y/2.0f)) < 0.5f
-			) {
-				adjustRateCalculated = false;
-				adjusted = true;
+	if (scrollCamera) {
+		if (
+			fabs(World.entities[0].transform->velocity.x) >= *World.entities.speed - 5.0f &&
+			fabs(World.entities[0].transform->velocity.y) >= gravity
+		) {
+				if (adjusted) {
+					camera.position.x = (World.entities[0].transform->position.x + World.entities[0].transform->scale.x/2.0f) - camera.scale.x/2.0f;
+					camera.position.y = (World.entities[0].transform->position.y + World.entities[0].transform->scale.y/2.0f) - camera.scale.y/2.0f;
+				} else if (adjustRateCalculated) {
+					camera.position.x += World.entities[0].transform->velocity.x * dt;
+					camera.position.y += World.entities[0].transform->velocity.y * dt;
+
+					camera.position.x += adjustRate.x * dt;
+					camera.position.y += adjustRate.y * dt;
+				} else {
+					
+				}
 			}
 		}
 	}
