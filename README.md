@@ -1,0 +1,1 @@
+Renegade is a sword fighting game focused on combat and platform, the game will be available on steam for 14.99 but it’s free if you compile it with cmake. All assets are free to use wherever you want, including the art and music. If you think you’ll like this game and want to support it, be sure to wishlist it when the steam page is ready.
