@@ -12,7 +12,6 @@ float friction = 0.95f;
 
 Vec adjustRate = (Vec) {0.0f, 0.0f};
 bool adjustRateCalculated = false;
-bool adjusted = true;
 
 bool scrollCamera;
 
@@ -77,30 +76,55 @@ void physicsUpdate() {
 		}
 	}
 
+	scrollCamera = true;
+
+	if (
+		World.entities[0].transform->position.x < deadZone.position.x + deadZone.scale.x &&
+		World.entities[0].transform->position.x + World.entities[0].transform->scale.x > deadZone.position.x &&
+		World.entities[0].transform->position.y < deadZone.position.y + deadZone.scale.y &&
+		World.entities[0].transform->position.y + World.entities[0].transform->scale.y > deadZone.position.y
+	) {
+		scrollCamera = false;
+	} else if (fabs(World.entities[0].transform->velocity.x) < *World.entities[0].speed && fabs(World.entities[0].transform->velocity.y) < gravity) {
+		deadZone.position.x = (World.entities[0].transform->position.x + World.entities[0].transform->scale.x/2.0f) - deadZone.scale.x/2.0f;
+		deadZone.position.y = (World.entities[0].transform->position.y + World.entities[0].transform->scale.y/2.0f) - deadZone.scale.y/2.0f;
+		deadZone.scale.x = 192.0f;
+		deadZone.scale.y = 336.0f;
+
+		scrollCamera = false;
+	}
+
 	if (scrollCamera) {
+		deadZone.scale = (Vec) {0.0f, 0.0f};
 		if (
-			fabs(World.entities[0].transform->velocity.x) >= *World.entities.speed - 5.0f &&
-			fabs(World.entities[0].transform->velocity.y) >= gravity
+			fabs((World.entities[0].transform->position.x + World.entities[0].transform->scale.x/2.0f) - (camera.position.x + camera.scale.x/2.0f)) < 0.5f &&
+			fabs((World.entities[0].transform->position.y + World.entities[0].transform->scale.y/2.0f) - (camera.position.y + camera.scale.y/2.0f)) < 0.5f
 		) {
-				if (adjusted) {
-					camera.position.x = (World.entities[0].transform->position.x + World.entities[0].transform->scale.x/2.0f) - camera.scale.x/2.0f;
-					camera.position.y = (World.entities[0].transform->position.y + World.entities[0].transform->scale.y/2.0f) - camera.scale.y/2.0f;
-				} else if (adjustRateCalculated) {
-					camera.position.x += World.entities[0].transform->velocity.x * dt;
-					camera.position.y += World.entities[0].transform->velocity.y * dt;
+			camera.position.x = (World.entities[0].transform->position.x + World.entities[0].transform->scale.x/2.0f) - camera.scale.x/2.0f;
+			camera.position.y = (World.entities[0].transform->position.y + World.entities[0].transform->scale.y/2.0f) - camera.scale.y/2.0f;
 
-					camera.position.x += adjustRate.x * dt;
-					camera.position.y += adjustRate.y * dt;
-				} else {
-					
-				}
-			}
+			adjustRateCalculated = false;	
 		} else {
-			deadZone.scale.x = 226.0f
+			if (adjustRateCalculated) {
+				camera.position.x += World.entities[0].transform->velocity.x * dt;
+				camera.position.y += World.entities[0].transform->velocity.y * dt;
 
-			deadZone.position.x = (World.entities[0].transform->position.x + World.entities[0].transform->scale.x/2.0f) - deadZone.scale.x/2.0f;
+				camera.position.x += adjustRate.x;
+				camera.position.y += adjustRate.y;
+				if (
+					(adjustRate.x < 0 && camera.position.x + camera.scale.x/2.0f < World.entities[0].transform->position.x + World.entities[0].transform->scale.x/2.0f) ||
+					(adjustRate.x > 0 && camera.position.x + camera.scale.x/2.0f > World.entities[0].transform->position.x + World.entities[0].transform->scale.x/2.0f) ||
+					(adjustRate.y < 0 && camera.position.y + camera.scale.y/2.0f < World.entities[0].transform->position.y + World.entities[0].transform->scale.y/2.0f) ||
+					(adjustRate.y > 0 && camera.position.y + camera.scale.y/2.0f > World.entities[0].transform->position.y + World.entities[0].transform->scale.y/2.0f)
+				) {
+					adjustRateCalculated = false;
+				}
+			} else {
+				adjustRate.x = ((World.entities[0].transform->position.x + World.entities[0].transform->scale.x/2.0f) - (camera.position.x + camera.scale.x/2.0f)) * dt;
+				adjustRate.y = ((World.entities[0].transform->position.y + World.entities[0].transform->scale.y/2.0f) - (camera.position.y + camera.scale.y/2.0f)) * dt;
 
-			scrollCamera = false
+				adjustRateCalculated = true;
+			}
 		}
 	}
 }

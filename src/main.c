@@ -98,6 +98,8 @@ int main() {
 
 	initPlayer(Idle, "../assets/spritesheets/default_player.png", "../data/animations/player.json", camera.scale.x/2, camera.scale.y/2, 96.0f, 224.0f, 0, 0, 10, 85, 10);
 	newElement(Idle, "../assets/spritesheets/platform.png", "../data/animations/platform.json", 0.0f, 736.0f, 1024.0f, 64.0f, 0, true, true);
+	newElement(Idle, "../assets/spritesheets/platform.png", "../data/animations/platform.json", 1024.0f, 736.0f, 1024.0f, 64.0f, 0, true, true);
+	newElement(Idle, "../assets/spritesheets/platform.png", "../data/animations/platform.json", 2048.0f, 736.0f, 1024.0f, 64.0f, 0, true, true);
 
 	while (!quit) {
 		processInput(&eventHandler, &quit);
