@@ -1,3 +1,4 @@
+#include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -13,6 +14,10 @@ SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
 SDL_Texture* spritesheet = NULL;
 SDL_Texture* background = NULL;
+
+pthread_t input;
+pthread_t graphics;
+pthread_t physics; 
 
 Box camera;
 Box deadZone;
@@ -101,15 +106,20 @@ int main() {
 	newElement(Idle, "../assets/spritesheets/platform.png", "../data/animations/platform.json", 1024.0f, 736.0f, 1024.0f, 64.0f, 0, true, true);
 	newElement(Idle, "../assets/spritesheets/platform.png", "../data/animations/platform.json", 2048.0f, 736.0f, 1024.0f, 64.0f, 0, true, true);
 
+
+	pthread_create(&input, NULL, processInput, &eventHandler);
+	pthread_create(&graphics, NULL, playAnimations, renderer);
+	pthread_create(&physics, NULL, physicsUpdate, NULL);
+
 	while (!quit) {
-		processInput(&eventHandler, &quit);
+		pthread_join(input);
 
 		SDL_RenderClear(renderer);
 
-		physicsUpdate();
+		pthread_join(physics);
 
 		SDL_RenderTexture(renderer, background, NULL, NULL);
-		playAnimations(renderer);
+		pthread_join(graphics);
 		SDL_RenderPresent(renderer);
 
 		cleanData();
