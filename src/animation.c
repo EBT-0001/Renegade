@@ -67,7 +67,7 @@ SDL_Texture* loadAnimation(SDL_Renderer* renderer, sprite sprite, animation* ani
 void freeAnimation(animation* animation) {
 	free(&(animation->frames));
 }
-void playAnimations(SDL_Renderer* renderer) {
+void* playAnimations(SDL_Renderer* renderer) {
 	for (uint8_t i = 0; i < worldIndex; i++) {
 		if (World.entities[i].active) {
 			SDL_FRect renderQuad = {
