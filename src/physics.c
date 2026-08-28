@@ -15,7 +15,7 @@ bool adjustRateCalculated = false;
 
 bool scrollCamera;
 
-void physicsUpdate() {
+void* physicsUpdate() {
 	for (uint8_t i = 0; i < worldIndex; i++) {
 		if (World.entities[i].active && !*World.entities[i].anchored) {
 			World.entities[i].transform->position.x += World.entities[i].transform->velocity.x * dt;
