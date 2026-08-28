@@ -4,10 +4,10 @@
 #include "world.h"
 #include "physics.h"
 
-void processInput(SDL_Event* eventHandler, bool* quit) {
+void* processInput(SDL_Event* eventHandler) {
 	while (SDL_PollEvent(eventHandler)) {
 		if (eventHandler->type == SDL_EVENT_QUIT) {
-			*quit = true;
+			quit = true;
 		}
 	}
 
