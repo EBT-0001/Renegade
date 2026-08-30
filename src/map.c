@@ -42,8 +42,19 @@ void loadMap(const char* dataPath) {
 	}
 
 
-//	for (uint8_t i = 0; i < playerData[1]; i++) {
-//		
-//	}
+	for (uint8_t i = 0; i < cJSON_GetArraySize(elementData); i += 10) {
+		newElement(
+			cJSON_GetArrayItem(elementData, i)->valueint,
+			cJSON_GetArrayItem(elementData, i + 1)->valuestring,
+			cJSON_GetArrayItem(elementData, i + 2)->valuestring,
+			cJSON_GetArrayItem(elementData, i + 3)->valuedouble,
+			cJSON_GetArrayItem(elementData, i + 4)->valuedouble,
+			cJSON_GetArrayItem(elementData, i + 5)->valuedouble,
+			cJSON_GetArrayItem(elementData, i + 6)->valuedouble,
+			cJSON_GetArrayItem(elementData, i + 7)->valueint,
+			cJSON_GetArrayItem(elementData, i + 8)->valueint,
+			cJSON_GetArrayItem(elementData, i + 9)->valueint
+		);
+	}
 	cJSON_Delete(json);
 }
