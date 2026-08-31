@@ -22,4 +22,4 @@ typedef struct {
 
 SDL_Texture* loadAnimation(SDL_Renderer* renderer, sprite sprite, animation* animation, const char* spritePath, const char* dataPath);
 void freeAnimation(animation* animation);
-void* playAnimations(SDL_Renderer* renderer);
+void* playAnimations(void* arg);

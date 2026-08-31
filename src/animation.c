@@ -67,27 +67,30 @@ SDL_Texture* loadAnimation(SDL_Renderer* renderer, sprite sprite, animation* ani
 void freeAnimation(animation* animation) {
 	free(&(animation->frames));
 }
-void* playAnimations(SDL_Renderer* renderer) {
-	for (uint8_t i = 0; i < worldIndex; i++) {
-		if (World.entities[i].active) {
-			SDL_FRect renderQuad = {
-				World.entities[i].transform->position.x - camera.position.x,
-				World.entities[i].transform->position.y - camera.position.y,
-				World.entities[i].transform->scale.x,
-				World.entities[i].transform->scale.y
-			};
-			SDL_FRect clip = {
-				World.entities[i].animations[*World.entities[i].animationPlaying].frames[World.entities[i].animations[*World.entities[i].animationPlaying].frameClock].texCoords.x,
-				World.entities[i].animations[*World.entities[i].animationPlaying].frames[World.entities[i].animations[*World.entities[i].animationPlaying].frameClock].texCoords.y,
-				World.entities[i].animations[*World.entities[i].animationPlaying].frames[World.entities[i].animations[*World.entities[i].animationPlaying].frameClock].texDimensions.x,
-				World.entities[i].animations[*World.entities[i].animationPlaying].frames[World.entities[i].animations[*World.entities[i].animationPlaying].frameClock].texDimensions.y
-			};
+void* playAnimations(void* arg) {
+	SDL_Renderer* renderer = (SDL_Renderer*) arg;
+	while (!quit) {
+		for (uint8_t i = 0; i < worldIndex; i++) {
+			if (World.entities[i].active) {
+				SDL_FRect renderQuad = {
+					World.entities[i].transform->position.x - camera.position.x,
+					World.entities[i].transform->position.y - camera.position.y,
+					World.entities[i].transform->scale.x,
+					World.entities[i].transform->scale.y
+				};
+				SDL_FRect clip = {
+					World.entities[i].animations[*World.entities[i].animationPlaying].frames[World.entities[i].animations[*World.entities[i].animationPlaying].frameClock].texCoords.x,
+					World.entities[i].animations[*World.entities[i].animationPlaying].frames[World.entities[i].animations[*World.entities[i].animationPlaying].frameClock].texCoords.y,
+					World.entities[i].animations[*World.entities[i].animationPlaying].frames[World.entities[i].animations[*World.entities[i].animationPlaying].frameClock].texDimensions.x,
+					World.entities[i].animations[*World.entities[i].animationPlaying].frames[World.entities[i].animations[*World.entities[i].animationPlaying].frameClock].texDimensions.y
+				};
 
-			SDL_RenderTexture(renderer, World.entities[i].spritesheet, &clip, &renderQuad);
-			if (World.entities[i].animations[*World.entities[i].animationPlaying].frameClock < World.entities[i].animations[*World.entities[i].animationPlaying].frameCount - 1) {
-				World.entities[i].animations[*World.entities[i].animationPlaying].frameClock++;
-			} else {
-				World.entities[i].animations[*World.entities[i].animationPlaying].frameClock = 0;
+				SDL_RenderTexture(renderer, World.entities[i].spritesheet, &clip, &renderQuad);
+				if (World.entities[i].animations[*World.entities[i].animationPlaying].frameClock < World.entities[i].animations[*World.entities[i].animationPlaying].frameCount - 1) {
+					World.entities[i].animations[*World.entities[i].animationPlaying].frameClock++;
+				} else {
+					World.entities[i].animations[*World.entities[i].animationPlaying].frameClock = 0;
+				}
 			}
 		}
 	}

@@ -2,4 +2,4 @@
 
 #include <stdbool.h>
 
-void physicsUpdate();
+void* physicsUpdate(void* arg);

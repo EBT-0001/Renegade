@@ -17,7 +17,7 @@ SDL_Texture* background = NULL;
 
 pthread_t input;
 pthread_t graphics;
-pthread_t physics; 
+pthread_t physics;
 
 Box camera;
 Box deadZone;
@@ -89,6 +89,8 @@ void killWindow() {
 	renderer = NULL;
 
 	SDL_Quit();
+
+	pthread_exit(NULL);
 }
 
 int main() {
@@ -106,20 +108,19 @@ int main() {
 	newElement(Idle, "../assets/spritesheets/platform.png", "../data/animations/platform.json", 1024.0f, 736.0f, 1024.0f, 64.0f, 0, true, true);
 	newElement(Idle, "../assets/spritesheets/platform.png", "../data/animations/platform.json", 2048.0f, 736.0f, 1024.0f, 64.0f, 0, true, true);
 
-
 	pthread_create(&input, NULL, processInput, &eventHandler);
 	pthread_create(&graphics, NULL, playAnimations, renderer);
 	pthread_create(&physics, NULL, physicsUpdate, NULL);
 
 	while (!quit) {
-		pthread_join(input);
+		pthread_join(input, NULL);
 
 		SDL_RenderClear(renderer);
 
-		pthread_join(physics);
+		pthread_join(physics, NULL);
 
 		SDL_RenderTexture(renderer, background, NULL, NULL);
-		pthread_join(graphics);
+		pthread_join(graphics, NULL);
 		SDL_RenderPresent(renderer);
 
 		cleanData();
