@@ -74,11 +74,11 @@ bool gameInit() {
 	SDL_SetDefaultTextureScaleMode(renderer, SDL_SCALEMODE_LINEAR);
 	SDL_SetWindowFullscreen(window, true);
 
-	camera.position = (Vec) {512.0f, 384.0f};
-	camera.scale = (Vec) {1024.0f, 768.0f};
+	SDL_GetWindowSize(window, &camera.position.x, &camera.position.y);
+	camera.position = (Vec) {camera.position.x/2.0f, camera.position.y/2.0f);
 
-	deadZone.position = (Vec) {416.0f, 216.0f};
 	deadZone.scale = (Vec) {192.0f, 336.0f};
+	deadZone.position = (Vec) {camera.position.x - (deadZone.scale.x/2.0f), camera.position.y - (deadZone.scale.y/2.0f)};
 
 	scrollStop.position = (Vec) {0.0f, 0.0f};
 	scrollStop.scale = (Vec) {1024.0f, 768.0f};
@@ -124,6 +124,7 @@ int main() {
 
 	while (!quit) {
 		SDL_RenderClear(renderer);
+		SDL_GetWindowSize(window, &camera.scale.x, &camera.scale.y);
 
 		SDL_RenderTexture(renderer, background1, NULL, NULL);
 
