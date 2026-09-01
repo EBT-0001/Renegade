@@ -9,11 +9,15 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <SDL3/SDL.h>
 
 #include "world.h"
 #include "animation.h"
 
-float dt = 1.0f/60.0f;
+int now = SDL_GetPerformanceCounter();
+int last = 0;
+
+float dt = 0.0f;
 float gravity = 30.0f;
 float friction = 0.95f;
 
@@ -24,6 +28,10 @@ bool scrollCamera;
 
 void* physicsUpdate(void* arg) {
 	while (!quit) {
+		last = now;
+		now = SDL_GetPerformanceCounter();
+
+		dt = (float)(now - last) * 1000/(float)SDL_GetPerformanceFrequency();
 		for (uint8_t i = 0; i < worldIndex; i++) {
 			if (World.entities[i].active && !*World.entities[i].anchored) {
 				World.entities[i].transform->position.x += World.entities[i].transform->velocity.x * dt;
