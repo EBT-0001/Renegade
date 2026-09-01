@@ -31,7 +31,7 @@ void* physicsUpdate(void* arg) {
 		last = now;
 		now = SDL_GetPerformanceCounter();
 
-		dt = (float)(now - last) * 1000/(float)SDL_GetPerformanceFrequency();
+		dt = (float)(now - last) * 1000.0f/(float)SDL_GetPerformanceFrequency();
 		for (uint8_t i = 0; i < worldIndex; i++) {
 			if (World.entities[i].active && !*World.entities[i].anchored) {
 				World.entities[i].transform->position.x += World.entities[i].transform->velocity.x * dt;
