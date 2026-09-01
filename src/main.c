@@ -20,7 +20,9 @@
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
 SDL_Texture* spritesheet = NULL;
-SDL_Texture* background = NULL;
+SDL_Texture* background1 = NULL;
+SDL_Texture* background2 = NULL;
+SDL_Texture* background3 = NULL;
 
 pthread_t input;
 pthread_t graphics;
@@ -122,7 +124,14 @@ int main() {
 	while (!quit) {
 		SDL_RenderClear(renderer);
 
-		SDL_RenderTexture(renderer, background, NULL, NULL);
+		SDL_RenderTexture(renderer, background1, NULL, NULL);
+		if (background2 != NULL) {
+			
+		}
+		if (background3 != NULL) {
+			
+		}
+
 		SDL_RenderPresent(renderer);
 
 		cleanData();
