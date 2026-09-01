@@ -120,14 +120,9 @@ int main() {
 	pthread_create(&physics, NULL, physicsUpdate, NULL);
 
 	while (!quit) {
-		pthread_join(input, NULL);
-
 		SDL_RenderClear(renderer);
 
-		pthread_join(physics, NULL);
-
 		SDL_RenderTexture(renderer, background, NULL, NULL);
-		pthread_join(graphics, NULL);
 		SDL_RenderPresent(renderer);
 
 		cleanData();
