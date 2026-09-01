@@ -125,12 +125,6 @@ int main() {
 		SDL_RenderClear(renderer);
 
 		SDL_RenderTexture(renderer, background1, NULL, NULL);
-		if (background2 != NULL) {
-			
-		}
-		if (background3 != NULL) {
-			
-		}
 
 		SDL_RenderPresent(renderer);
 
