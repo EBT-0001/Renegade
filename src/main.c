@@ -72,6 +72,7 @@ bool gameInit() {
 	}
 
 	SDL_SetDefaultTextureScaleMode(renderer, SDL_SCALEMODE_LINEAR);
+	SDL_SetWindowFullscreen(window, true);
 
 	camera.position = (Vec) {512.0f, 384.0f};
 	camera.scale = (Vec) {1024.0f, 768.0f};
