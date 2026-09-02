@@ -36,7 +36,7 @@ void processInput(void* arg) {
 			World.entities[0].transform->velocity.x *= 2.0f;
 		}
 		if (key_states[SDL_SCANCODE_SPACE] && *World.entities[0].grounded) {
-			World.entities[0].transform->velocity.y -= (500.0f - *World.entities[0].mass);
+			World.entities[0].transform->velocity.y -= (100000.0f - *World.entities[0].mass);
 			*World.entities[0].grounded = false;
 		}
 	}

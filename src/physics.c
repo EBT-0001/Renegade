@@ -8,13 +8,12 @@
 #include <math.h>
 #include <stdbool.h>
 #include <stdint.h>
-#include <stdio.h>
 #include <SDL3/SDL.h>
 
 #include "world.h"
 #include "animation.h"
 
-int now = SDL_GetPerformanceCounter();
+int now = 0;
 int last = 0;
 
 float dt = 0.0f;

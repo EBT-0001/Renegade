@@ -4,7 +4,7 @@
     This is free software, and you are welcome to redistribute it
     under certain conditions; type `show c' for details.
 */
-	
+
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -25,7 +25,6 @@ SDL_Texture* background2 = NULL;
 SDL_Texture* background3 = NULL;
 
 pthread_t input;
-pthread_t graphics;
 pthread_t physics;
 
 Box camera;
@@ -34,6 +33,7 @@ Box scrollStop;
 
 world World;
 uint8_t worldIndex = 1;
+int camW, camH;
 
 bool quit = false;
 
@@ -43,7 +43,7 @@ bool loadSpritesheets() {
 		printf("error loading background: %s\n", SDL_GetError());
 		return false;
 	}
-	background = SDL_CreateTextureFromSurface(renderer, temp);
+	background1 = SDL_CreateTextureFromSurface(renderer, temp);
 	SDL_DestroySurface(temp);
 
 	return true;
@@ -74,8 +74,9 @@ bool gameInit() {
 	SDL_SetDefaultTextureScaleMode(renderer, SDL_SCALEMODE_LINEAR);
 	SDL_SetWindowFullscreen(window, true);
 
-	SDL_GetWindowSize(window, &camera.position.x, &camera.position.y);
-	camera.position = (Vec) {camera.position.x/2.0f, camera.position.y/2.0f);
+	SDL_GetWindowSize(window, &camW, &camH);
+	camera.scale = (Vec) {camW, camH};
+	camera.position = (Vec) {camera.scale.x/2.0f, camera.scale.y/2.0f};
 
 	deadZone.scale = (Vec) {192.0f, 336.0f};
 	deadZone.position = (Vec) {camera.position.x - (deadZone.scale.x/2.0f), camera.position.y - (deadZone.scale.y/2.0f)};
@@ -113,20 +114,22 @@ int main() {
 
 	SDL_Event eventHandler;
 
-	initPlayer(Idle, "../assets/spritesheets/default_player.png", "../data/animations/player.json", camera.scale.x/2, camera.scale.y/2, 96.0f, 224.0f, 0, 0, 10, 85, 10);
+	initPlayer(Idle, "../assets/spritesheets/default_player.png", "../data/animations/player.json", camera.scale.x/2, camera.scale.y/2, 96.0f, 224.0f, 0, 0, 10, 100, 10);
 	newElement(Idle, "../assets/spritesheets/platform.png", "../data/animations/platform.json", 0.0f, 736.0f, 1024.0f, 64.0f, 0, true, true);
 	newElement(Idle, "../assets/spritesheets/platform.png", "../data/animations/platform.json", 1024.0f, 736.0f, 1024.0f, 64.0f, 0, true, true);
 	newElement(Idle, "../assets/spritesheets/platform.png", "../data/animations/platform.json", 2048.0f, 736.0f, 1024.0f, 64.0f, 0, true, true);
 
 	pthread_create(&input, NULL, processInput, &eventHandler);
-	pthread_create(&graphics, NULL, playAnimations, renderer);
 	pthread_create(&physics, NULL, physicsUpdate, NULL);
 
 	while (!quit) {
 		SDL_RenderClear(renderer);
-		SDL_GetWindowSize(window, &camera.scale.x, &camera.scale.y);
+
+		SDL_GetWindowSize(window, &camW, &camH);
+		camera.scale = (Vec) {camW, camH};
 
 		SDL_RenderTexture(renderer, background1, NULL, NULL);
+		playAnimations(renderer);
 
 		SDL_RenderPresent(renderer);
 
