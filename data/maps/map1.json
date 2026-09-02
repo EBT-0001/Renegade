@@ -8,4 +8,9 @@
 	"Elements" : [
 		0, 0, 0, 0
 	]
+	"Backgrounds" : [
+		"../assets/backgrounds/background.bmp",
+		"../assets/backgrounds/cloud1.png",
+		"../assets/backgrounds/cloud2.png"
+	]
 }
