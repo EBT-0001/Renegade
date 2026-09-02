@@ -7,6 +7,8 @@
 
 #include <stdio.h>
 #include <cjson/cJSON.h>
+#include <SDL3/SDL.h>
+#include <SDL3_image/SDL_image.h>
 #include "world.h"
 
 void loadMap(const char* dataPath) {
@@ -34,6 +36,7 @@ void loadMap(const char* dataPath) {
 	cJSON* playerData = cJSON_GetObjectItemCaseSensitive(json, "Player");
 	cJSON* enemyData = cJSON_GetObjectItemCaseSensitive(json, "Enemies");
 	cJSON* elementData = cJSON_GetObjectItemCaseSensitive(json, "Elements");
+	cJSON* backgroundData = cJSON_GetObjectItemCaseSensitive(json, "Backgrounds");
 
 	if (playerData == NULL) {
 		cJSON_Delete(json);
@@ -47,7 +50,10 @@ void loadMap(const char* dataPath) {
 		cJSON_Delete(json);
 		return;
 	}
-
+	if (backgroundData == NULL) {
+		cJSON_Delete(json);
+		return;
+	}
 
 	for (uint8_t i = 0; i < cJSON_GetArraySize(elementData); i += 10) {
 		newElement(
@@ -63,5 +69,25 @@ void loadMap(const char* dataPath) {
 			cJSON_GetArrayItem(elementData, i + 9)->valueint
 		);
 	}
+	SDL_Surface* temp = SDL_LoadBMP(cJSON_GetArrayItem(backgroundData, 0));
+	if (!temp) {
+		printf("error loading background: %s\n", SDL_GetError());
+		return false;
+	}
+	background1 = SDL_CreateTextureFromSurface(renderer, temp);
+	temp = IMG_Load(cJSON_GetArrayItem(backgroundData, 1)->valuestring);
+	if (!temp) {
+		printf("error loading background: %s\n", SDL_GetError());
+		return;
+	}
+	background2 = SDL_CreateTextureFromSurface(renderer, temp);
+	temp = IMG_Load(cJSON_GetArrayItem(backgroundData, 2)->valuestring);
+	if (!temp) {
+		printf("error loading background: %s\n", SDL_GetError());
+		return;
+	}
+	background3 = SDL_CreateTextureFromSurface(renderer, temp);
+
+	SDL_DestroySurface(temp);
 	cJSON_Delete(json);
 }
