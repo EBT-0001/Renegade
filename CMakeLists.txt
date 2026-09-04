@@ -4,6 +4,7 @@ project(Renegade)
 
 file(GLOB SOURCES
     "src/*.c"
+    "src/*.cpp"
 )
 
 add_executable(Renegade ${SOURCES})
