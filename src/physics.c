@@ -17,7 +17,7 @@ int now = 0;
 int last = 0;
 
 float dt = 0.0f;
-float gravity = 30.0f;
+float gravity = 20.0f;
 float friction = 0.95f;
 
 Vec adjustRate = (Vec) {0.0f, 0.0f};
@@ -31,6 +31,9 @@ void* physicsUpdate(void* arg) {
 
 		dt = (float)(now - last)/(float)SDL_GetPerformanceFrequency();
 		last = now;
+		if (1000.0f * dt < 1000.0f/60.0f) {
+			SDL_Delay((1000.0f/60.0f) - (1000.0f * dt));
+		}
 		for (uint8_t i = 0; i < worldIndex; i++) {
 			if (World.entities[i].active && !*World.entities[i].anchored) {
 				World.entities[i].transform->position.x += World.entities[i].transform->velocity.x * dt;

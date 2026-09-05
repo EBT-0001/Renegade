@@ -49,6 +49,7 @@ typedef struct {
 	entity entities[64];
 }world;
 
+extern SDL_Texture* background1;
 extern SDL_Texture* background2;
 extern SDL_Texture* background3;
 

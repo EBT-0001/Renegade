@@ -7,10 +7,12 @@
 
 #include <cstdint>
 
-#include "world.h"
+extern "C" {
+	#include "world.h"
+}
 
 typedef struct {
-	void (function*)() = nullptr;
+	void (*function)() = nullptr;
 	bool assigned;
 } enemyLogic;
 

@@ -67,6 +67,10 @@ bool gameInit() {
 		return false;
 	}
 
+	if (!SDL_SetRenderVSync(renderer, 1)) {
+		printf("error enabling VSync: %s\n", SDL_GetError());
+	}
+
 	for (uint8_t i = 0; i < 64; i++) {
 		World.entities[i] = (entity) {.transform = NULL, .animations = NULL, .hp = NULL, .power = NULL, .defense = NULL, .mass = NULL, .speed = NULL, .cooldown = NULL, .wallCling = NULL, .animationPlaying = NULL, .flags = NULL, .anchored = NULL, .grounded = NULL, .canCollide = NULL, .active = false};
 	}
@@ -122,7 +126,21 @@ int main() {
 	pthread_create(&input, NULL, processInput, &eventHandler);
 	pthread_create(&physics, NULL, physicsUpdate, NULL);
 
+	int now = 0;
+	int last = 0;
+
+	float dt = 0.0f;
+
 	while (!quit) {
+		now = SDL_GetPerformanceCounter();
+
+		dt = (float)(now - last)/(float)SDL_GetPerformanceFrequency();
+		last = now;
+
+		if (dt * 1000.0f < 1000.0f/60.0f) {
+			SDL_Delay((1000.0f/60.0f) - (1000.0f * dt));
+		}
+
 		SDL_RenderClear(renderer);
 
 		SDL_GetWindowSize(window, &camW, &camH);

@@ -69,10 +69,10 @@ void loadMap(const char* dataPath) {
 			cJSON_GetArrayItem(elementData, i + 9)->valueint
 		);
 	}
-	SDL_Surface* temp = SDL_LoadBMP(cJSON_GetArrayItem(backgroundData, 0));
+	SDL_Surface* temp = SDL_LoadBMP(cJSON_GetArrayItem(backgroundData, 0)->valuestring);
 	if (!temp) {
 		printf("error loading background: %s\n", SDL_GetError());
-		return false;
+		return;
 	}
 	background1 = SDL_CreateTextureFromSurface(renderer, temp);
 	temp = IMG_Load(cJSON_GetArrayItem(backgroundData, 1)->valuestring);

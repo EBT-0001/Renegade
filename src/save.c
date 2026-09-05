@@ -5,12 +5,14 @@
     under certain conditions; type `show c' for details.
 */
 
+#include <stdio.h>
 #include <cjson/cJSON.h>
 
 #include "world.h"
+#include "map.h"
 
 void loadSave(const char* save) {
-	FILE* data = fopen(dataPath, "rb");
+	FILE* data = fopen(save, "rb");
 	if (data == NULL) {
 		printf("Failed to load animation data");
 		return;
@@ -31,7 +33,7 @@ void loadSave(const char* save) {
 		return;
 	}
 //	cJSON* playerData;
-	cJSON* mapData = cJSON_GetObjectCaseSensitive(json, "Map");
+	cJSON* mapData = cJSON_GetObjectItemCaseSensitive(json, "Map");
 
 	loadMap(mapData->valuestring);
 }
