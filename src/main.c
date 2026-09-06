@@ -16,6 +16,7 @@
 #include "physics.h"
 #include "animation.h"
 #include "input.h"
+#include "map.h"
 
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
@@ -82,7 +83,7 @@ bool gameInit() {
 	camera.scale = (Vec) {camW, camH};
 	camera.position = (Vec) {camera.scale.x/2.0f, camera.scale.y/2.0f};
 
-	deadZone.scale = (Vec) {192.0f, 336.0f};
+	deadZone.scale = (Vec) {116.0f, 244.0f};
 	deadZone.position = (Vec) {camera.position.x - (deadZone.scale.x/2.0f), camera.position.y - (deadZone.scale.y/2.0f)};
 
 	scrollStop.position = (Vec) {0.0f, 0.0f};
@@ -118,10 +119,7 @@ int main() {
 
 	SDL_Event eventHandler;
 
-	initPlayer(Idle, "../assets/spritesheets/default_player.png", "../data/animations/player.json", camera.scale.x/2, camera.scale.y/2, 96.0f, 224.0f, 0, 0, 10, 100, 10);
-	newElement(Idle, "../assets/spritesheets/platform.png", "../data/animations/platform.json", 0.0f, 736.0f, 1024.0f, 64.0f, 0, true, true);
-	newElement(Idle, "../assets/spritesheets/platform.png", "../data/animations/platform.json", 1024.0f, 736.0f, 1024.0f, 64.0f, 0, true, true);
-	newElement(Idle, "../assets/spritesheets/platform.png", "../data/animations/platform.json", 2048.0f, 736.0f, 1024.0f, 64.0f, 0, true, true);
+	loadMap("../data/maps/map1.json");
 
 	pthread_create(&input, NULL, processInput, &eventHandler);
 	pthread_create(&physics, NULL, physicsUpdate, NULL);

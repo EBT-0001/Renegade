@@ -104,10 +104,10 @@ void* physicsUpdate(void* arg) {
 		) {
 			scrollCamera = false;
 		} else if (fabs(World.entities[0].transform->velocity.x) < *World.entities[0].speed && fabs(World.entities[0].transform->velocity.y) < gravity) {
+			deadZone.scale.x = 116.0f;
+			deadZone.scale.y = 244.0f;
 			deadZone.position.x = (World.entities[0].transform->position.x + World.entities[0].transform->scale.x/2.0f) - deadZone.scale.x/2.0f;
 			deadZone.position.y = (World.entities[0].transform->position.y + World.entities[0].transform->scale.y/2.0f) - deadZone.scale.y/2.0f;
-			deadZone.scale.x = 192.0f;
-			deadZone.scale.y = 336.0f;
 
 			scrollCamera = false;
 		}
@@ -124,11 +124,9 @@ void* physicsUpdate(void* arg) {
 				adjustRateCalculated = false;
 			} else {
 				if (adjustRateCalculated) {
-					camera.position.x += World.entities[0].transform->velocity.x * dt;
-					camera.position.y += World.entities[0].transform->velocity.y * dt;
+					camera.position.x += (World.entities[0].transform->velocity.x + adjustRate.x) * dt;
+					camera.position.y += (World.entities[0].transform->velocity.y + adjustRate.y) * dt;
 
-					camera.position.x += adjustRate.x;
-					camera.position.y += adjustRate.y;
 					if (
 						(adjustRate.x < 0 && camera.position.x + camera.scale.x/2.0f < World.entities[0].transform->position.x + World.entities[0].transform->scale.x/2.0f) ||
 						(adjustRate.x > 0 && camera.position.x + camera.scale.x/2.0f > World.entities[0].transform->position.x + World.entities[0].transform->scale.x/2.0f) ||
@@ -138,8 +136,8 @@ void* physicsUpdate(void* arg) {
 						adjustRateCalculated = false;
 					}
 				} else {
-					adjustRate.x = ((World.entities[0].transform->position.x + World.entities[0].transform->scale.x/2.0f) - (camera.position.x + camera.scale.x/2.0f)) * dt;
-					adjustRate.y = ((World.entities[0].transform->position.y + World.entities[0].transform->scale.y/2.0f) - (camera.position.y + camera.scale.y/2.0f)) * dt;
+					adjustRate.x = ((World.entities[0].transform->position.x + World.entities[0].transform->scale.x/2.0f) - (camera.position.x + camera.scale.x/2.0f))/0.75f;
+					adjustRate.y = ((World.entities[0].transform->position.y + World.entities[0].transform->scale.y/2.0f) - (camera.position.y + camera.scale.y/2.0f))/0.75f;
 
 					adjustRateCalculated = true;
 				}

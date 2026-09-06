@@ -1,16 +1,8 @@
 {
 	"Player" : [
-		0, 0, 0, 0
-	]
-	"Enemies" : [
-		0, 0, 0, 0
-	]
+		0, "../assets/spritesheets/default_player.png", "../data/animations/player.json", 512, 0, 96, 224, 0, 0, 10, 100, 10
+	],
 	"Elements" : [
-		0, 0, 0, 0
-	]
-	"Backgrounds" : [
-		"../assets/backgrounds/background.bmp",
-		"../assets/backgrounds/cloud1.png",
-		"../assets/backgrounds/cloud2.png"
+		0, "../assets/spritesheets/platform.png", "../data/animations/platform.json", 0, 736, 1024, 64, 0, 1, 1
 	]
 }

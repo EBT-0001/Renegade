@@ -32,29 +32,41 @@ void loadMap(const char* dataPath) {
 		cJSON_Delete(json);
 		return;
 	}
-
 	cJSON* playerData = cJSON_GetObjectItemCaseSensitive(json, "Player");
-	cJSON* enemyData = cJSON_GetObjectItemCaseSensitive(json, "Enemies");
+//	cJSON* enemyData = cJSON_GetObjectItemCaseSensitive(json, "Enemies");
 	cJSON* elementData = cJSON_GetObjectItemCaseSensitive(json, "Elements");
-	cJSON* backgroundData = cJSON_GetObjectItemCaseSensitive(json, "Backgrounds");
+//	cJSON* backgroundData = cJSON_GetObjectItemCaseSensitive(json, "Backgrounds");
 
 	if (playerData == NULL) {
 		cJSON_Delete(json);
 		return;
 	}
-	if (enemyData == NULL) {
-		cJSON_Delete(json);
-		return;
-	}
+//	if (enemyData == NULL) {
+//		cJSON_Delete(json);
+//		return;
+//	}
 	if (elementData == NULL) {
 		cJSON_Delete(json);
 		return;
 	}
-	if (backgroundData == NULL) {
-		cJSON_Delete(json);
-		return;
-	}
-
+//	if (backgroundData == NULL) {
+//		cJSON_Delete(json);
+//		return;
+//	}
+	initPlayer(
+		cJSON_GetArrayItem(playerData, 0)->valueint,
+		cJSON_GetArrayItem(playerData, 1)->valuestring,
+		cJSON_GetArrayItem(playerData, 2)->valuestring,
+		cJSON_GetArrayItem(playerData, 3)->valuedouble,
+		cJSON_GetArrayItem(playerData, 4)->valuedouble,
+		cJSON_GetArrayItem(playerData, 5)->valuedouble,
+		cJSON_GetArrayItem(playerData, 6)->valuedouble,
+		cJSON_GetArrayItem(playerData, 7)->valueint,
+		cJSON_GetArrayItem(playerData, 8)->valueint,
+		cJSON_GetArrayItem(playerData, 9)->valueint,
+		cJSON_GetArrayItem(playerData, 10)->valueint,
+		cJSON_GetArrayItem(playerData, 11)->valueint
+	);
 	for (uint8_t i = 0; i < cJSON_GetArraySize(elementData); i += 10) {
 		newElement(
 			cJSON_GetArrayItem(elementData, i)->valueint,
@@ -69,6 +81,7 @@ void loadMap(const char* dataPath) {
 			cJSON_GetArrayItem(elementData, i + 9)->valueint
 		);
 	}
+/*
 	SDL_Surface* temp = SDL_LoadBMP(cJSON_GetArrayItem(backgroundData, 0)->valuestring);
 	if (!temp) {
 		printf("error loading background: %s\n", SDL_GetError());
@@ -89,5 +102,6 @@ void loadMap(const char* dataPath) {
 	background3 = SDL_CreateTextureFromSurface(renderer, temp);
 
 	SDL_DestroySurface(temp);
+*/
 	cJSON_Delete(json);
 }
