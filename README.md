@@ -1,1 +1,15 @@
-Renegade is a sword based fighting game focused on combat and platforming, the game will be available on steam for $14.99 but it’s free if you compile it with cmake, using sdl3 and cJSON. All assets are free to use wherever you want, including the art and music. If you think you’ll like this game and want to support it, be sure to wishlist it when the steam page is ready.
+# Renegade
+
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)
+
+Renegade is a sword based fighting game focused on combat and platforming.
+
+### Prerequisites
+Requires CMake, Make, and g++ compiler installed
+
+### Dependancies
+sdl3, sdl3_image, sdl3_mixer, sdl3_ttf, and cJSON libraries.
+
+### Licensing
+The code is licensed under an GPL 3.0 license. All assets, including art annd music are free to use.
