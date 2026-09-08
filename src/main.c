@@ -1,8 +1,8 @@
 /*
 	Renegade  Copyright (C) 2026  Temperlius
-    This program comes with ABSOLUTELY NO WARRANTY; for details type `show w'.
-    This is free software, and you are welcome to redistribute it
-    under certain conditions; type `show c' for details.
+	This program comes with ABSOLUTELY NO WARRANTY; for details type `show w'.
+	This is free software, and you are welcome to redistribute it
+	under certain conditions; type `show c' for details.
 */
 
 #include <pthread.h>
@@ -17,10 +17,10 @@
 #include "animation.h"
 #include "input.h"
 #include "map.h"
+#include "save.h"
 
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
-SDL_Texture* spritesheet = NULL;
 SDL_Texture* background1 = NULL;
 SDL_Texture* background2 = NULL;
 SDL_Texture* background3 = NULL;
@@ -36,19 +36,8 @@ world World;
 uint8_t worldIndex = 1;
 int camW, camH;
 
+bool start = false;
 bool quit = false;
-
-bool loadSpritesheets() {
-	SDL_Surface* temp = SDL_LoadBMP("../assets/backgrounds/background.bmp");
-	if (!temp) {
-		printf("error loading background: %s\n", SDL_GetError());
-		return false;
-	}
-	background1 = SDL_CreateTextureFromSurface(renderer, temp);
-	SDL_DestroySurface(temp);
-
-	return true;
-}
 
 bool gameInit() {
 	if (!SDL_Init(SDL_INIT_VIDEO)) {
@@ -83,21 +72,24 @@ bool gameInit() {
 	camera.scale = (Vec) {camW, camH};
 	camera.position = (Vec) {camera.scale.x/2.0f, camera.scale.y/2.0f};
 
-	deadZone.scale = (Vec) {116.0f, 244.0f};
+	deadZone.scale = (Vec) {116.0f, 224.0f};
 	deadZone.position = (Vec) {camera.position.x - (deadZone.scale.x/2.0f), camera.position.y - (deadZone.scale.y/2.0f)};
 
 	scrollStop.position = (Vec) {0.0f, 0.0f};
 	scrollStop.scale = (Vec) {1024.0f, 768.0f};
-
-	loadSpritesheets();
 
 	return true;
 }
 
 void killWindow() {
 	cleanData();
-	SDL_DestroyTexture(spritesheet);
-	spritesheet = NULL;
+	SDL_DestroyTexture(background1);
+	SDL_DestroyTexture(background2);
+	SDL_DestroyTexture(background3)
+;
+	background1 = NULL;
+	background2 = NULL;
+	background3 = NULL;
 
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
@@ -119,7 +111,7 @@ int main() {
 
 	SDL_Event eventHandler;
 
-	loadMap("../data/maps/map1.json");
+	loadMap("../data/maps/titlescreen.json");
 
 	pthread_create(&input, NULL, processInput, &eventHandler);
 	pthread_create(&physics, NULL, physicsUpdate, NULL);
@@ -129,6 +121,7 @@ int main() {
 
 	float dt = 0.0f;
 
+	loadSave("../data/saves/save1.json");
 	while (!quit) {
 		now = SDL_GetPerformanceCounter();
 
@@ -145,6 +138,9 @@ int main() {
 		camera.scale = (Vec) {camW, camH};
 
 		SDL_RenderTexture(renderer, background1, NULL, NULL);
+		SDL_RenderTexture(renderer, background2, NULL, NULL);
+		SDL_RenderTexture(renderer, background3, NULL, NULL);
+
 		playAnimations(renderer);
 
 		SDL_RenderPresent(renderer);

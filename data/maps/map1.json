@@ -4,5 +4,8 @@
 	],
 	"Elements" : [
 		0, "../assets/spritesheets/platform.png", "../data/animations/platform.json", 0, 736, 1024, 64, 0, 1, 1
+	],
+	"Backgrounds" : [
+		"../assets/backgrounds/background.bmp", "../assets/backgrounds/background.png", "../assets/backgrounds/background.png"
 	]
 }

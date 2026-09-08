@@ -105,7 +105,7 @@ void* physicsUpdate(void* arg) {
 			scrollCamera = false;
 		} else if (fabs(World.entities[0].transform->velocity.x) < *World.entities[0].speed && fabs(World.entities[0].transform->velocity.y) < gravity) {
 			deadZone.scale.x = 116.0f;
-			deadZone.scale.y = 244.0f;
+			deadZone.scale.y = 224.0f;
 			deadZone.position.x = (World.entities[0].transform->position.x + World.entities[0].transform->scale.x/2.0f) - deadZone.scale.x/2.0f;
 			deadZone.position.y = (World.entities[0].transform->position.y + World.entities[0].transform->scale.y/2.0f) - deadZone.scale.y/2.0f;
 

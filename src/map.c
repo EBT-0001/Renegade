@@ -35,7 +35,7 @@ void loadMap(const char* dataPath) {
 	cJSON* playerData = cJSON_GetObjectItemCaseSensitive(json, "Player");
 //	cJSON* enemyData = cJSON_GetObjectItemCaseSensitive(json, "Enemies");
 	cJSON* elementData = cJSON_GetObjectItemCaseSensitive(json, "Elements");
-//	cJSON* backgroundData = cJSON_GetObjectItemCaseSensitive(json, "Backgrounds");
+	cJSON* backgroundData = cJSON_GetObjectItemCaseSensitive(json, "Backgrounds");
 
 	if (playerData == NULL) {
 		cJSON_Delete(json);
@@ -49,10 +49,10 @@ void loadMap(const char* dataPath) {
 		cJSON_Delete(json);
 		return;
 	}
-//	if (backgroundData == NULL) {
-//		cJSON_Delete(json);
-//		return;
-//	}
+	if (backgroundData == NULL) {
+		cJSON_Delete(json);
+		return;
+	}
 	initPlayer(
 		cJSON_GetArrayItem(playerData, 0)->valueint,
 		cJSON_GetArrayItem(playerData, 1)->valuestring,
@@ -81,7 +81,7 @@ void loadMap(const char* dataPath) {
 			cJSON_GetArrayItem(elementData, i + 9)->valueint
 		);
 	}
-/*
+
 	SDL_Surface* temp = SDL_LoadBMP(cJSON_GetArrayItem(backgroundData, 0)->valuestring);
 	if (!temp) {
 		printf("error loading background: %s\n", SDL_GetError());
@@ -102,6 +102,6 @@ void loadMap(const char* dataPath) {
 	background3 = SDL_CreateTextureFromSurface(renderer, temp);
 
 	SDL_DestroySurface(temp);
-*/
+
 	cJSON_Delete(json);
 }

@@ -5,22 +5,9 @@
 	under certain conditions; type `show c' for details.
 */
 
-#include <cstdint>
-
-extern "C" {
-	#include "world.h"
-}
-
 typedef struct {
 	void (*function)() = nullptr;
 	bool assigned;
-} enemyLogic;
+} function;
 
-auto newEnemyLogic(bool chasePlayer, uint8_t detectDistance) {
-	if (chasePlayer) {
-		
-	}
-	return []() {
-		
-	};
-}
+function functions[64];

@@ -36,4 +36,5 @@ void loadSave(const char* save) {
 	cJSON* mapData = cJSON_GetObjectItemCaseSensitive(json, "Map");
 
 	loadMap(mapData->valuestring);
+	start = true;
 }

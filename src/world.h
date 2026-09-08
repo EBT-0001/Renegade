@@ -60,8 +60,10 @@ extern Box scrollStop;
 extern uint8_t worldIndex;
 extern world World;
 
-extern bool quit;
+extern bool start, quit;
 
+void newFunction();
+void runFunctions();
 void initPlayer(sprite sprite, const char* spritePath, const char* animationPath, float x, float y, float width, float height, uint8_t power, uint8_t defense, uint8_t mass, uint8_t speed, uint8_t wallCling);
 void newEnemy(sprite sprite, const char* spritePath, const char* animationPath, float x, float y, float width, float height, uint8_t power, uint8_t defense, uint8_t mass, uint8_t speed);
 void newElement(sprite sprite, const char* spritePath, const char* animationPath, float x, float y, float width, float height, uint8_t mass, bool canCollide, bool anchored);
