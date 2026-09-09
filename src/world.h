@@ -41,6 +41,8 @@ typedef struct {
 	bool* anchored;
 	bool* grounded;
 	bool* canCollide;
+	bool* runFunction;
+	bool* triggered;
 	bool active;
 	type type;
 }entity;
