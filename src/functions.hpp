@@ -10,4 +10,4 @@ typedef struct {
 	bool assigned;
 } function;
 
-function functions[64];
+extern function functions[64];
