@@ -42,6 +42,8 @@ int camW, camH;
 bool start = false;
 bool quit = false;
 
+lua_State* L;
+
 bool gameInit() {
 	if (!SDL_Init(SDL_INIT_VIDEO)) {
 		printf("error initializing sdl: %s\n", SDL_GetError());
@@ -81,10 +83,14 @@ bool gameInit() {
 	scrollStop.position = (Vec) {0.0f, 0.0f};
 	scrollStop.scale = (Vec) {1024.0f, 768.0f};
 
+	L = luaL_newstate();
+	luaL_openlibs(L);
+
 	return true;
 }
 
 void killWindow() {
+	lua_close(L);
 	cleanData();
 	SDL_DestroyTexture(background1);
 	SDL_DestroyTexture(background2);
