@@ -5,23 +5,15 @@
 	under certain conditions; type `show c' for details.
 */
 
-#include <cstdint>
+#include <stdint.h>
 
-#include "functions.hpp"
-
-extern "C" {
-	#include "world.h"
-}
-
-function functions[64];
+#include "functions.h"
+#include "world.h"
 
 void runFunctions() {
 	for (uint8_t i = 0; i < 64; i++) {
-		if (*World.entities[i].runFunction && *World.entities[i].triggered) {
-			functions[i]->function();
+		if (*World.entities.script != NULL) {
+
 		}
 	}
-}
-void newFunction() {
-	//functions[worldIndex].function =
 }
