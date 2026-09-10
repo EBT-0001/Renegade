@@ -29,6 +29,7 @@ typedef struct {
 	SDL_Texture* spritesheet;
 	Transform* transform;
 	animation* animations;
+	char* script;
 	uint8_t* hp;
 	uint8_t* power;
 	uint8_t* defense;
@@ -41,8 +42,6 @@ typedef struct {
 	bool* anchored;
 	bool* grounded;
 	bool* canCollide;
-	bool* runFunction;
-	bool* triggered;
 	bool active;
 	type type;
 }entity;
@@ -64,7 +63,6 @@ extern world World;
 
 extern bool start, quit;
 
-void newFunction();
 void runFunctions();
 void initPlayer(sprite sprite, const char* spritePath, const char* animationPath, float x, float y, float width, float height, uint8_t power, uint8_t defense, uint8_t mass, uint8_t speed, uint8_t wallCling);
 void newEnemy(sprite sprite, const char* spritePath, const char* animationPath, float x, float y, float width, float height, uint8_t power, uint8_t defense, uint8_t mass, uint8_t speed);
