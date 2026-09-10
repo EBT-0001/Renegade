@@ -5,9 +5,4 @@
 	under certain conditions; type `show c' for details.
 */
 
-typedef struct {
-	void (*function)() = nullptr;
-	bool assigned;
-} function;
-
-extern function functions[64];
+void runFunctions();
