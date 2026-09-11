@@ -23,4 +23,5 @@ target_link_libraries(Renegade
         SDL3_ttf
         SDL3_mixer
         cjson
+        lua
 )

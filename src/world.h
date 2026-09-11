@@ -12,7 +12,6 @@
 #include <stdint.h>
 #include <SDL3/SDL.h>
 #include <lua.h>
-#include <luaxlib.h>
 #include <lualib.h>
 
 #include "vectors.h"
@@ -66,7 +65,7 @@ extern world World;
 
 extern bool start, quit;
 
-extern lua_state* L;
+extern lua_State* L;
 
 void runFunctions();
 void initPlayer(sprite sprite, const char* spritePath, const char* animationPath, float x, float y, float width, float height, uint8_t power, uint8_t defense, uint8_t mass, uint8_t speed, uint8_t wallCling);

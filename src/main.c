@@ -12,7 +12,7 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 #include <lua.h>
-#include <luaxlib.h>
+#include <lauxlib.h>
 #include <lualib.h>
 
 #include "world.h"

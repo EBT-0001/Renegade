@@ -12,7 +12,7 @@
 
 void runFunctions() {
 	for (uint8_t i = 0; i < 64; i++) {
-		if (*World.entities.script != NULL) {
+		if (World.entities[i].script != NULL) {
 
 		}
 	}
