@@ -6,7 +6,7 @@
 Renegade is a sword based fighting game focused on combat and platforming.
 
 ### Prerequisites
-Requires CMake, Make, and g++ compiler installed
+Requires CMake, Make, lua, and g++ compiler installed
 
 ### Dependancies
 sdl3, sdl3_image, sdl3_mixer, sdl3_ttf, and cJSON libraries.
