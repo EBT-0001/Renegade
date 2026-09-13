@@ -6,3 +6,4 @@
 */
 
 void runFunctions();
+void registerFunctions();

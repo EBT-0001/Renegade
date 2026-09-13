@@ -6,6 +6,7 @@
 */
 
 #include <pthread.h>
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -21,6 +22,7 @@
 #include "input.h"
 #include "map.h"
 #include "save.h"
+#include "functions.h"
 
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
@@ -86,6 +88,8 @@ bool gameInit() {
 	L = luaL_newstate();
 	luaL_openlibs(L);
 
+	registerFunctions();
+
 	return true;
 }
 
@@ -94,8 +98,8 @@ void killWindow() {
 	cleanData();
 	SDL_DestroyTexture(background1);
 	SDL_DestroyTexture(background2);
-	SDL_DestroyTexture(background3)
-;
+	SDL_DestroyTexture(background3);
+
 	background1 = NULL;
 	background2 = NULL;
 	background3 = NULL;
@@ -131,7 +135,10 @@ int main() {
 	float dt = 0.0f;
 
 	loadSave("../data/saves/save1.json");
+	World.entities[0].script = "../scripts/test.lua";
 	while (!quit) {
+		runFunctions();
+
 		now = SDL_GetPerformanceCounter();
 
 		dt = (float)(now - last)/(float)SDL_GetPerformanceFrequency();
