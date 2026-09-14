@@ -79,6 +79,23 @@ static int setValue(lua_State* L) {
 	return 0;
 }
 
+static int newElementLua(lua_State* L) {
+	char* spritePath, animationPath;
+	spritePath = luaL_checkstring(L, 1);
+	animationPath = luaL_checkstring(L, 2);
+
+	float x = luaL_checknumber(L, 3);
+	float y = luaL_checknumber(L, 4);
+	float width = luaL_checknumber(L, 5);
+	float height = luaL_checknumber(L, 6);
+	uint8_t power = luaL_checknumber(L, 7);
+	uint8_t defense = luaL_checknumber(L, 8);
+	uint8_t mass = luaL_checknumber(L, 9);
+	uint8_t speed = luaL_checknumber(L, 10);
+
+	newElement(spritePath, animationPath, x, y, width, height, power, defense, mass, speed);
+}
+
 void registerFunctions() {
 	lua_pushcfunction(L, getValue);
 	lua_setglobal(L, "getValue");
