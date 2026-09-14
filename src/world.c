@@ -11,7 +11,7 @@
 #include "world.h"
 #include "vectors.h"
 
-void initPlayer(sprite sprite, const char* spritePath, const char* animationPath, float x, float y, float width, float height, uint8_t power, uint8_t defense, uint8_t mass, uint8_t speed, uint8_t wallCling) {
+void initPlayer(const char* spritePath, const char* animationPath, float x, float y, float width, float height, uint8_t power, uint8_t defense, uint8_t mass, uint8_t speed, uint8_t wallCling) {
 	World.entities[0].transform = (Transform*) malloc(sizeof(Transform));
 
 	World.entities[0].transform->position = (Vec) {x, y};
@@ -46,12 +46,12 @@ void initPlayer(sprite sprite, const char* spritePath, const char* animationPath
 	World.entities[0].animations[0].frameCount = 1;
 	World.entities[0].animations[0].frameClock = 0;
 
-	World.entities[0].spritesheet = loadAnimation(renderer, sprite, &World.entities[0].animations[0], spritePath, animationPath);
+	World.entities[0].spritesheet = loadAnimation(renderer, Idle, &World.entities[0].animations[0], spritePath, animationPath);
 
 	World.entities[0].active = true;
 }
 
-void newEnemy(sprite sprite, const char* spritePath, const char* animationPath, float x, float y, float width, float height, uint8_t power, uint8_t defense, uint8_t mass, uint8_t speed) {
+void newEnemy(const char* spritePath, const char* animationPath, float x, float y, float width, float height, uint8_t power, uint8_t defense, uint8_t mass, uint8_t speed) {
 	World.entities[worldIndex].transform = (Transform*) malloc(sizeof(Transform));
 
 	World.entities[worldIndex].transform->position = (Vec) {x, y};
@@ -76,12 +76,12 @@ void newEnemy(sprite sprite, const char* spritePath, const char* animationPath, 
 
 	World.entities[worldIndex].animations = (animation*) malloc(8 * (sizeof(animation)));
 
-	World.entities[worldIndex].spritesheet = loadAnimation(renderer, sprite, &World.entities[worldIndex].animations[0], spritePath, animationPath);
+	World.entities[worldIndex].spritesheet = loadAnimation(renderer, Idle, &World.entities[worldIndex].animations[0], spritePath, animationPath);
 
 	World.entities[worldIndex].active = true;
 }
 
-void newElement(sprite sprite, const char* spritePath, const char* animationPath, float x, float y, float width, float height, uint8_t mass, bool canCollide, bool anchored) {
+void newElement(const char* spritePath, const char* animationPath, float x, float y, float width, float height, uint8_t mass, bool canCollide, bool anchored) {
 	World.entities[worldIndex].transform = (Transform*) malloc(sizeof(Transform));
 
 	World.entities[worldIndex].transform->position = (Vec) {x, y};
@@ -104,7 +104,7 @@ void newElement(sprite sprite, const char* spritePath, const char* animationPath
 	World.entities[worldIndex].animations[0].frameCount = 1;
 	World.entities[worldIndex].animations[0].frameClock = 0;
 
-	World.entities[worldIndex].spritesheet = loadAnimation(renderer, sprite, &World.entities[worldIndex].animations[0], spritePath, animationPath);
+	World.entities[worldIndex].spritesheet = loadAnimation(renderer, Idle, &World.entities[worldIndex].animations[0], spritePath, animationPath);
 
 	World.entities[worldIndex].active = true;
 	worldIndex++;
