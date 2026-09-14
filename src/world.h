@@ -19,14 +19,6 @@
 
 extern SDL_Renderer* renderer;
 
-typedef enum {
-	player,
-	enemy,
-	element,
-	interactable,
-	weapon
-}type;
-
 typedef struct {
 	SDL_Texture* spritesheet;
 	Transform* transform;
@@ -45,7 +37,6 @@ typedef struct {
 	bool* grounded;
 	bool* canCollide;
 	bool active;
-	type type;
 }entity;
 
 typedef struct {
