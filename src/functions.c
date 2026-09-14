@@ -7,11 +7,15 @@
 
 #include <string.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include <lua.h>
 #include <lauxlib.h>
 #include <lualib.h>
 
 #include "world.h"
+#include "map.h"
+#include "save.h"
+#include "animation.h"
 
 static int getValue(lua_State* L) {
 	uint8_t entity = luaL_checknumber(L, 1);
@@ -88,12 +92,50 @@ static int newElementLua(lua_State* L) {
 	float y = luaL_checknumber(L, 4);
 	float width = luaL_checknumber(L, 5);
 	float height = luaL_checknumber(L, 6);
+	uint8_t mass = luaL_checknumber(L, 7);
+	bool canCollide = lua_toboolean(L, 8);
+	bool anchored = lua_toboolean(L, 9);
+
+	newElement(spritePath, animationPath, x, y, width, height, mass, canCollide, anchored);
+
+	return 0;
+}
+
+static int newEnemyLua(lua_State* L) {
+	char* spritePath, animationPath;
+	spritePath = luaL_checkstring(L, 1);
+	animationPath = luaL_checkstring(L, 2);
+
+	float x = luaL_checknumber(L, 3);
+	float y = luaL_checknumber(L, 4);
+	float width = luaL_checknumber(L, 5);
+	float height = luaL_checknumber(L, 6);
 	uint8_t power = luaL_checknumber(L, 7);
 	uint8_t defense = luaL_checknumber(L, 8);
 	uint8_t mass = luaL_checknumber(L, 9);
 	uint8_t speed = luaL_checknumber(L, 10);
 
 	newElement(spritePath, animationPath, x, y, width, height, power, defense, mass, speed);
+
+	return 0;
+}
+
+static int loadMapLua(lua_State* L) {
+	char* map;
+	map = luaL_checkstring(L, 1);
+
+	loadMap(map);
+
+	return 0;
+}
+
+static int loadSaveLua(lua_State* L) {
+	char* save;
+	save = luaL_checkstring(L, 1);
+
+	loadSave(save);
+
+	return 0;
 }
 
 void registerFunctions() {
@@ -102,6 +144,18 @@ void registerFunctions() {
 
 	lua_pushcfunction(L, setValue);
 	lua_setglobal(L, "setValue");
+
+	lua_pushcfunction(L, newElementLua);
+	lua_setglobal(L, "newElement");
+
+	lua_pushcfunction(L, newEnemyLua);
+	lua_setglobal(L, "newEnemy");
+
+	lua_pushcfunction(L, loadMapLua);
+	lua_setglobal(L, "loadMap");
+
+	lua_pushcfunction(L, loadSaveLua);
+	lua_setglobal(L, "loadSave");
 }
 
 void runFunctions() {
