@@ -84,7 +84,9 @@ static int setValue(lua_State* L) {
 }
 
 static int newElementLua(lua_State* L) {
-	char* spritePath, animationPath;
+	char* spritePath;
+	char* animationPath;
+
 	spritePath = luaL_checkstring(L, 1);
 	animationPath = luaL_checkstring(L, 2);
 
@@ -102,7 +104,9 @@ static int newElementLua(lua_State* L) {
 }
 
 static int newEnemyLua(lua_State* L) {
-	char* spritePath, animationPath;
+	char* spritePath;
+	char* animationPath;
+
 	spritePath = luaL_checkstring(L, 1);
 	animationPath = luaL_checkstring(L, 2);
 
@@ -115,7 +119,7 @@ static int newEnemyLua(lua_State* L) {
 	uint8_t mass = luaL_checknumber(L, 9);
 	uint8_t speed = luaL_checknumber(L, 10);
 
-	newElement(spritePath, animationPath, x, y, width, height, power, defense, mass, speed);
+	newEnemy(spritePath, animationPath, x, y, width, height, power, defense, mass, speed);
 
 	return 0;
 }

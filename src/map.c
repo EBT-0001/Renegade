@@ -54,31 +54,29 @@ void loadMap(const char* dataPath) {
 		return;
 	}
 	initPlayer(
-		cJSON_GetArrayItem(playerData, 0)->valueint,
+		cJSON_GetArrayItem(playerData, 0)->valuestring,
 		cJSON_GetArrayItem(playerData, 1)->valuestring,
-		cJSON_GetArrayItem(playerData, 2)->valuestring,
+		cJSON_GetArrayItem(playerData, 2)->valuedouble,
 		cJSON_GetArrayItem(playerData, 3)->valuedouble,
 		cJSON_GetArrayItem(playerData, 4)->valuedouble,
 		cJSON_GetArrayItem(playerData, 5)->valuedouble,
-		cJSON_GetArrayItem(playerData, 6)->valuedouble,
+		cJSON_GetArrayItem(playerData, 6)->valueint,
 		cJSON_GetArrayItem(playerData, 7)->valueint,
 		cJSON_GetArrayItem(playerData, 8)->valueint,
 		cJSON_GetArrayItem(playerData, 9)->valueint,
-		cJSON_GetArrayItem(playerData, 10)->valueint,
-		cJSON_GetArrayItem(playerData, 11)->valueint
+		cJSON_GetArrayItem(playerData, 10)->valueint
 	);
 	for (uint8_t i = 0; i < cJSON_GetArraySize(elementData); i += 10) {
 		newElement(
-			cJSON_GetArrayItem(elementData, i)->valueint,
+			cJSON_GetArrayItem(elementData, i)->valuestring,
 			cJSON_GetArrayItem(elementData, i + 1)->valuestring,
-			cJSON_GetArrayItem(elementData, i + 2)->valuestring,
+			cJSON_GetArrayItem(elementData, i + 2)->valuedouble,
 			cJSON_GetArrayItem(elementData, i + 3)->valuedouble,
 			cJSON_GetArrayItem(elementData, i + 4)->valuedouble,
 			cJSON_GetArrayItem(elementData, i + 5)->valuedouble,
-			cJSON_GetArrayItem(elementData, i + 6)->valuedouble,
+			cJSON_GetArrayItem(elementData, i + 6)->valueint,
 			cJSON_GetArrayItem(elementData, i + 7)->valueint,
-			cJSON_GetArrayItem(elementData, i + 8)->valueint,
-			cJSON_GetArrayItem(elementData, i + 9)->valueint
+			cJSON_GetArrayItem(elementData, i + 8)->valueint
 		);
 	}
 
