@@ -11,13 +11,16 @@
 #include "world.h"
 #include "physics.h"
 
+float mouseX, mouseY;
+bool leftClick, rightClick;
+
 void processInput(void* arg) {
 	SDL_Event* eventHandler = (SDL_Event*) arg;
 	while (!quit) {
 		while (SDL_PollEvent(eventHandler)) {
 			if (eventHandler->type == SDL_EVENT_QUIT) {
 				quit = true;
-			}
+			} else if (eventHandler->type == SDL_)
 		}
 
 		const bool* key_states = SDL_GetKeyboardState(NULL);
@@ -40,4 +43,5 @@ void processInput(void* arg) {
 			*World.entities[0].grounded = false;
 		}
 	}
+	SDL_GetMouseState(&mouseX,&mouseY);
 }
