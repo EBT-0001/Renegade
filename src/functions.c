@@ -162,7 +162,7 @@ void registerFunctions() {
 	lua_setglobal(L, "loadSave");
 }
 
-void runFunctions() {
+void runFunctions(void* arg) {
 	for (uint8_t i = 0; i < 64; i++) {
 		if (World.entities[i].script != NULL) {
 			int result = luaL_dofile(L, World.entities[i].script);
