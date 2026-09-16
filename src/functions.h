@@ -5,5 +5,5 @@
 	under certain conditions; type `show c' for details.
 */
 
-void runFunctions();
+void runFunctions(void* arg);
 void registerFunctions();
