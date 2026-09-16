@@ -38,8 +38,12 @@ Box deadZone;
 Box scrollStop;
 
 world World;
+float mouseX, mouseY;
 uint8_t worldIndex = 1;
 int camW, camH;
+
+bool leftClick;
+bool rightClick;
 
 bool start = false;
 bool quit = false;
@@ -162,6 +166,20 @@ int main() {
 		SDL_RenderPresent(renderer);
 
 		cleanData();
+		while (SDL_PollEvent(&eventHandler)) {
+			if (eventHandler->type == SDL_EVENT_QUIT) {
+				quit = true;
+				break;
+			}
+			if (eventHandler->type == SDL_MOUSE_BUTTON_DOWN) {
+				if (eventHandler->button.button == SDL_BUTTON_LEFT) {
+					leftClick = true;
+				} else if (eventHandler->button.button == SDL_BUTTON_RIGHT) {
+					rightClick = true;
+				}
+			}
+		}
+		SDL_GetMouseState(&mouseX, &mouseY);
 	}
 	killWindow();
 
