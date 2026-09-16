@@ -51,9 +51,11 @@ extern Box camera;
 extern Box deadZone;
 extern Box scrollStop;
 
+extern float mouseX, mouseY;
 extern uint8_t worldIndex;
 extern world World;
 
+extern bool leftClick, rightClick;
 extern bool start, quit;
 
 extern lua_State* L;
