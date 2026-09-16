@@ -32,6 +32,7 @@ SDL_Texture* background3 = NULL;
 
 pthread_t input;
 pthread_t physics;
+pthread_t scripts;
 
 Box camera;
 Box deadZone;
@@ -132,6 +133,7 @@ int main() {
 
 	pthread_create(&input, NULL, processInput, &eventHandler);
 	pthread_create(&physics, NULL, physicsUpdate, NULL);
+	pthread_create(&scripts, NULL, runFunctions, NULL);
 
 	int now = 0;
 	int last = 0;
@@ -141,8 +143,6 @@ int main() {
 	loadSave("../data/saves/save1.json");
 	World.entities[0].script = "../scripts/test.lua";
 	while (!quit) {
-		runFunctions();
-
 		now = SDL_GetPerformanceCounter();
 
 		dt = (float)(now - last)/(float)SDL_GetPerformanceFrequency();
@@ -174,9 +174,17 @@ int main() {
 			if (eventHandler->type == SDL_MOUSE_BUTTON_DOWN) {
 				if (eventHandler->button.button == SDL_BUTTON_LEFT) {
 					leftClick = true;
-				} else if (eventHandler->button.button == SDL_BUTTON_RIGHT) {
-					rightClick = true;
+				} else {
+					leftClick = false;
 				}
+				if (eventHandler->button.button == SDL_BUTTON_RIGHT) {
+					rightClick = true;
+				} else {
+					rightClick = false;
+				}
+			} else {
+				leftClick = false;
+				rightClick = false;
 			}
 		}
 		SDL_GetMouseState(&mouseX, &mouseY);
