@@ -43,8 +43,16 @@ static int getValue(lua_State* L) {
 		lua_pushnumber(L, *World.entities[entity].speed);
 	} else if (!strcmp(value, "animationPlaying")) {
 		lua_pushnumber(L, *World.entities[entity].animationPlaying);
-	} else if(!strcmp(value, "active")) {
+	} else if (!strcmp(value, "active")) {
 		lua_pushboolean(L, World.entities[entity].active);
+	} else if (!strcmp(value, "mouseX")) {
+		lua_pushnumber(L, mouseX);
+	} else if (!strcmp(value, "mouseY")) {
+		lua_pushnumber(L, mouseY);
+	} else if (!strcmp(value, "rightClick")) {
+		lua_pushboolean(L, rightClick);
+	} else if (!strcmp(value, "leftClick")) {
+		lua_pushboolean(L, leftClick);
 	}
 
 	return 1;
