@@ -58,7 +58,25 @@ void loadMap(const char* dataPath) {
 			cJSON_GetArrayItem(elementData, i + 5)->valuedouble,
 			cJSON_GetArrayItem(elementData, i + 6)->valueint,
 			cJSON_GetArrayItem(elementData, i + 7)->valueint,
-			cJSON_GetArrayItem(elementData, i + 8)->valueint
+			cJSON_GetArrayItem(elementData, i + 8)->valueint,
+			cJSON_GetArrayItem(elementData, i + 9)->valuestring
+		);
+	}
+	for (uint8_t i = 0; i < cJSON_GetArraySize(enemyData); i += 13) {
+		newElement(
+			cJSON_GetArrayItem(enemyData, i)->valuestring,
+			cJSON_GetArrayItem(enemyData, i + 1)->valuestring,
+			cJSON_GetArrayItem(enemyData, i + 2)->valuedouble,
+			cJSON_GetArrayItem(enemyData, i + 3)->valuedouble,
+			cJSON_GetArrayItem(enemyData, i + 4)->valuedouble,
+			cJSON_GetArrayItem(enemyData, i + 5)->valuedouble,
+			cJSON_GetArrayItem(enemyData, i + 6)->valuedouble,
+			cJSON_GetArrayItem(enemyData, i + 7)->valuedouble,
+			cJSON_GetArrayItem(enemyData, i + 8)->valueint,
+			cJSON_GetArrayItem(enemyData, i + 9)->valuedouble,
+			cJSON_GetArrayItem(enemyData, i + 10)->valueint,
+			cJSON_GetArrayItem(enemyData, i + 11)->valueint,
+			cJSON_GetArrayItem(enemyData, i + 12)->valuestring
 		);
 	}
 
