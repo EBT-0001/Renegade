@@ -140,8 +140,6 @@ int main() {
 
 	float dt = 0.0f;
 
-	loadSave("../data/saves/save1.json");
-	World.entities[0].script = "../scripts/test.lua";
 	while (!quit) {
 		now = SDL_GetPerformanceCounter();
 
