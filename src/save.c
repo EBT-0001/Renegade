@@ -32,9 +32,28 @@ void loadSave(const char* save) {
 		cJSON_Delete(json);
 		return;
 	}
-//	cJSON* playerData;
+	cJSON* playerData = cJSON_GetObjectItemCaseSensitive(json, "Player");
 	cJSON* mapData = cJSON_GetObjectItemCaseSensitive(json, "Map");
 
 	loadMap(mapData->valuestring);
+
+	if (playerData == NULL) {
+		cJSON_Delete(json);
+		return;
+	}
+
+	initPlayer(
+		cJSON_GetArrayItem(playerData, 0)->valuestring,
+		cJSON_GetArrayItem(playerData, 1)->valuestring,
+		cJSON_GetArrayItem(playerData, 2)->valuedouble,
+		cJSON_GetArrayItem(playerData, 3)->valuedouble,
+		cJSON_GetArrayItem(playerData, 4)->valuedouble,
+		cJSON_GetArrayItem(playerData, 5)->valuedouble,
+		cJSON_GetArrayItem(playerData, 6)->valueint,
+		cJSON_GetArrayItem(playerData, 7)->valueint,
+		cJSON_GetArrayItem(playerData, 8)->valueint,
+		cJSON_GetArrayItem(playerData, 9)->valueint,
+		cJSON_GetArrayItem(playerData, 10)->valueint
+	);
 	start = true;
 }
