@@ -1,6 +1,6 @@
 {
 	"Map" : "../data/maps/map1.json",
 	"Player" : [
-		"../assets/spritesheets/default_player.png", "../data/animations/player.json", 512, 0, 96, 224, 0, 0, 10, 100, 10
+		"../assets/spritesheets/default_player.png", "../data/animations/player.json", 512, 0, 96, 224, 0, 0, 10, 100, 10, null
 	]
 }
