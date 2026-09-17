@@ -76,6 +76,10 @@ void freeAnimation(animation* animation) {
 }
 void playAnimations(SDL_Renderer* renderer) {
 	for (uint8_t i = 0; i < worldIndex; i++) {
+		if (i == 0 && !start) {
+			i++;
+			continue;
+		}
 		if (World.entities[i].active) {
 			SDL_FRect renderQuad = {
 				World.entities[i].transform->position.x - camera.position.x,

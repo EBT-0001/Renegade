@@ -129,7 +129,8 @@ int main() {
 
 	SDL_Event eventHandler;
 
-	loadMap("../data/maps/titlescreen.json");
+//	loadMap("../data/maps/titlescreen.json");
+	loadMap("../data/maps/map1.json");
 
 	pthread_create(&input, NULL, processInput, &eventHandler);
 	pthread_create(&physics, NULL, physicsUpdate, NULL);
@@ -165,17 +166,17 @@ int main() {
 
 		cleanData();
 		while (SDL_PollEvent(&eventHandler)) {
-			if (eventHandler->type == SDL_EVENT_QUIT) {
+			if (eventHandler.type == SDL_EVENT_QUIT) {
 				quit = true;
 				break;
 			}
-			if (eventHandler->type == SDL_MOUSE_BUTTON_DOWN) {
-				if (eventHandler->button.button == SDL_BUTTON_LEFT) {
+			if (eventHandler.type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
+				if (eventHandler.button.button == SDL_BUTTON_LEFT) {
 					leftClick = true;
 				} else {
 					leftClick = false;
 				}
-				if (eventHandler->button.button == SDL_BUTTON_RIGHT) {
+				if (eventHandler.button.button == SDL_BUTTON_RIGHT) {
 					rightClick = true;
 				} else {
 					rightClick = false;

@@ -53,7 +53,8 @@ void loadSave(const char* save) {
 		cJSON_GetArrayItem(playerData, 7)->valueint,
 		cJSON_GetArrayItem(playerData, 8)->valueint,
 		cJSON_GetArrayItem(playerData, 9)->valueint,
-		cJSON_GetArrayItem(playerData, 10)->valueint
+		cJSON_GetArrayItem(playerData, 10)->valueint,
+		cJSON_GetArrayItem(playerData, 11)->valuestring
 	);
 	start = true;
 }

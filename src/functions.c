@@ -106,7 +106,10 @@ static int newElementLua(lua_State* L) {
 	bool canCollide = lua_toboolean(L, 8);
 	bool anchored = lua_toboolean(L, 9);
 
-	newElement(spritePath, animationPath, x, y, width, height, mass, canCollide, anchored);
+	char* script;
+	script = luaL_checkstring(L, 10);
+
+	newElement(spritePath, animationPath, x, y, width, height, mass, canCollide, anchored, script);
 
 	return 0;
 }
@@ -127,7 +130,10 @@ static int newEnemyLua(lua_State* L) {
 	uint8_t mass = luaL_checknumber(L, 9);
 	uint8_t speed = luaL_checknumber(L, 10);
 
-	newEnemy(spritePath, animationPath, x, y, width, height, power, defense, mass, speed);
+	char* script;
+	script = luaL_checkstring(L, 11);
+
+	newEnemy(spritePath, animationPath, x, y, width, height, power, defense, mass, speed, script);
 
 	return 0;
 }
@@ -170,7 +176,7 @@ void registerFunctions() {
 	lua_setglobal(L, "loadSave");
 }
 
-void runFunctions(void* arg) {
+void* runFunctions(void* arg) {
 	for (uint8_t i = 0; i < 64; i++) {
 		if (World.entities[i].script != NULL) {
 			int result = luaL_dofile(L, World.entities[i].script);
