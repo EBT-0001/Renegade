@@ -32,19 +32,14 @@ void loadMap(const char* dataPath) {
 		cJSON_Delete(json);
 		return;
 	}
-	cJSON* playerData = cJSON_GetObjectItemCaseSensitive(json, "Player");
-//	cJSON* enemyData = cJSON_GetObjectItemCaseSensitive(json, "Enemies");
+	cJSON* enemyData = cJSON_GetObjectItemCaseSensitive(json, "Enemies");
 	cJSON* elementData = cJSON_GetObjectItemCaseSensitive(json, "Elements");
 	cJSON* backgroundData = cJSON_GetObjectItemCaseSensitive(json, "Backgrounds");
 
-	if (playerData == NULL) {
+	if (enemyData == NULL) {
 		cJSON_Delete(json);
 		return;
 	}
-//	if (enemyData == NULL) {
-//		cJSON_Delete(json);
-//		return;
-//	}
 	if (elementData == NULL) {
 		cJSON_Delete(json);
 		return;
@@ -53,19 +48,6 @@ void loadMap(const char* dataPath) {
 		cJSON_Delete(json);
 		return;
 	}
-	initPlayer(
-		cJSON_GetArrayItem(playerData, 0)->valuestring,
-		cJSON_GetArrayItem(playerData, 1)->valuestring,
-		cJSON_GetArrayItem(playerData, 2)->valuedouble,
-		cJSON_GetArrayItem(playerData, 3)->valuedouble,
-		cJSON_GetArrayItem(playerData, 4)->valuedouble,
-		cJSON_GetArrayItem(playerData, 5)->valuedouble,
-		cJSON_GetArrayItem(playerData, 6)->valueint,
-		cJSON_GetArrayItem(playerData, 7)->valueint,
-		cJSON_GetArrayItem(playerData, 8)->valueint,
-		cJSON_GetArrayItem(playerData, 9)->valueint,
-		cJSON_GetArrayItem(playerData, 10)->valueint
-	);
 	for (uint8_t i = 0; i < cJSON_GetArraySize(elementData); i += 10) {
 		newElement(
 			cJSON_GetArrayItem(elementData, i)->valuestring,
