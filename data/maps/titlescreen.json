@@ -1,7 +1,4 @@
 {
-	"Player" : [
-		"../assets/spritesheets/default_player.png", "../data/animations/player.json", 0, 0, 0, 0, 0, 0, 0, 0, 0
-	],
 	"Elements" : [
 		"../assets/spritesheets/platform.png", "../data/animations/platform.json", 0, 736, 1024, 64, 0, 1, 1
 	],
