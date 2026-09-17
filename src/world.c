@@ -11,7 +11,7 @@
 #include "world.h"
 #include "vectors.h"
 
-void initPlayer(const char* spritePath, const char* animationPath, float x, float y, float width, float height, uint8_t power, uint8_t defense, uint8_t mass, uint8_t speed, uint8_t wallCling) {
+void initPlayer(const char* spritePath, const char* animationPath, float x, float y, float width, float height, uint8_t power, uint8_t defense, uint8_t mass, uint8_t speed, uint8_t wallCling, const char* script) {
 	World.entities[0].transform = (Transform*) malloc(sizeof(Transform));
 
 	World.entities[0].transform->position = (Vec) {x, y};
@@ -48,10 +48,12 @@ void initPlayer(const char* spritePath, const char* animationPath, float x, floa
 
 	World.entities[0].spritesheet = loadAnimation(renderer, Idle, &World.entities[0].animations[0], spritePath, animationPath);
 
+	World.entities[0].script = script;
+
 	World.entities[0].active = true;
 }
 
-void newEnemy(const char* spritePath, const char* animationPath, float x, float y, float width, float height, uint8_t power, uint8_t defense, uint8_t mass, uint8_t speed) {
+void newEnemy(const char* spritePath, const char* animationPath, float x, float y, float width, float height, uint8_t power, uint8_t defense, uint8_t mass, uint8_t speed, const char* script) {
 	World.entities[worldIndex].transform = (Transform*) malloc(sizeof(Transform));
 
 	World.entities[worldIndex].transform->position = (Vec) {x, y};
@@ -78,10 +80,12 @@ void newEnemy(const char* spritePath, const char* animationPath, float x, float 
 
 	World.entities[worldIndex].spritesheet = loadAnimation(renderer, Idle, &World.entities[worldIndex].animations[0], spritePath, animationPath);
 
+	World.entities[0].script = script;
+
 	World.entities[worldIndex].active = true;
 }
 
-void newElement(const char* spritePath, const char* animationPath, float x, float y, float width, float height, uint8_t mass, bool canCollide, bool anchored) {
+void newElement(const char* spritePath, const char* animationPath, float x, float y, float width, float height, uint8_t mass, bool canCollide, bool anchored, const char* script) {
 	World.entities[worldIndex].transform = (Transform*) malloc(sizeof(Transform));
 
 	World.entities[worldIndex].transform->position = (Vec) {x, y};
@@ -105,6 +109,8 @@ void newElement(const char* spritePath, const char* animationPath, float x, floa
 	World.entities[worldIndex].animations[0].frameClock = 0;
 
 	World.entities[worldIndex].spritesheet = loadAnimation(renderer, Idle, &World.entities[worldIndex].animations[0], spritePath, animationPath);
+
+	World.entities[0].script = script;
 
 	World.entities[worldIndex].active = true;
 	worldIndex++;
