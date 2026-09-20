@@ -1,6 +1,6 @@
 {
 	"Elements" : [
-		"../assets/spritesheets/platform.png", "../data/animations/platform.json", 0, 736, 1024, 64, 0, 1, 1, null
+		"../assets/spritesheets/platform.png", "../data/animations/platform.json", 0, 736, 1024, 64, 0, 1, 1, "../scripts/test.lua"
 	],
 	"Enemies" : [
 		

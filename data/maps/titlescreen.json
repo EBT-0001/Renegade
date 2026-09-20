@@ -2,6 +2,9 @@
 	"Elements" : [
 		"../assets/spritesheets/platform.png", "../data/animations/platform.json", 0, 736, 1024, 64, 0, 1, 1, "../scripts/test.lua"
 	],
+	"Enemies" : [
+		
+	],
 	"Backgrounds" : [
 		"../assets/backgrounds/titlescreen1.bmp", "../assets/backgrounds/blank.png", "../assets/backgrounds/blank.png"
 	]

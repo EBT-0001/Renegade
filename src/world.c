@@ -131,7 +131,7 @@ void cleanData() {
 			if (World.entities[i].anchored != NULL) free(World.entities[i].anchored);
 			if (World.entities[i].grounded != NULL) free(World.entities[i].grounded);
 
-			if (World.entities[i + 1].active) {
+			if (World.entities[i + 1].active && i) {
 				World.entities[i].transform = World.entities[i + 1].transform;
 				World.entities[i].animations = World.entities[i + 1].animations;
 				World.entities[i].hp = World.entities[i + 1].hp;

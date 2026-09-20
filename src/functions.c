@@ -177,13 +177,15 @@ void registerFunctions() {
 }
 
 void* runFunctions(void* arg) {
-	for (uint8_t i = 0; i < 64; i++) {
-		if (World.entities[i].script != NULL) {
-			int result = luaL_dofile(L, World.entities[i].script);
+	while (!quit) {
+		for (uint8_t i = 0; i < 64; i++) {
+			if (World.entities[i].script != NULL) {
+				int result = luaL_dofile(L, World.entities[i].script);
 
-			if (result != LUA_OK) {
-				fprintf(stderr, "Lua error: %s\n", lua_tostring(L, -1));
-				lua_pop(L, 1);
+				if (result != LUA_OK) {
+					fprintf(stderr, "Lua error: %s\n", lua_tostring(L, -1));
+					lua_pop(L, 1);
+				}
 			}
 		}
 	}
