@@ -180,6 +180,9 @@ void* runFunctions(void* arg) {
 	while (!quit) {
 		for (uint8_t i = 0; i < 64; i++) {
 			if (World.entities[i].script != NULL) {
+				lua_pushnumber(L, i);
+				lua_setglobal(L, "parent");
+
 				int result = luaL_dofile(L, World.entities[i].script);
 
 				if (result != LUA_OK) {
