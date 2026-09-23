@@ -7,6 +7,11 @@ y = getValue(parent, "y");
 width = getValue(parent, "width");
 height = getValue(parent, "height");
 
-if () then
-	
+if (leftClick) then
+	if (
+		mouseX > x and mouseX < x + width and
+		mouseY > y and mouseY < y + height
+	) then
+		loadSave("../data/saves/save1.json");
+	end
 end
