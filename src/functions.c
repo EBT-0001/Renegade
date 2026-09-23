@@ -17,6 +17,8 @@
 #include "save.h"
 #include "animation.h"
 
+uint8_t parent;
+
 static int getValue(lua_State* L) {
 	uint8_t entity = luaL_checknumber(L, 1);
 	char* value;
@@ -87,6 +89,21 @@ static int setValue(lua_State* L) {
 	} else if (!strcmp(value, "active")) {
 		World.entities[entity].active = lua_toboolean(L, 3);
 	}
+
+	return 0;
+}
+
+static int loadAnimationLua(lua_State* L) {
+	uint8_t sprite = luaL_checknumber(L, 1);
+	uint8_t i = luaL_checknumber(L, 2);
+
+	char* spritePath;
+	char* dataPath;
+
+	spritePath = luaL_checkstring(L, 3);
+	dataPath = luaL_checkstring(L, 4);
+
+	loadAnimation(renderer, sprite, &World.entities[parent].animations[i], spritePath, dataPath);
 
 	return 0;
 }
@@ -163,6 +180,9 @@ void registerFunctions() {
 	lua_pushcfunction(L, setValue);
 	lua_setglobal(L, "setValue");
 
+	lua_pushcfunction(L, loadAnimationLua);
+	lua_setglobal(L, "loadAnimationLua");
+
 	lua_pushcfunction(L, newElementLua);
 	lua_setglobal(L, "newElement");
 
@@ -178,7 +198,7 @@ void registerFunctions() {
 
 void* runFunctions(void* arg) {
 	while (!quit) {
-		for (uint8_t i = 0; i < 64; i++) {
+		for (parent = 0; parent < 64; parent++) {
 			if (World.entities[i].script != NULL) {
 				lua_pushnumber(L, i);
 				lua_setglobal(L, "parent");
