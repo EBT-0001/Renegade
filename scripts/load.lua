@@ -21,7 +21,10 @@ if (leftClick) then
 		mouseX > x and mouseX < x + width and
 		mouseY > y and mouseY < y + height
 	) then
-		loadSave("../data/saves/save1.json");
+		setFlag(parent, 0, true);
+		loadAnimation(Idle, 0, "../assets/spritesheets/loadB.png", "../data/animations/load.json");
 	end
-elseif 
+elseif (clicked) then
+	loadAnimation(Idle, 0, "../assets/spritesheets/loadA.png", "../data/animations/load.json");
+	loadSave("../data/saves/save1.json");
 end
