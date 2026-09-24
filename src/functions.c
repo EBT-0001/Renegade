@@ -5,6 +5,7 @@
 	under certain conditions; type `show c' for details.
 */
 
+#include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -56,6 +57,21 @@ static int getValue(lua_State* L) {
 	} else if (!strcmp(value, "leftClick")) {
 		lua_pushboolean(L, leftClick);
 	}
+
+	return 1;
+}
+
+static int getFlag(lua_State* L) {
+	uint8_t entity = luaL_checknumber(L, 1);
+	uint8_t index = luaL_checknumber(L, 2);
+
+	if (World.entities[entity].flags == NULL) {
+		World.entities[entity].flags = (bool*) malloc(8 * (sizeof(bool)));
+	}
+
+	flag = World.entities[entity].flags[index];
+
+	lua_pushboolean(L, flag);
 
 	return 1;
 }
@@ -176,6 +192,9 @@ static int loadSaveLua(lua_State* L) {
 void registerFunctions() {
 	lua_pushcfunction(L, getValue);
 	lua_setglobal(L, "getValue");
+
+	lua_pushcfunctions(L, getFlag);
+	lua_setglobal(L, "getFlag");
 
 	lua_pushcfunction(L, setValue);
 	lua_setglobal(L, "setValue");
