@@ -232,6 +232,8 @@ void registerFunctions() {
 }
 
 void* runFunctions(void* arg) {
+	lua_pushnumber(L, 0);
+	lua_setglobal(L, "Idle");
 	while (!quit) {
 		for (parent = 0; parent < 64; parent++) {
 			if (World.entities[i].script != NULL) {
