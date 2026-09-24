@@ -109,6 +109,19 @@ static int setValue(lua_State* L) {
 	return 0;
 }
 
+static int setFlag(lua_State* L) {
+	uint8_t entity = luaL_checknumber(L, 1);
+	uint8_t index = luaL_checknumber(L, 2);
+
+	if (World.entities[entity].flags == NULL) {
+		World.entities[entity].flags = (bool*) malloc(8 * (sizeof(bool)));
+	}
+
+	World.entities[entity].flags[index] = lua_toboolean(L, 3);
+
+	return 0;
+}
+
 static int loadAnimationLua(lua_State* L) {
 	uint8_t sprite = luaL_checknumber(L, 1);
 	uint8_t i = luaL_checknumber(L, 2);
@@ -198,6 +211,9 @@ void registerFunctions() {
 
 	lua_pushcfunction(L, setValue);
 	lua_setglobal(L, "setValue");
+
+	lua_pushcfunction(L, setFlag);
+	lua_setglobal(L, "setFlag");
 
 	lua_pushcfunction(L, loadAnimationLua);
 	lua_setglobal(L, "loadAnimationLua");
