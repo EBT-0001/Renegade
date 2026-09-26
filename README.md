@@ -1,7 +1,7 @@
 # Renegade
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-![Build Status](https://img.shields.io/badge/build-failing-red.svg)
+![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)
 
 Renegade is a sword based fighting game focused on combat and platforming.
 
