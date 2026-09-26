@@ -1,6 +1,6 @@
 {
 	"Elements" : [
-		"../assets/spritesheets/loadA.png", "../data/animations/load.json", 256, 512, 256, 64, 0, 0, 1, "../scripts/load.lua"
+		"../assets/spritesheets/loadA.png", "../data/animations/load.json", 64, 256, 192, 48, 0, 0, 1, null
 	],
 	"Enemies" : [
 		

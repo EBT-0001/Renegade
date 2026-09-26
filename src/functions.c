@@ -69,7 +69,7 @@ static int getFlag(lua_State* L) {
 		World.entities[entity].flags = (bool*) malloc(8 * (sizeof(bool)));
 	}
 
-	flag = World.entities[entity].flags[index];
+	bool flag = World.entities[entity].flags[index];
 
 	lua_pushboolean(L, flag);
 
@@ -206,7 +206,7 @@ void registerFunctions() {
 	lua_pushcfunction(L, getValue);
 	lua_setglobal(L, "getValue");
 
-	lua_pushcfunctions(L, getFlag);
+	lua_pushcfunction(L, getFlag);
 	lua_setglobal(L, "getFlag");
 
 	lua_pushcfunction(L, setValue);
@@ -236,11 +236,11 @@ void* runFunctions(void* arg) {
 	lua_setglobal(L, "Idle");
 	while (!quit) {
 		for (parent = 0; parent < 64; parent++) {
-			if (World.entities[i].script != NULL) {
-				lua_pushnumber(L, i);
+			if (World.entities[parent].script != NULL) {
+				lua_pushnumber(L, parent);
 				lua_setglobal(L, "parent");
 
-				int result = luaL_dofile(L, World.entities[i].script);
+				int result = luaL_dofile(L, World.entities[parent].script);
 
 				if (result != LUA_OK) {
 					fprintf(stderr, "Lua error: %s\n", lua_tostring(L, -1));

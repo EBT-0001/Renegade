@@ -129,8 +129,7 @@ int main() {
 
 	SDL_Event eventHandler;
 
-//	loadMap("../data/maps/titlescreen.json");
-	loadSave("../data/saves/save1.json");
+	loadMap("../data/maps/titlescreen.json");
 
 	pthread_create(&input, NULL, processInput, &eventHandler);
 	pthread_create(&physics, NULL, physicsUpdate, NULL);
