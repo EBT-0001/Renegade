@@ -5,11 +5,11 @@
 	under certain conditions; type `show c' for details.
 ]]--
 
-mouseX = getValue(nil, "mouseX");
-mouseY = getValue(nil, "mouseY");
-leftClick = getValue(nil, "leftClick");
+mouseX = getValue(0, "mouseX");
+mouseY = getValue(0, "mouseY");
+leftClick = getValue(0, "leftClick");
 
-X = getValue(parent, "x");
+x = getValue(parent, "x");
 y = getValue(parent, "y");
 width = getValue(parent, "width");
 height = getValue(parent, "height");
@@ -17,14 +17,17 @@ height = getValue(parent, "height");
 clicked = getFlag(parent, 0);
 
 if (leftClick) then
-	if (
-		mouseX > x and mouseX < x + width and
-		mouseY > y and mouseY < y + height
-	) then
+--	if (
+--		mouseX > x and mouseX < x + width and
+--		mouseY > y and mouseY < y + height
+--	) then
 		setFlag(parent, 0, true);
-		loadAnimation(Idle, 0, "../assets/spritesheets/loadB.png", "../data/animations/load.json");
-	end
+		loadAnimation(Idle, 1, "../assets/spritesheets/loadB.png", "../data/animations/load.json");
+		setValue(1, "animationPlaying", 1);
+		print("clicked");
+--	end
 elseif (clicked) then
-	loadAnimation(Idle, 0, "../assets/spritesheets/loadA.png", "../data/animations/load.json");
+	setValue(1, "animationPlaying", 0);
 	loadSave("../data/saves/save1.json");
+	print("handled");
 end

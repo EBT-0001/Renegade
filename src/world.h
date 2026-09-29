@@ -23,7 +23,7 @@ typedef struct {
 	SDL_Texture* spritesheet;
 	Transform* transform;
 	animation* animations;
-	char* script;
+	const char* script;
 	uint8_t* hp;
 	uint8_t* power;
 	uint8_t* defense;

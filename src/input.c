@@ -12,7 +12,7 @@
 #include "physics.h"
 
 void* processInput(void* arg) {
-	SDL_Event* eventHandler = (SDL_Event*) arg;
+	(void)arg;
 	while (!quit) {
 		if (start) {
 			const bool* key_states = SDL_GetKeyboardState(NULL);
@@ -36,4 +36,5 @@ void* processInput(void* arg) {
 			}
 		}
 	}
+	return NULL;
 }

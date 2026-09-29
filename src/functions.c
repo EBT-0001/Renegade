@@ -5,10 +5,13 @@
 	under certain conditions; type `show c' for details.
 */
 
+#include <stdio.h>
+
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <SDL3/SDL.h>
 #include <lua.h>
 #include <lauxlib.h>
 #include <lualib.h>
@@ -22,9 +25,8 @@ uint8_t parent;
 
 static int getValue(lua_State* L) {
 	uint8_t entity = luaL_checknumber(L, 1);
-	char* value;
 
-	value = luaL_checkstring(L, 2);
+	const char* value = luaL_checkstring(L, 2);
 
 	if (!strcmp(value, "x")) {
 		lua_pushnumber(L, World.entities[entity].transform->position.x);
@@ -66,7 +68,7 @@ static int getFlag(lua_State* L) {
 	uint8_t index = luaL_checknumber(L, 2);
 
 	if (World.entities[entity].flags == NULL) {
-		World.entities[entity].flags = (bool*) malloc(8 * (sizeof(bool)));
+		World.entities[entity].flags = (bool*) calloc(8, sizeof(bool));
 	}
 
 	bool flag = World.entities[entity].flags[index];
@@ -78,9 +80,8 @@ static int getFlag(lua_State* L) {
 
 static int setValue(lua_State* L) {
 	uint8_t entity = luaL_checknumber(L, 1);
-	char* value;
 
-	value = luaL_checkstring(L, 2);
+	const char* value = luaL_checkstring(L, 2);
 
 	if (!strcmp(value, "x")) {
 		World.entities[entity].transform->position.x = luaL_checknumber(L, 3);
@@ -114,7 +115,7 @@ static int setFlag(lua_State* L) {
 	uint8_t index = luaL_checknumber(L, 2);
 
 	if (World.entities[entity].flags == NULL) {
-		World.entities[entity].flags = (bool*) malloc(8 * (sizeof(bool)));
+		World.entities[entity].flags = (bool*) calloc(8, sizeof(bool));
 	}
 
 	World.entities[entity].flags[index] = lua_toboolean(L, 3);
@@ -126,11 +127,8 @@ static int loadAnimationLua(lua_State* L) {
 	uint8_t sprite = luaL_checknumber(L, 1);
 	uint8_t i = luaL_checknumber(L, 2);
 
-	char* spritePath;
-	char* dataPath;
-
-	spritePath = luaL_checkstring(L, 3);
-	dataPath = luaL_checkstring(L, 4);
+	const char* spritePath = luaL_checkstring(L, 3);
+	const char* dataPath = luaL_checkstring(L, 4);
 
 	loadAnimation(renderer, sprite, &World.entities[parent].animations[i], spritePath, dataPath);
 
@@ -138,11 +136,8 @@ static int loadAnimationLua(lua_State* L) {
 }
 
 static int newElementLua(lua_State* L) {
-	char* spritePath;
-	char* animationPath;
-
-	spritePath = luaL_checkstring(L, 1);
-	animationPath = luaL_checkstring(L, 2);
+	const char* spritePath = luaL_checkstring(L, 1);
+	const char* animationPath = luaL_checkstring(L, 2);
 
 	float x = luaL_checknumber(L, 3);
 	float y = luaL_checknumber(L, 4);
@@ -152,8 +147,7 @@ static int newElementLua(lua_State* L) {
 	bool canCollide = lua_toboolean(L, 8);
 	bool anchored = lua_toboolean(L, 9);
 
-	char* script;
-	script = luaL_checkstring(L, 10);
+	const char* script = luaL_checkstring(L, 10);
 
 	newElement(spritePath, animationPath, x, y, width, height, mass, canCollide, anchored, script);
 
@@ -161,11 +155,8 @@ static int newElementLua(lua_State* L) {
 }
 
 static int newEnemyLua(lua_State* L) {
-	char* spritePath;
-	char* animationPath;
-
-	spritePath = luaL_checkstring(L, 1);
-	animationPath = luaL_checkstring(L, 2);
+	const char* spritePath = luaL_checkstring(L, 1);
+	const char* animationPath = luaL_checkstring(L, 2);
 
 	float x = luaL_checknumber(L, 3);
 	float y = luaL_checknumber(L, 4);
@@ -176,8 +167,7 @@ static int newEnemyLua(lua_State* L) {
 	uint8_t mass = luaL_checknumber(L, 9);
 	uint8_t speed = luaL_checknumber(L, 10);
 
-	char* script;
-	script = luaL_checkstring(L, 11);
+	const char* script = luaL_checkstring(L, 11);
 
 	newEnemy(spritePath, animationPath, x, y, width, height, power, defense, mass, speed, script);
 
@@ -185,8 +175,7 @@ static int newEnemyLua(lua_State* L) {
 }
 
 static int loadMapLua(lua_State* L) {
-	char* map;
-	map = luaL_checkstring(L, 1);
+	const char* map = luaL_checkstring(L, 1);
 
 	loadMap(map);
 
@@ -194,8 +183,7 @@ static int loadMapLua(lua_State* L) {
 }
 
 static int loadSaveLua(lua_State* L) {
-	char* save;
-	save = luaL_checkstring(L, 1);
+	const char* save = luaL_checkstring(L, 1);
 
 	loadSave(save);
 
@@ -216,7 +204,7 @@ void registerFunctions() {
 	lua_setglobal(L, "setFlag");
 
 	lua_pushcfunction(L, loadAnimationLua);
-	lua_setglobal(L, "loadAnimationLua");
+	lua_setglobal(L, "loadAnimation");
 
 	lua_pushcfunction(L, newElementLua);
 	lua_setglobal(L, "newElement");
@@ -232,21 +220,40 @@ void registerFunctions() {
 }
 
 void* runFunctions(void* arg) {
+	(void)arg;
+
 	lua_pushnumber(L, 0);
 	lua_setglobal(L, "Idle");
+
+	int now = 0;
+	int last = 0;
+
+	float dt = 0;
 	while (!quit) {
+		now = SDL_GetPerformanceCounter();
+
+		dt = (float)(now - last)/(float)SDL_GetPerformanceFrequency();
+		last = now;
+
+		if (1000.0f * dt < 1000.0f/60.0f) {
+			SDL_Delay((1000.0f/60.0f) - (1000.0f * dt));
+		}
 		for (parent = 0; parent < 64; parent++) {
-			if (World.entities[parent].script != NULL) {
-				lua_pushnumber(L, parent);
-				lua_setglobal(L, "parent");
+			if (World.entities[parent].active) {
+				if (strcmp(World.entities[parent].script, "none")) {
+					lua_pushnumber(L, parent);
+					lua_setglobal(L, "parent");
 
-				int result = luaL_dofile(L, World.entities[parent].script);
+//					int result = luaL_dofile(L, World.entities[parent].script);
+					int result = luaL_dofile(L, "../scripts/load.lua");
 
-				if (result != LUA_OK) {
-					fprintf(stderr, "Lua error: %s\n", lua_tostring(L, -1));
-					lua_pop(L, 1);
+					if (result != LUA_OK) {
+						fprintf(stderr, "Lua error: %s\n", lua_tostring(L, -1));
+						lua_pop(L, 1);
+					}
 				}
 			}
 		}
 	}
+	return NULL;
 }

@@ -110,7 +110,7 @@ void newElement(const char* spritePath, const char* animationPath, float x, floa
 
 	World.entities[worldIndex].spritesheet = loadAnimation(renderer, Idle, &World.entities[worldIndex].animations[0], spritePath, animationPath);
 
-	World.entities[0].script = script;
+	World.entities[worldIndex].script = script;
 
 	World.entities[worldIndex].active = true;
 	worldIndex++;

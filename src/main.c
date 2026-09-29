@@ -169,23 +169,19 @@ int main() {
 				quit = true;
 				break;
 			}
-			if (eventHandler.type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
-				if (eventHandler.button.button == SDL_BUTTON_LEFT) {
-					leftClick = true;
-				} else {
-					leftClick = false;
-				}
-				if (eventHandler.button.button == SDL_BUTTON_RIGHT) {
-					rightClick = true;
-				} else {
-					rightClick = false;
-				}
-			} else {
-				leftClick = false;
-				rightClick = false;
-			}
 		}
-		SDL_GetMouseState(&mouseX, &mouseY);
+		SDL_MouseButtonFlags Buttons = SDL_GetMouseState(&mouseX, &mouseY);
+
+		if (Buttons & SDL_BUTTON_MASK(SDL_BUTTON_LEFT)) {
+			leftClick = true;
+		} else {
+			leftClick = false;
+		}
+		if (Buttons & SDL_BUTTON_MASK(SDL_BUTTON_RIGHT)) {
+			rightClick = true;
+		} else {
+			rightClick = false;
+		}
 	}
 	killWindow();
 

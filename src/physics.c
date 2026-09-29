@@ -26,6 +26,7 @@ bool adjustRateCalculated = false;
 bool scrollCamera;
 
 void* physicsUpdate(void* arg) {
+	(void)arg;
 	while (!quit) {
 		if (start) {
 			now = SDL_GetPerformanceCounter();
@@ -146,4 +147,5 @@ void* physicsUpdate(void* arg) {
 			}
 		}
 	}
+	return NULL;
 }

@@ -76,9 +76,6 @@ void freeAnimation(animation* animation) {
 }
 void playAnimations(SDL_Renderer* renderer) {
 	for (uint8_t i = 0; i < worldIndex; i++) {
-		if (i == 0 && !start) {
-			continue;
-		}
 		if (World.entities[i].active) {
 			SDL_FRect renderQuad = {
 				World.entities[i].transform->position.x - camera.position.x,
@@ -86,6 +83,7 @@ void playAnimations(SDL_Renderer* renderer) {
 				World.entities[i].transform->scale.x,
 				World.entities[i].transform->scale.y
 			};
+
 			SDL_FRect clip = {
 				World.entities[i].animations[*World.entities[i].animationPlaying].frames[World.entities[i].animations[*World.entities[i].animationPlaying].frameClock].texCoords.x,
 				World.entities[i].animations[*World.entities[i].animationPlaying].frames[World.entities[i].animations[*World.entities[i].animationPlaying].frameClock].texCoords.y,
