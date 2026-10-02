@@ -43,6 +43,9 @@ SDL_Texture* loadAnimation(SDL_Renderer* renderer, sprite sprite, animation* ani
 		case Idle:
 			animationData = cJSON_GetObjectItemCaseSensitive(json, "Idle");
 			break;
+		case Idle2:
+			animationData = cJSON_GetObjectItemCaseSensitive(json, "Idle2");
+			break;
 		default:
 			cJSON_Delete(json);
 			return NULL;
@@ -51,6 +54,9 @@ SDL_Texture* loadAnimation(SDL_Renderer* renderer, sprite sprite, animation* ani
 		cJSON_Delete(json);
 		return NULL;
 	}
+
+	animation->frameCount = cJSON_GetArraySize(animationData)/4;
+	animation->frameClock = 0;
 
 	animation->frames = (texture*) malloc(animation->frameCount * sizeof(texture));
 	if (animation->frames == NULL) {

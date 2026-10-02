@@ -43,8 +43,6 @@ void initPlayer(const char* spritePath, const char* animationPath, float x, floa
 	*World.entities[0].canCollide = false;
 
 	World.entities[0].animations = (animation*) malloc(8 * sizeof(animation));
-	World.entities[0].animations[0].frameCount = 1;
-	World.entities[0].animations[0].frameClock = 0;
 
 	World.entities[0].spritesheet = loadAnimation(renderer, Idle, &World.entities[0].animations[0], spritePath, animationPath);
 
@@ -105,8 +103,6 @@ void newElement(const char* spritePath, const char* animationPath, float x, floa
 	*World.entities[worldIndex].anchored = anchored;
 
 	World.entities[worldIndex].animations = (animation*) malloc(4 * sizeof(animation));
-	World.entities[worldIndex].animations[0].frameCount = 1;
-	World.entities[worldIndex].animations[0].frameClock = 0;
 
 	World.entities[worldIndex].spritesheet = loadAnimation(renderer, Idle, &World.entities[worldIndex].animations[0], spritePath, animationPath);
 

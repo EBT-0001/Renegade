@@ -24,7 +24,7 @@
 uint8_t parent;
 
 static int getValue(lua_State* L) {
-	uint8_t entity = luaL_checknumber(L, 1);
+	uint8_t entity = luaL_checkinteger(L, 1);
 
 	const char* value = luaL_checkstring(L, 2);
 
@@ -37,17 +37,17 @@ static int getValue(lua_State* L) {
 	} else if (!strcmp(value, "height")) {
 		lua_pushnumber(L, World.entities[entity].transform->scale.y);
 	} else if (!strcmp(value, "hp")) {
-		lua_pushnumber(L, *World.entities[entity].hp);
+		lua_pushinteger(L, *World.entities[entity].hp);
 	} else if (!strcmp(value, "power")) {
-		lua_pushnumber(L, *World.entities[entity].power);
+		lua_pushinteger(L, *World.entities[entity].power);
 	} else if (!strcmp(value, "defense")) {
-		lua_pushnumber(L, *World.entities[entity].defense);
+		lua_pushinteger(L, *World.entities[entity].defense);
 	} else if (!strcmp(value, "mass")) {
-		lua_pushnumber(L, *World.entities[entity].mass);
+		lua_pushinteger(L, *World.entities[entity].mass);
 	} else if (!strcmp(value, "speed")) {
-		lua_pushnumber(L, *World.entities[entity].speed);
+		lua_pushinteger(L, *World.entities[entity].speed);
 	} else if (!strcmp(value, "animationPlaying")) {
-		lua_pushnumber(L, *World.entities[entity].animationPlaying);
+		lua_pushinteger(L, *World.entities[entity].animationPlaying);
 	} else if (!strcmp(value, "active")) {
 		lua_pushboolean(L, World.entities[entity].active);
 	} else if (!strcmp(value, "mouseX")) {
@@ -64,8 +64,8 @@ static int getValue(lua_State* L) {
 }
 
 static int getFlag(lua_State* L) {
-	uint8_t entity = luaL_checknumber(L, 1);
-	uint8_t index = luaL_checknumber(L, 2);
+	uint8_t entity = luaL_checkinteger(L, 1);
+	uint8_t index = luaL_checkinteger(L, 2);
 
 	if (World.entities[entity].flags == NULL) {
 		World.entities[entity].flags = (bool*) calloc(8, sizeof(bool));
@@ -79,7 +79,7 @@ static int getFlag(lua_State* L) {
 }
 
 static int setValue(lua_State* L) {
-	uint8_t entity = luaL_checknumber(L, 1);
+	uint8_t entity = luaL_checkinteger(L, 1);
 
 	const char* value = luaL_checkstring(L, 2);
 
@@ -92,17 +92,17 @@ static int setValue(lua_State* L) {
 	} else if (!strcmp(value, "height")) {
 		World.entities[entity].transform->scale.y = luaL_checknumber(L, 3);
 	} else if (!strcmp(value, "hp")) {
-		*World.entities[entity].hp = luaL_checknumber(L, 3);
+		*World.entities[entity].hp = luaL_checkinteger(L, 3);
 	} else if (!strcmp(value, "power")) {
-		*World.entities[entity].power = luaL_checknumber(L, 3);
+		*World.entities[entity].power = luaL_checkinteger(L, 3);
 	} else if (!strcmp(value, "defense")) {
-		*World.entities[entity].defense = luaL_checknumber(L, 3);
+		*World.entities[entity].defense = luaL_checkinteger(L, 3);
 	} else if (!strcmp(value, "mass")) {
-		*World.entities[entity].mass = luaL_checknumber(L, 3);
+		*World.entities[entity].mass = luaL_checkinteger(L, 3);
 	} else if (!strcmp(value, "speed")) {
-		*World.entities[entity].speed = luaL_checknumber(L, 3);
+		*World.entities[entity].speed = luaL_checkinteger(L, 3);
 	} else if (!strcmp(value, "animationPlaying")) {
-		*World.entities[entity].animationPlaying = luaL_checknumber(L, 3);
+		*World.entities[entity].animationPlaying = luaL_checkinteger(L, 3);
 	} else if (!strcmp(value, "active")) {
 		World.entities[entity].active = lua_toboolean(L, 3);
 	}
@@ -111,8 +111,8 @@ static int setValue(lua_State* L) {
 }
 
 static int setFlag(lua_State* L) {
-	uint8_t entity = luaL_checknumber(L, 1);
-	uint8_t index = luaL_checknumber(L, 2);
+	uint8_t entity = luaL_checkinteger(L, 1);
+	uint8_t index = luaL_checkinteger(L, 2);
 
 	if (World.entities[entity].flags == NULL) {
 		World.entities[entity].flags = (bool*) calloc(8, sizeof(bool));
@@ -124,8 +124,8 @@ static int setFlag(lua_State* L) {
 }
 
 static int loadAnimationLua(lua_State* L) {
-	uint8_t sprite = luaL_checknumber(L, 1);
-	uint8_t i = luaL_checknumber(L, 2);
+	uint8_t sprite = luaL_checkinteger(L, 1);
+	uint8_t i = luaL_checkinteger(L, 2);
 
 	const char* spritePath = luaL_checkstring(L, 3);
 	const char* dataPath = luaL_checkstring(L, 4);
@@ -143,7 +143,7 @@ static int newElementLua(lua_State* L) {
 	float y = luaL_checknumber(L, 4);
 	float width = luaL_checknumber(L, 5);
 	float height = luaL_checknumber(L, 6);
-	uint8_t mass = luaL_checknumber(L, 7);
+	uint8_t mass = luaL_checkinteger(L, 7);
 	bool canCollide = lua_toboolean(L, 8);
 	bool anchored = lua_toboolean(L, 9);
 
@@ -162,10 +162,10 @@ static int newEnemyLua(lua_State* L) {
 	float y = luaL_checknumber(L, 4);
 	float width = luaL_checknumber(L, 5);
 	float height = luaL_checknumber(L, 6);
-	uint8_t power = luaL_checknumber(L, 7);
-	uint8_t defense = luaL_checknumber(L, 8);
-	uint8_t mass = luaL_checknumber(L, 9);
-	uint8_t speed = luaL_checknumber(L, 10);
+	uint8_t power = luaL_checkinteger(L, 7);
+	uint8_t defense = luaL_checkinteger(L, 8);
+	uint8_t mass = luaL_checkinteger(L, 9);
+	uint8_t speed = luaL_checkinteger(L, 10);
 
 	const char* script = luaL_checkstring(L, 11);
 
@@ -225,6 +225,9 @@ void* runFunctions(void* arg) {
 	lua_pushnumber(L, 0);
 	lua_setglobal(L, "Idle");
 
+	lua_pushnumber(L, 1);
+	lua_setglobal(L, "Idle2");
+
 	int now = 0;
 	int last = 0;
 
@@ -241,7 +244,7 @@ void* runFunctions(void* arg) {
 		for (parent = 0; parent < 64; parent++) {
 			if (World.entities[parent].active) {
 				if (strcmp(World.entities[parent].script, "none")) {
-					lua_pushnumber(L, parent);
+					lua_pushinteger(L, parent);
 					lua_setglobal(L, "parent");
 
 //					int result = luaL_dofile(L, World.entities[parent].script);

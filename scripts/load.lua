@@ -17,17 +17,16 @@ height = getValue(parent, "height");
 clicked = getFlag(parent, 0);
 
 if (leftClick) then
---	if (
---		mouseX > x and mouseX < x + width and
---		mouseY > y and mouseY < y + height
---	) then
+	if (
+		mouseX > x and mouseX < x + width and
+		mouseY > y and mouseY < y + height
+	) then
 		setFlag(parent, 0, true);
-		loadAnimation(Idle, 1, "../assets/spritesheets/loadB.png", "../data/animations/load.json");
-		setValue(1, "animationPlaying", 1);
-		print("clicked");
---	end
+
+		loadAnimation(Idle2, 1, "../assets/spritesheets/load.png", "../data/animations/load.json");
+		setValue(parent, "animationPlaying", 1);
+	end
 elseif (clicked) then
-	setValue(1, "animationPlaying", 0);
+	setValue(parent, "animationPlaying", 0);
 	loadSave("../data/saves/save1.json");
-	print("handled");
 end

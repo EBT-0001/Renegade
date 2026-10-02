@@ -12,6 +12,17 @@
 #include "world.h"
 
 void loadMap(const char* dataPath) {
+	SDL_DestroyTexture(background1);
+	background1 = NULL;
+	SDL_DestroyTexture(background2);
+	background2 = NULL;
+	SDL_DestroyTexture(background3);
+	background3 = NULL;
+
+	for (uint8_t i = 1; i < 64; i++) {
+		World.entities[i].active = false;
+	}
+
 	FILE* data = fopen(dataPath, "rb");
 	if (data == NULL) {
 		printf("Failed to load animation data");
