@@ -126,6 +126,7 @@ void cleanData() {
 			if (World.entities[i].flags != NULL) free(World.entities[i].flags);
 			if (World.entities[i].anchored != NULL) free(World.entities[i].anchored);
 			if (World.entities[i].grounded != NULL) free(World.entities[i].grounded);
+			if (World.entities[i].spritesheet != NULL) SDL_DestroyTexture(World.entities[i].spritesheet);
 
 			if (World.entities[i + 1].active && i) {
 				World.entities[i].transform = World.entities[i + 1].transform;
