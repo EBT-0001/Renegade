@@ -11,7 +11,7 @@
 #include "world.h"
 #include "physics.h"
 
-#include "animation.h"
+#include "map.h"
 
 void* processInput(void* arg) {
 	(void)arg;
@@ -20,7 +20,7 @@ void* processInput(void* arg) {
 			const bool* key_states = SDL_GetKeyboardState(NULL);
 
 			if (key_states[SDL_SCANCODE_W]) {
-				loadAnimation(renderer, 1, &World.entities[1].animations[0], "../assets/spritesheets/load.png", "../data/animations/load.json");
+				loadMap("../data/maps/map1.json");
 			}
 			if (key_states[SDL_SCANCODE_A]) {
 				World.entities[0].transform->velocity.x = -*World.entities[0].speed;
