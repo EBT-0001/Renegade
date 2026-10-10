@@ -115,35 +115,49 @@ void newElement(const char* spritePath, const char* animationPath, float x, floa
 void cleanData() {
 	for (uint8_t i = 0; i < worldIndex; i++) {
 		if (!World.entities[i].active) {
-			if (World.entities[i].transform != NULL) free(World.entities[i].transform);
-			if (World.entities[i].animations != NULL) free(World.entities[i].animations);
-			if (World.entities[i].hp != NULL) free(World.entities[i].hp);
-			if (World.entities[i].power != NULL) free(World.entities[i].power);
-			if (World.entities[i].defense != NULL) free(World.entities[i].defense);
-			if (World.entities[i].mass != NULL) free(World.entities[i].mass);
-			if (World.entities[i].speed != NULL) free(World.entities[i].speed);
-			if (World.entities[i].cooldown != NULL) free(World.entities[i].cooldown);
-			if (World.entities[i].flags != NULL) free(World.entities[i].flags);
-			if (World.entities[i].anchored != NULL) free(World.entities[i].anchored);
-			if (World.entities[i].grounded != NULL) free(World.entities[i].grounded);
-			if (World.entities[i].spritesheet != NULL) SDL_DestroyTexture(World.entities[i].spritesheet);
+			if (World.entities[i].transform != NULL) {free(World.entities[i].transform); World.entities[i].transform = NULL;}
+			if (World.entities[i].animations != NULL) {free(World.entities[i].animations); World.entities[i].animations = NULL;}
+			if (World.entities[i].hp != NULL) {free(World.entities[i].hp); World.entities[i].hp = NULL;}
+			if (World.entities[i].power != NULL) {free(World.entities[i].power); World.entities[i].power = NULL;}
+			if (World.entities[i].defense != NULL) {free(World.entities[i].defense); World.entities[i].defense = NULL;}
+			if (World.entities[i].mass != NULL) {free(World.entities[i].mass); World.entities[i].mass = NULL;}
+			if (World.entities[i].speed != NULL) {free(World.entities[i].speed); World.entities[i].speed = NULL;}
+			if (World.entities[i].cooldown != NULL) {free(World.entities[i].cooldown); World.entities[i].cooldown = NULL;}
+			if (World.entities[i].flags != NULL) {free(World.entities[i].flags); World.entities[i].flags = NULL;}
+			if (World.entities[i].anchored != NULL) {free(World.entities[i].anchored); World.entities[i].anchored = NULL;}
+			if (World.entities[i].grounded != NULL) {free(World.entities[i].grounded); World.entities[i].grounded = NULL;}
+			if (World.entities[i].spritesheet != NULL) {SDL_DestroyTexture(World.entities[i].spritesheet); World.entities[i].spritesheet = NULL;}
+			if (i != 64) {
+				if (World.entities[i + 1].active && i) {
+					World.entities[i].transform = World.entities[i + 1].transform;
+					World.entities[i + 1].transform = NULL;
+					World.entities[i].animations = World.entities[i + 1].animations;
+					World.entities[i + 1].animations = NULL;
+					World.entities[i].hp = World.entities[i + 1].hp;
+					World.entities[i + 1].hp = NULL;
+					World.entities[i].power = World.entities[i + 1].power;
+					World.entities[i + 1].power = NULL;
+					World.entities[i].defense = World.entities[i + 1].defense;
+					World.entities[i + 1].defense = NULL;
+					World.entities[i].mass = World.entities[i + 1].mass;
+					World.entities[i + 1].mass = NULL;
+					World.entities[i].speed = World.entities[i + 1].speed;
+					World.entities[i + 1].speed = NULL;
+					World.entities[i].cooldown = World.entities[i + 1].cooldown;
+					World.entities[i + 1].cooldown = NULL;
+					World.entities[i].flags = World.entities[i + 1].flags;
+					World.entities[i + 1].flags = NULL;
+					World.entities[i].anchored = World.entities[i + 1].anchored;
+					World.entities[i + 1].anchored = NULL;
+					World.entities[i].grounded = World.entities[i + 1].grounded;
+					World.entities[i + 1].grounded = NULL;
+					World.entities[i].spritesheet = World.entities[i + 1].spritesheet;
+					World.entities[i + 1].spritesheet = NULL;
 
-			if (World.entities[i + 1].active && i) {
-				World.entities[i].transform = World.entities[i + 1].transform;
-				World.entities[i].animations = World.entities[i + 1].animations;
-				World.entities[i].hp = World.entities[i + 1].hp;
-				World.entities[i].power = World.entities[i + 1].power;
-				World.entities[i].defense = World.entities[i + 1].defense;
-				World.entities[i].mass = World.entities[i + 1].mass;
-				World.entities[i].speed = World.entities[i + 1].speed;
-				World.entities[i].cooldown = World.entities[i + 1].cooldown;
-				World.entities[i].flags = World.entities[i + 1].flags;
-				World.entities[i].anchored = World.entities[i + 1].anchored;
-				World.entities[i].grounded = World.entities[i + 1].grounded;
-
-				World.entities[i].active = true;
-				World.entities[i + 1].active = false;
-				if (i + 1 == worldIndex) worldIndex--;
+					World.entities[i].active = true;
+					World.entities[i + 1].active = false;
+					if (i + 1 == worldIndex) worldIndex--;
+				}
 			}
 		}
 	}

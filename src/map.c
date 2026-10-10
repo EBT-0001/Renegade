@@ -62,8 +62,7 @@ void loadMap(const char* dataPath) {
 	for (uint8_t i = 1; i < 64; i++) {
 		World.entities[i].active = false;
 	}
-	cleanData();
-/*	for (uint8_t i = 0; i < cJSON_GetArraySize(elementData); i += 10) {
+	for (uint8_t i = 0; i < cJSON_GetArraySize(elementData); i += 10) {
 		newElement(
 			cJSON_GetArrayItem(elementData, i)->valuestring,
 			cJSON_GetArrayItem(elementData, i + 1)->valuestring,
@@ -92,7 +91,7 @@ void loadMap(const char* dataPath) {
 			cJSON_GetArrayItem(enemyData, i + 10)->valuestring
 		);
 	}
-*/
+
 	SDL_Surface* temp = SDL_LoadBMP(cJSON_GetArrayItem(backgroundData, 0)->valuestring);
 	if (!temp) {
 		printf("error loading background: %s\n", SDL_GetError());

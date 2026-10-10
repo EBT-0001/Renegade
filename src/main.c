@@ -115,8 +115,6 @@ void killWindow() {
 	renderer = NULL;
 
 	SDL_Quit();
-
-	pthread_exit(NULL);
 }
 
 int main() {
