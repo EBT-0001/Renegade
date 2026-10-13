@@ -4,5 +4,6 @@
 	This is free software, and you are welcome to redistribute it
 	under certain conditions; type `show c' for details.
 */
+#pragma once
 
 void loadSave(const char* save);

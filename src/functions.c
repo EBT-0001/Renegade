@@ -20,6 +20,13 @@
 #include "map.h"
 #include "save.h"
 #include "animation.h"
+#include "functions.h"
+
+Animation_call_wrapper animation_call_wrapper;
+Element_call_wrapper element_call_wrapper;
+Enemy_call_wrapper enemy_call_wrapper;
+Map_call_wrapper map_call_wrapper;
+Save_call_wrapper save_call_wrapper;
 
 uint8_t parent;
 
@@ -124,13 +131,19 @@ static int setFlag(lua_State* L) {
 }
 
 static int loadAnimationLua(lua_State* L) {
+	while (animation_call_wrapper.called);
 	uint8_t sprite = luaL_checkinteger(L, 1);
 	uint8_t i = luaL_checkinteger(L, 2);
 
 	const char* spritePath = luaL_checkstring(L, 3);
 	const char* dataPath = luaL_checkstring(L, 4);
 
-	loadAnimation(renderer, sprite, &World.entities[parent].animations[i], spritePath, dataPath);
+	animation_call_wrapper.sprite = sprite;
+	animation_call_wrapper.animation = &World.entities[parent].animations[i];
+	animation_call_wrapper.spritePath = spritePath;
+	animation_call_wrapper.dataPath = dataPath;
+
+	animation_call_wrapper.called = true;
 
 	return 0;
 }

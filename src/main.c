@@ -117,7 +117,27 @@ void killWindow() {
 	SDL_Quit();
 }
 
-int main() {
+int main(int argc, char* argv[]) {
+	if (argc > 1) {
+		if (!strcmp(argv[1], "show")) {
+			if (!strcmp(argv[2], "w")) {
+				printf("Copyright (C) 2026  Temperlius\n\n");
+				printf("This program is distributed in the hope that it will be useful,\n");
+				printf("but WITHOUT ANY WARRANTY; without even the implied warranty of\n");
+				printf("MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n");
+				printf("GNU General Public License for more details.\n\n");
+				printf("You should have received a copy of the GNU General Public License\n");
+			}
+			if (!strcmp(argv[2], "c")) {
+				printf("Copyright (C) 2026  Temperlius\n\n");
+				printf("This program is free software: you can redistribute it and/or modify\n");
+				printf("it under the terms of the GNU General Public License as published by\n");
+				printf("the Free Software Foundation, either version 3 of the License, or\n");
+				printf("(at your option) any later version.\n\n");
+				printf("You should have received a copy of the GNU General Public License\n");
+			}
+		}
+	}
 	if (!gameInit()) {
 		fprintf(stderr, "Game couldn't initalize\n");
 		return 1;
@@ -128,6 +148,7 @@ int main() {
 	SDL_Event eventHandler;
 
 	loadMap("../data/maps/titlescreen.json");
+//	loadSave("../data/saves/save1.json");
 
 	pthread_create(&input, NULL, processInput, &eventHandler);
 	pthread_create(&physics, NULL, physicsUpdate, NULL);
