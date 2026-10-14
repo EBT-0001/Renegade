@@ -148,7 +148,6 @@ int main(int argc, char* argv[]) {
 	SDL_Event eventHandler;
 
 	loadMap("../data/maps/titlescreen.json");
-//	loadSave("../data/saves/save1.json");
 
 	pthread_create(&input, NULL, processInput, &eventHandler);
 	pthread_create(&physics, NULL, physicsUpdate, NULL);
@@ -167,6 +166,16 @@ int main(int argc, char* argv[]) {
 
 		if (dt * 1000.0f < 1000.0f/60.0f) {
 			SDL_Delay((1000.0f/60.0f) - (1000.0f * dt));
+		}
+
+		if (animation_call_wrapper.called) {
+			
+		}
+		if (element_call_Wrapper.called) {
+			newElement(
+				element_call_wrapper.spritePath,
+				element_call_wrapper.animationPath
+			);
 		}
 
 		SDL_RenderClear(renderer);
