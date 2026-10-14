@@ -149,6 +149,7 @@ static int loadAnimationLua(lua_State* L) {
 }
 
 static int newElementLua(lua_State* L) {
+	while (element_call_wrapper.called);
 	const char* spritePath = luaL_checkstring(L, 1);
 	const char* animationPath = luaL_checkstring(L, 2);
 
@@ -162,12 +163,24 @@ static int newElementLua(lua_State* L) {
 
 	const char* script = luaL_checkstring(L, 10);
 
-	newElement(spritePath, animationPath, x, y, width, height, mass, canCollide, anchored, script);
+	element_call_wrapper = {
+		.spritePath = spritePath,
+		.animationPath = animationPath,
+		.x = x,
+		.y = y,
+		.width = width,
+		.height = height,
+		.mass = mass,
+		.canCollide = canCollide,
+		.anchored = anchored,
+		.script = script
+	};
 
 	return 0;
 }
 
 static int newEnemyLua(lua_State* L) {
+	while (enemy_call_wrapper.called);
 	const char* spritePath = luaL_checkstring(L, 1);
 	const char* animationPath = luaL_checkstring(L, 2);
 
@@ -182,23 +195,38 @@ static int newEnemyLua(lua_State* L) {
 
 	const char* script = luaL_checkstring(L, 11);
 
-	newEnemy(spritePath, animationPath, x, y, width, height, power, defense, mass, speed, script);
+	enemy_call_wrapper = {
+		.spritePath = spritePath,
+		.animationPath = animationPath,
+		.x = x,
+		.y = y,
+		.width = width,
+		.height = height,
+		.power = power,
+		. defense = defense,
+		.mass = mass,
+		.speed = speed,
+		.script = script,
+		.called = true
+	};
 
 	return 0;
 }
 
 static int loadMapLua(lua_State* L) {
+	while(map_call_wrapper.called);
 	const char* map = luaL_checkstring(L, 1);
 
-	loadMap(map);
+	map_call_wrapper = (Map_call_wrapper) {.map = map, .called = true};
 
 	return 0;
 }
 
 static int loadSaveLua(lua_State* L) {
+	while (save_call_wrapper.called);
 	const char* save = luaL_checkstring(L, 1);
 
-	loadSave(save);
+	save_call_wrapper = (Save_call_wrapper) {.save = save, .called = true};
 
 	return 0;
 }
