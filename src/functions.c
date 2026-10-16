@@ -1,5 +1,5 @@
 /*
-	Renegade  Copyright (C) 2026  Temperlius
+f	Renegade  Copyright (C) 2026  Temperlius
 	This program comes with ABSOLUTELY NO WARRANTY; for details type `show w'.
 	This is free software, and you are welcome to redistribute it
 	under certain conditions; type `show c' for details.
@@ -132,18 +132,23 @@ static int setFlag(lua_State* L) {
 
 static int loadAnimationLua(lua_State* L) {
 	while (animation_call_wrapper.called);
-	uint8_t sprite = luaL_checkinteger(L, 1);
-	uint8_t i = luaL_checkinteger(L, 2);
 
-	const char* spritePath = luaL_checkstring(L, 3);
-	const char* dataPath = luaL_checkstring(L, 4);
+	uint8_t Parent = luaL_checkinteger(L, 1);
+	uint8_t sprite = luaL_checkinteger(L, 2);
+	uint8_t i = luaL_checkinteger(L, 3);
 
-	animation_call_wrapper.sprite = sprite;
-	animation_call_wrapper.animation = &World.entities[parent].animations[i];
-	animation_call_wrapper.spritePath = spritePath;
-	animation_call_wrapper.dataPath = dataPath;
+	const char* spritePath = luaL_checkstring(L, 4);
+	const char* dataPath = luaL_checkstring(L, 5);
 
-	animation_call_wrapper.called = true;
+	animation_call_wrapper = (Animation_call_wrapper) {
+		.parent = Parent,
+		.sprite = sprite,
+		.animation = &World.entities[parent].animations[i],
+		.spritePath = spritePath,
+		.dataPath = dataPath
+	};
+
+	animation_call_wrapper.called = false;
 
 	return 0;
 }
@@ -163,7 +168,7 @@ static int newElementLua(lua_State* L) {
 
 	const char* script = luaL_checkstring(L, 10);
 
-	element_call_wrapper = {
+	element_call_wrapper = (Element_call_wrapper) {
 		.spritePath = spritePath,
 		.animationPath = animationPath,
 		.x = x,
@@ -195,7 +200,7 @@ static int newEnemyLua(lua_State* L) {
 
 	const char* script = luaL_checkstring(L, 11);
 
-	enemy_call_wrapper = {
+	enemy_call_wrapper = (Enemy_call_wrapper) {
 		.spritePath = spritePath,
 		.animationPath = animationPath,
 		.x = x,
@@ -217,7 +222,7 @@ static int loadMapLua(lua_State* L) {
 	while(map_call_wrapper.called);
 	const char* map = luaL_checkstring(L, 1);
 
-	map_call_wrapper = (Map_call_wrapper) {.map = map, .called = true};
+	map_call_wrapper = (Map_call_wrapper) {.dataPath = map, .called = true};
 
 	return 0;
 }

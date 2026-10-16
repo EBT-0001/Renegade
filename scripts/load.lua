@@ -23,8 +23,8 @@ if (leftClick) then
 	) then
 		setFlag(parent, 0, true);
 
-		loadAnimation(Idle2, 1, "../assets/spritesheets/load.png", "../data/animations/load.json");
-		setValue(parent, "animationPlaying", 1);
+		loadAnimation(parent, Idle2, 1, "../assets/spritesheets/load.png", "../data/animations/load.json");
+		setValue(parent, "animationPlaying", 0);
 	end
 elseif (clicked) then
 	setValue(parent, "animationPlaying", 0);

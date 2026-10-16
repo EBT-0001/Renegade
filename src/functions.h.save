@@ -1,0 +1,63 @@
+/*
+	Renegade  Copyright (C) 2026  Temperlius
+	This program comes with ABSOLUTELY NO WARRANTY; for details type `show w'.
+	This is free software, and you are welcome to redistribute it
+	under certain conditions; type `show c' for details.
+*/
+#pragma once
+
+typedef struct {
+	sprite sprite;
+	animation* animation;
+	const char* spritePath;
+	const char* dataPath;
+	bool called;
+}ANIMATION_CALL_WRAPPER;
+
+typedef struct {
+	const char* spritePath;
+	const char* animationPath;
+	float x;
+	float y;
+	float width;
+	float height;
+	uint8_t mass;
+	bool canCollide;
+	bool anchored;
+	const char* script;
+	bool called;
+}ELEMENT_CALL_WRAPPER;
+
+typedef struct {
+	const char* spritePath;
+	const char* animationPath;
+	float x;
+	float y;
+	float width;
+	float height;
+	uint8_t power;
+	uint8_t defense;
+	uint8_t mass;
+	uint8_t speed;
+	const char* script;
+	bool called;
+}ENEMY_CALL_WRAPPER;
+
+typedef struct {
+	const char* dataPath;
+	bool called
+}MAP_CALL_WRAPPER;
+
+typedef struct {
+	const char* save;
+	bool called;
+}SAVE_CALL_WRAPPER;
+
+extern ANIMATION_CALL_WRAPPER animation_call_wrapper;
+extern ELEMENT_CALL_WRAPPER element_call_wrapper;
+extern ENEMY_CALL_WRAPPER enemy_call_wrapper;
+extern MAP_CALL_WRAPPER map_call_wrapper;
+extern SAVE_CALL_WRAPPER save_call_wrapper;
+
+void* runFunctions(void* arg);
+void registerFunctions();

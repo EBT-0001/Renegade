@@ -169,13 +169,56 @@ int main(int argc, char* argv[]) {
 		}
 
 		if (animation_call_wrapper.called) {
-			
+			SDL_DestroyTexture(World.entities[animation_call_wrapper.parent].spritesheet);
+			World.entities[animation_call_wrapper.parent].spritesheet = NULL;
+
+			World.entities[animation_call_wrapper.parent].spritesheet = loadAnimation(
+				renderer,
+				animation_call_wrapper.sprite,
+				animation_call_wrapper.animation,
+				animation_call_wrapper.spritePath,
+				animation_call_wrapper.dataPath
+			);
+			animation_call_wrapper.called = false;
 		}
-		if (element_call_Wrapper.called) {
+		if (element_call_wrapper.called) {
 			newElement(
 				element_call_wrapper.spritePath,
-				element_call_wrapper.animationPath
+				element_call_wrapper.animationPath,
+				element_call_wrapper.x,
+				element_call_wrapper.y,
+				element_call_wrapper.width,
+				element_call_wrapper.height,
+				element_call_wrapper.mass,
+				element_call_wrapper.canCollide,
+				element_call_wrapper.anchored,
+				element_call_wrapper.script
 			);
+			element_call_wrapper.called = false;
+		}
+		if (enemy_call_wrapper.called) {
+			newEnemy(
+				enemy_call_wrapper.spritePath,
+				enemy_call_wrapper.animationPath,
+				enemy_call_wrapper.x,
+				enemy_call_wrapper.y,
+				enemy_call_wrapper.width,
+				enemy_call_wrapper.height,
+				enemy_call_wrapper.power,
+				enemy_call_wrapper.defense,
+				enemy_call_wrapper.mass,
+				enemy_call_wrapper.speed,
+				enemy_call_wrapper.script
+			);
+			enemy_call_wrapper.called = false;
+		}
+		if (map_call_wrapper.called) {
+			loadMap(map_call_wrapper.dataPath);
+			map_call_wrapper.called = false;
+		}
+		if (save_call_wrapper.called) {
+			loadSave(save_call_wrapper.save);
+			save_call_wrapper.called = false;
 		}
 
 		SDL_RenderClear(renderer);

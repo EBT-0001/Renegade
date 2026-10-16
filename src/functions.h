@@ -11,7 +11,7 @@
 #include <SDL3/SDL.h>
 
 typedef struct {
-	SDL_Renderer* renderer;
+	uint8_t parent;
 	sprite sprite;
 	animation* animation;
 	const char* spritePath;
