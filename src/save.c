@@ -56,5 +56,5 @@ void loadSave(const char* save) {
 		cJSON_GetArrayItem(playerData, 10)->valueint,
 		cJSON_GetArrayItem(playerData, 11)->valuestring
 	);
-	start = true;
+	pause = false;
 }

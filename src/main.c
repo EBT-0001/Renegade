@@ -46,7 +46,7 @@ int camW, camH;
 bool leftClick;
 bool rightClick;
 
-bool start = false;
+bool pause = true;
 bool quit = false;
 
 lua_State* L;

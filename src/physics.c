@@ -28,7 +28,7 @@ bool scrollCamera;
 void* physicsUpdate(void* arg) {
 	(void)arg;
 	while (!quit) {
-		if (start) {
+		if (!pause) {
 			now = SDL_GetPerformanceCounter();
 
 			dt = (float)(now - last)/(float)SDL_GetPerformanceFrequency();
@@ -105,7 +105,7 @@ void* physicsUpdate(void* arg) {
 				World.entities[0].transform->position.y + World.entities[0].transform->scale.y > deadZone.position.y
 			) {
 				scrollCamera = false;
-			} else if (fabs(World.entities[0].transform->velocity.x) < *World.entities[0].speed && fabs(World.entities[0].transform->velocity.y) < gravity) {
+			} else if (fabs(World.entities[0].transform->velocity.x) < 10.0f && fabs(World.entities[0].transform->velocity.y) < 10) {
 				deadZone.scale.x = 116.0f;
 				deadZone.scale.y = 224.0f;
 				deadZone.position.x = (World.entities[0].transform->position.x + World.entities[0].transform->scale.x/2.0f) - deadZone.scale.x/2.0f;

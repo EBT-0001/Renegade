@@ -124,6 +124,7 @@ void cleanData() {
 			if (World.entities[i].speed != NULL) {free(World.entities[i].speed); World.entities[i].speed = NULL;}
 			if (World.entities[i].cooldown != NULL) {free(World.entities[i].cooldown); World.entities[i].cooldown = NULL;}
 			if (World.entities[i].flags != NULL) {free(World.entities[i].flags); World.entities[i].flags = NULL;}
+			if (World.entities[i].canCollide != NULL) {free(World.entities[i].canCollide); World.entities[i].canCollide = NULL;}
 			if (World.entities[i].anchored != NULL) {free(World.entities[i].anchored); World.entities[i].anchored = NULL;}
 			if (World.entities[i].grounded != NULL) {free(World.entities[i].grounded); World.entities[i].grounded = NULL;}
 			if (World.entities[i].spritesheet != NULL) {SDL_DestroyTexture(World.entities[i].spritesheet); World.entities[i].spritesheet = NULL;}
@@ -147,6 +148,8 @@ void cleanData() {
 					World.entities[i + 1].cooldown = NULL;
 					World.entities[i].flags = World.entities[i + 1].flags;
 					World.entities[i + 1].flags = NULL;
+					World.entities[i].canCollide = World.entities[i + 1].canCollide;
+					World.entities[i + 1].canCollide = NULL;
 					World.entities[i].anchored = World.entities[i + 1].anchored;
 					World.entities[i + 1].anchored = NULL;
 					World.entities[i].grounded = World.entities[i + 1].grounded;

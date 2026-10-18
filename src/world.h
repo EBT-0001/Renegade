@@ -56,7 +56,7 @@ extern uint8_t worldIndex;
 extern world World;
 
 extern bool leftClick, rightClick;
-extern bool start, quit;
+extern bool pause, quit;
 
 extern lua_State* L;
 

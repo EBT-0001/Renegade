@@ -8,33 +8,34 @@
 #include <stdbool.h>
 #include <SDL3/SDL.h>
 
+#include <stdio.h>
+
 #include "world.h"
 #include "physics.h"
-
-#include "save.h"
 
 void* processInput(void* arg) {
 	(void)arg;
 	while (!quit) {
-		const bool* key_states = SDL_GetKeyboardState(NULL);
+		if (!pause) {
+			const bool* key_states = SDL_GetKeyboardState(NULL);
 
-		if (key_states[SDL_SCANCODE_W]) {
-
-		}
-		if (key_states[SDL_SCANCODE_A] && start) {
-			World.entities[0].transform->velocity.x = -*World.entities[0].speed;
-		}
-		if (key_states[SDL_SCANCODE_S] && start) {
-		}
-		if (key_states[SDL_SCANCODE_D] && start) {
-			World.entities[0].transform->velocity.x = *World.entities[0].speed;
-		}
-		if (key_states[SDL_SCANCODE_LSHIFT] && (key_states[SDL_SCANCODE_A] || key_states[SDL_SCANCODE_D]) && start) {
-			World.entities[0].transform->velocity.x *= 2.0f;
-		}
-		if (key_states[SDL_SCANCODE_SPACE] && *World.entities[0].grounded && start) {
-			World.entities[0].transform->velocity.y -= (500.0f - *World.entities[0].mass);
-			*World.entities[0].grounded = false;
+			if (key_states[SDL_SCANCODE_W]) {
+			}
+			if (key_states[SDL_SCANCODE_A]) {
+				World.entities[0].transform->velocity.x = -*World.entities[0].speed;
+			}
+			if (key_states[SDL_SCANCODE_S]) {
+			}
+			if (key_states[SDL_SCANCODE_D]) {
+				World.entities[0].transform->velocity.x = *World.entities[0].speed;
+			}
+			if (key_states[SDL_SCANCODE_LSHIFT] && (key_states[SDL_SCANCODE_A] || key_states[SDL_SCANCODE_D])) {
+				World.entities[0].transform->velocity.x *= 2.0f;
+			}
+			if (key_states[SDL_SCANCODE_SPACE] && *World.entities[0].grounded) {
+				World.entities[0].transform->velocity.y -= (500.0f - *World.entities[0].mass);
+				*World.entities[0].grounded = false;
+			}
 		}
 	}
 	return NULL;

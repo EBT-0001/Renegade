@@ -12,7 +12,6 @@ target_compile_options(Renegade
     PRIVATE
         -Wall
         -Wextra
-        -O3
         -g
 )
 

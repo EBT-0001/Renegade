@@ -143,12 +143,11 @@ static int loadAnimationLua(lua_State* L) {
 	animation_call_wrapper = (Animation_call_wrapper) {
 		.parent = Parent,
 		.sprite = sprite,
-		.animation = &World.entities[parent].animations[i],
+		.animation = &World.entities[Parent].animations[i],
 		.spritePath = spritePath,
-		.dataPath = dataPath
+		.dataPath = dataPath,
+		.called = true
 	};
-
-	animation_call_wrapper.called = false;
 
 	return 0;
 }
@@ -178,7 +177,8 @@ static int newElementLua(lua_State* L) {
 		.mass = mass,
 		.canCollide = canCollide,
 		.anchored = anchored,
-		.script = script
+		.script = script,
+		.called = true
 	};
 
 	return 0;
