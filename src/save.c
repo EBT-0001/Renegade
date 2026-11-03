@@ -56,5 +56,11 @@ void loadSave(const char* save) {
 		cJSON_GetArrayItem(playerData, 10)->valueint,
 		cJSON_GetArrayItem(playerData, 11)->valuestring
 	);
+
+	camera.position = (Vec) {
+		camera.scale.x/2.0f + World.entities[0].transform->position.x - World.entities[0].transform->scale.x/2.0f,
+		camera.scale.y/2.0f + World.entities[0].transform->position.y - World.entities[0].transform->scale.y/2.0f
+	};
+
 	pause = false;
 }

@@ -12,6 +12,7 @@
 #include <stdbool.h>
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
+#include <SDL3_mixer/SDL_mixer.h>
 #include <lua.h>
 #include <lauxlib.h>
 #include <lualib.h>
@@ -29,6 +30,12 @@ SDL_Renderer* renderer = NULL;
 SDL_Texture* background1 = NULL;
 SDL_Texture* background2 = NULL;
 SDL_Texture* background3 = NULL;
+
+MIX_Mixer* mixer = NULL;
+MIX_Track* bkgroundMusic = NULL;
+MIX_Track* soundfx = NULL;
+
+MIX_Audio* music;
 
 pthread_t input;
 pthread_t physics;
@@ -52,8 +59,19 @@ bool quit = false;
 lua_State* L;
 
 bool gameInit() {
-	if (!SDL_Init(SDL_INIT_VIDEO)) {
+	if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO)) {
 		printf("error initializing sdl: %s\n", SDL_GetError());
+		return false;
+	}
+
+	if (!MIX_Init()) {
+		printf("error initializing audio mixer: %s\n", SDL_GetError());
+		return false;
+	}
+
+	mixer = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, NULL);
+	if (!mixer) {
+		printf("error creating audio mixer: %s\n", SDL_GetError());
 		return false;
 	}
 
@@ -101,6 +119,16 @@ bool gameInit() {
 void killWindow() {
 	lua_close(L);
 	cleanData();
+
+	MIX_DestroyTrack(bkgroundMusic);
+	MIX_DestroyTrack(soundfx);
+
+	music = NULL;
+	soundfx = NULL;
+
+	MIX_DestroyMixer(mixer);
+	mixer = NULL;
+
 	SDL_DestroyTexture(background1);
 	SDL_DestroyTexture(background2);
 	SDL_DestroyTexture(background3);
@@ -114,6 +142,7 @@ void killWindow() {
 	window = NULL;
 	renderer = NULL;
 
+	MIX_Quit();
 	SDL_Quit();
 }
 

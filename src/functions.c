@@ -293,8 +293,7 @@ void* runFunctions(void* arg) {
 					lua_pushinteger(L, parent);
 					lua_setglobal(L, "parent");
 
-//					int result = luaL_dofile(L, World.entities[parent].script);
-					int result = luaL_dofile(L, "../scripts/load.lua");
+					int result = luaL_dofile(L, World.entities[parent].script);
 
 					if (result != LUA_OK) {
 						fprintf(stderr, "Lua error: %s\n", lua_tostring(L, -1));

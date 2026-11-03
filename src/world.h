@@ -11,6 +11,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <SDL3/SDL.h>
+#include <SDL3_mixer/SDL_mixer.h>
 #include <lua.h>
 #include <lualib.h>
 
@@ -23,7 +24,8 @@ typedef struct {
 	SDL_Texture* spritesheet;
 	Transform* transform;
 	animation* animations;
-	const char* script;
+	MIX_Audio* sound;
+	char* script;
 	uint8_t* hp;
 	uint8_t* power;
 	uint8_t* defense;
@@ -42,6 +44,8 @@ typedef struct {
 typedef struct {
 	entity entities[64];
 }world;
+
+extern MIX_Audio* music;
 
 extern SDL_Texture* background1;
 extern SDL_Texture* background2;

@@ -7,6 +7,7 @@
 
 #include <stdlib.h>
 #include <stdint.h>
+#include <string.h>
 
 #include "world.h"
 #include "vectors.h"
@@ -46,7 +47,7 @@ void initPlayer(const char* spritePath, const char* animationPath, float x, floa
 
 	World.entities[0].spritesheet = loadAnimation(renderer, Idle, &World.entities[0].animations[0], spritePath, animationPath);
 
-	World.entities[0].script = script;
+	World.entities[0].script = strdup(script);
 
 	World.entities[0].active = true;
 }
@@ -78,7 +79,7 @@ void newEnemy(const char* spritePath, const char* animationPath, float x, float 
 
 	World.entities[worldIndex].spritesheet = loadAnimation(renderer, Idle, &World.entities[worldIndex].animations[0], spritePath, animationPath);
 
-	World.entities[0].script = script;
+	World.entities[0].script = strdup(script);
 
 	World.entities[worldIndex].active = true;
 }
@@ -106,7 +107,7 @@ void newElement(const char* spritePath, const char* animationPath, float x, floa
 
 	World.entities[worldIndex].spritesheet = loadAnimation(renderer, Idle, &World.entities[worldIndex].animations[0], spritePath, animationPath);
 
-	World.entities[worldIndex].script = script;
+	World.entities[worldIndex].script = strdup(script);
 
 	World.entities[worldIndex].active = true;
 	worldIndex++;
@@ -128,6 +129,7 @@ void cleanData() {
 			if (World.entities[i].anchored != NULL) {free(World.entities[i].anchored); World.entities[i].anchored = NULL;}
 			if (World.entities[i].grounded != NULL) {free(World.entities[i].grounded); World.entities[i].grounded = NULL;}
 			if (World.entities[i].spritesheet != NULL) {SDL_DestroyTexture(World.entities[i].spritesheet); World.entities[i].spritesheet = NULL;}
+			if (World.entities[i].script != NULL) {free(World.entities[i].script); World.entities[i].script = NULL;}
 			if (i != 64) {
 				if (World.entities[i + 1].active && i) {
 					World.entities[i].transform = World.entities[i + 1].transform;
@@ -156,6 +158,8 @@ void cleanData() {
 					World.entities[i + 1].grounded = NULL;
 					World.entities[i].spritesheet = World.entities[i + 1].spritesheet;
 					World.entities[i + 1].spritesheet = NULL;
+					World.entities[i].script = World.entities[i + 1].script;
+					World.entities[i + 1].script = NULL;
 
 					World.entities[i].active = true;
 					World.entities[i + 1].active = false;

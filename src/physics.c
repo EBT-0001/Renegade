@@ -117,8 +117,8 @@ void* physicsUpdate(void* arg) {
 			if (scrollCamera) {
 				deadZone.scale = (Vec) {0.0f, 0.0f};
 				if (
-					fabs((World.entities[0].transform->position.x + World.entities[0].transform->scale.x/2.0f) - (camera.position.x + camera.scale.x/2.0f)) < 0.5f &&
-					fabs((World.entities[0].transform->position.y + World.entities[0].transform->scale.y/2.0f) - (camera.position.y + camera.scale.y/2.0f)) < 0.5f
+					fabs((World.entities[0].transform->position.x + World.entities[0].transform->scale.x/2.0f) - (camera.position.x + camera.scale.x/2.0f)) < 10.0f &&
+					fabs((World.entities[0].transform->position.y + World.entities[0].transform->scale.y/2.0f) - (camera.position.y + camera.scale.y/2.0f)) < 10.0f
 				) {
 					camera.position.x = (World.entities[0].transform->position.x + World.entities[0].transform->scale.x/2.0f) - camera.scale.x/2.0f;
 					camera.position.y = (World.entities[0].transform->position.y + World.entities[0].transform->scale.y/2.0f) - camera.scale.y/2.0f;

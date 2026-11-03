@@ -1,6 +1,8 @@
 {
 	"Elements" : [
-		"../assets/spritesheets/platform.png", "../data/animations/platform.json", 0, 736, 1024, 64, 0, 1, 1, "none"
+		"../assets/spritesheets/dirt.png", "../data/animations/platform.json", 0, 736, 1024, 500, 0, 1, 1, "none",
+		"../assets/spritesheets/grass.png", "../data/animations/platform.json", 0, 672, 1024, 64, 0, 1, 1, "none",
+		"../assets/spritesheets/dirt.png", "../data/animations/platform.json", 1128, 736, 1024, 500, 0, 1, 1, "none"
 	],
 	"Enemies" : [
 		
